@@ -19,24 +19,20 @@ public class WeixinAuthCodeServiceImpl implements WeixinAuthCodeService {
     @Autowired
     private WeixinAuthCodeMapper weixinAuthCodeMapper;
 
-	@Override
 	public void insert(WeixinAuthCode weixinAuthCode) {
 		weixinAuthCodeMapper.insertByEntity(weixinAuthCode);
 		
 	}
 
-	@Override
 	public WeixinAuthCode selectSingle(Map<String, Object> map) {
 		return weixinAuthCodeMapper.selectSingle(map);
 	}
 
-	@Override
 	public WeixinAuthCode selectSingle(WeixinAuthCode weixinAuthCode) {
 		// TODO Auto-generated method stub
 		return weixinAuthCodeMapper.selectSingle(weixinAuthCode);
 	}
 
-	@Override
 	public void updateByEntity(WeixinAuthCode weixinAuthCode) {
 		// TODO Auto-generated method stub
 		weixinAuthCodeMapper.updateByEntity(weixinAuthCode);

@@ -236,7 +236,6 @@ public class WxPayApiServiceImpl implements WxPayApiService{
 	public  String doPostSSL(String url, Map<String, String> params, String certPath, String certPass ){
 		return HttpUtils.postSSL(url, PaymentKit.toXml(params), certPath, certPass);
 	}
-	@Override
 	public String getCodeUrl(String appid, String mch_id, String product_id,
 			String partnerKey, boolean isToShortUrl) {
 		// TODO Auto-generated method stub

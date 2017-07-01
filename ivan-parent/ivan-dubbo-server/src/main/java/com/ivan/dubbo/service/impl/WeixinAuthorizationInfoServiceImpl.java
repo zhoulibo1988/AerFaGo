@@ -20,26 +20,22 @@ public class WeixinAuthorizationInfoServiceImpl implements WeixinAuthorizationIn
     @Autowired
     private WeixinAuthorizationInfoMapper weixinAuthorizationInfoMapper;
 
-	@Override
 	public WeixinAuthorizationInfo selectSingle(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return weixinAuthorizationInfoMapper.selectSingle(map);
 	}
 
-	@Override
 	public WeixinAuthorizationInfo selectSingle(
 			WeixinAuthorizationInfo WeixinAuthorizationInfo) {
 		// TODO Auto-generated method stub
 		return weixinAuthorizationInfoMapper.selectSingle(WeixinAuthorizationInfo);
 	}
 
-	@Override
 	public void updateByEntity(WeixinAuthorizationInfo WeixinAuthorizationInfo) {
 		// TODO Auto-generated method stub
 		weixinAuthorizationInfoMapper.updateByEntity(WeixinAuthorizationInfo);
 	}
 
-	@Override
 	public void insert(WeixinAuthorizationInfo WeixinAuthorizationInfo) {
 		weixinAuthorizationInfoMapper.insertByEntity(WeixinAuthorizationInfo);
 	}

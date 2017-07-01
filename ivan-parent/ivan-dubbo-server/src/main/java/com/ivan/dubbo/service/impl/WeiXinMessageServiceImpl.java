@@ -19,7 +19,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 @Service
 public class WeiXinMessageServiceImpl implements WeiXinMessageService{
 	private static final Logger logger = LoggerFactory.getLogger(WeiXinMessageServiceImpl.class);
-	@Override
 	public Map<String, Object> handleMessageCode(Map<String, String> requestMap)throws Exception {
 		logger.info("====消息处理核心类被调起=========");
 		Map<String, Object> returnMap=new HashMap<String, Object>();
