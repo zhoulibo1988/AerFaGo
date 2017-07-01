@@ -1,0 +1,69 @@
+<#assign ignores = []>
+package ${basepackage}.entity;
+
+import java.util.Date;
+
+/**
+${table}
+*/
+public class ${table.className}Vo {
+<#list table.columnsList as column>
+	<#if ignores?seq_contains(column.columnName)==false>
+	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+	private	${column.javaType} ${column.columnNameFirstLower}Begin;
+	private	${column.javaType} ${column.columnNameFirstLower}End;
+	<#else>
+	private	${column.javaType} ${column.columnNameFirstLower};
+	</#if>
+	</#if>
+</#list>
+
+<#list table.columnsList as column>
+	<#if ignores?seq_contains(column.columnName)==false>
+	<#if column.isDateTimeColumn && !column.contains("begin,start,end")>
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public ${column.javaType} get${column.columnNameFirstLower?cap_first}Begin(){
+		return ${column.columnNameFirstLower}Begin;
+	}
+	
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public void set${column.columnNameFirstLower?cap_first}Begin(${column.javaType} ${column.columnNameFirstLower}Begin){
+		this.${column.columnNameFirstLower}Begin = ${column.columnNameFirstLower}Begin;
+	}
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public ${column.javaType} get${column.columnNameFirstLower?cap_first}End(){
+		return ${column.columnNameFirstLower}End;
+	}
+	
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public void set${column.columnNameFirstLower?cap_first}End(${column.javaType} ${column.columnNameFirstLower}End){
+		this.${column.columnNameFirstLower}End = ${column.columnNameFirstLower}End;
+	}
+	
+	<#else>
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public ${column.javaType} get${column.columnNameFirstLower?cap_first}(){
+		return ${column.columnNameFirstLower};
+	}
+	
+	/**
+	* <#list (column?word_list) as word>${word}  </#list>  
+	*/
+	public void set${column.columnNameFirstLower?cap_first}(${column.javaType} ${column.columnNameFirstLower}){
+		this.${column.columnNameFirstLower} = ${column.columnNameFirstLower};
+	}
+	
+	</#if>
+	</#if>
+</#list>
+}
