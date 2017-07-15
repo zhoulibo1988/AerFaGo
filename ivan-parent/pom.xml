@@ -264,5 +264,11 @@
 			<artifactId>httpmime</artifactId>
 			<version>4.3.6</version>
 		</dependency>
+		<!-- 项目监控 -->
+		<dependency>
+		    <groupId>net.bull.javamelody</groupId>
+		    <artifactId>javamelody-core</artifactId>
+		    <version>1.60.0</version>
+		</dependency>
 	</dependencies>
 </project>

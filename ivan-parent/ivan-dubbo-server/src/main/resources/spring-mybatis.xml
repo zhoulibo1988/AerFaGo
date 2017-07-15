@@ -10,7 +10,7 @@
         http://www.springframework.org/schema/aop   
         http://www.springframework.org/schema/aop/spring-aop-4.1.xsd  
         ">  
-  
+  	
     <!-- <context:property-placeholder location="classpath:jdbc.properties"/> -->  
     <!-- 配置数据源 使用的是Druid数据源 -->  
     <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"  
@@ -61,7 +61,16 @@
         <property name="basePackage" value="com.ivan.*.dao" />  
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
     </bean>  
-  
+  <!-- 此处为SQL监控 zlb -->
+	<bean id= "facadeMonitoringAdvisor" class="net.bull.javamelody.MonitoringSpringAdvisor" >
+         <property name ="pointcut" >
+                 <bean class="org.springframework.aop.support.JdkRegexpMethodPointcut" >
+                 		<!-- 此处：为监控SQL下面的mapper -->
+                         <property name ="pattern" value="com.ivan.dubbo.dao.*" /><!--正则表达式-->
+	                 </bean>
+	         </property>
+	</bean>
+<!-- end -->
     <!-- 配置事务管理器 -->  
     <bean id="transactionManager"  
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager">  
