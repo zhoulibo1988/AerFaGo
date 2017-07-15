@@ -53,6 +53,7 @@ import weixin.popular.bean.component.ComponentAccessToken;
 import weixin.popular.bean.component.FuncInfo;
 import weixin.popular.bean.component.PreAuthCode;
 import weixin.popular.bean.customservice.KFAccount;
+import weixin.popular.bean.customservice.KFMsgRecord;
 import weixin.popular.bean.customservice.KFOnline;
 import weixin.popular.bean.menu.Button;
 import weixin.popular.bean.menu.Matchrule;
@@ -877,4 +878,51 @@ public class WeixinComponentController {
 		returnMap.put("baseResult", baseResult);
 		return returnMap;
 	}
+	/**
+	 * 删除客服人员
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/kfaccountDel")
+	public Map<String, Object> kfaccountDel(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		String kf_account = String.valueOf(map.get("kf_account"));
+		// 获取授权方的access_token
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		BaseResult baseResult=CustomserviceAPI.kfaccountDel(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account);
+		returnMap.put("baseResult", baseResult);
+		return returnMap;
+	}
+	/**
+	 * 获取聊天记录
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/msgrecordGetrecord")
+	public Map<String,Object> msgrecordGetrecord(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		int endtime=Integer.valueOf(map.get("endtime").toString());
+		int pageindex=Integer.valueOf(map.get("pageindex").toString());
+		int pagesize=Integer.valueOf(map.get("pagesize").toString());
+		int starttime=Integer.valueOf(map.get("starttime").toString());
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		KFMsgRecord kFMsgRecord=CustomserviceAPI.msgrecordGetrecord(weixinAuthorizationToken.getAuthorizerAccessToken(), endtime, pageindex, pagesize, starttime);
+		returnMap.put("kFMsgRecord", kFMsgRecord);
+		return returnMap;
+	}
+	//会话管理未实现
 }
