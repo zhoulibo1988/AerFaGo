@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-    xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
 
 	<display-name>ivan-dubbo-web</display-name>
 
@@ -12,14 +14,14 @@
 		</param-value>
 	</context-param>
 	<context-param>
-        <param-name>log4jConfigLocation</param-name>
-        <param-value>classpath:log4j.properties</param-value>
-    </context-param>
-    
-    <!-- 定义LOG4J监听器 -->
-    <listener>
-        <listener-class>org.springframework.web.util.Log4jConfigListener </listener-class>
-    </listener>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>classpath:log4j.properties</param-value>
+	</context-param>
+
+	<!-- 定义LOG4J监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
 	<filter>
 		<filter-name>encodingFilter</filter-name>
 		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -58,6 +60,10 @@
 	</listener>
 
 	<!-- 配置静态文件访问 -->
+     <servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/admin/*</url-pattern>
+    </servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.jpg</url-pattern>
@@ -82,8 +88,6 @@
 		<servlet-name>default</servlet-name>
 		<url-pattern>*.txt</url-pattern>
 	</servlet-mapping>
-
-
 	<!-- <servlet> <servlet-name>upload</servlet-name> <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
 		<load-on-startup>1</load-on-startup> </servlet> <servlet-mapping> <servlet-name>upload</servlet-name> 
 		<url-pattern>/</url-pattern> </servlet-mapping> -->
@@ -100,22 +104,18 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-	<servlet-mapping>
-    <servlet-name>springMvc</servlet-name>
-    <url-pattern>/index</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>springMvc</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-
-	
-	<!-- 配置session超时时间，单位分钟 -->
-	<session-config>
-		<session-timeout>30</session-timeout>
-	</session-config>
-
-	<welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
-  </welcome-file-list>
+	 <servlet-mapping>
+        <servlet-name>springMvc</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    <welcome-file-list>
+        <welcome-file>/sys/login.do</welcome-file>
+    </welcome-file-list>
+    <error-page>
+		<error-code>404</error-code>
+		<location>/sys/error.do</location>
+	</error-page>
+    <session-config>
+        <session-timeout>150000</session-timeout>
+    </session-config>
 </web-app>
