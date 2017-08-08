@@ -118,4 +118,15 @@
     <session-config>
         <session-timeout>150000</session-timeout>
     </session-config>
+    
+    <!-- 图片验证码 -->
+	 <servlet>  
+        <servlet-name>PictureCheckCode</servlet-name>  
+        <servlet-class>com.pay.business.servlet.PictureCheckCode</servlet-class>  
+    </servlet>  
+  
+    <servlet-mapping>  
+        <servlet-name>PictureCheckCode</servlet-name>  
+        <url-pattern>/static/PictureCheckCode.jpeg</url-pattern>  
+    </servlet-mapping> 
 </web-app>
