@@ -1,13 +1,12 @@
-package org.ivan.api.admin;
+package org.ivan.api;
 
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.api.BaseService;
 import org.ivan.entity.admin.SysUcenterFunction;
 import org.ivan.entity.utils.PageObject;
 
-public interface SysUcenterFunctionService extends BaseService<SysUcenterFunction>{
+public interface SysUcenterFunctionService {
 
     /**
      * 
