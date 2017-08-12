@@ -19,7 +19,7 @@
 <link href="${basePath}/public/css/style.css" rel="stylesheet" type="text/css" />
 <link href="${basePath}/public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
 
-<title>支付集(官方)后台管理系统</title>
+<title>阿尔法科技管理系统</title>
 </head>
 <body>
 	<input type="hidden" id="TenantId" name="TenantId" value="" />
@@ -90,7 +90,7 @@
 				//data[this.name] = this.value;
 			//});
 			/*调用登录接口*/
-			ajaxFunction("${basePath}/admin/login.do",data,"JSON",false,function(result){
+			ajaxFunction("${basePath}/sysAdmin/login.do",data,"JSON",false,function(result){
 				if(result.resultCode == 200){
 					window.location.href='${basePath}' + "/" + result.Data;
 				}else{
