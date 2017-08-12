@@ -1,4 +1,4 @@
-package com.ivan.web.controller.admin;
+package com.ivan.web.controller.weixin.controller;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,7 +26,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 @Controller
-@RequestMapping("/admin/*")
+@RequestMapping("/admin")
+@SuppressWarnings("rawtypes")
 public class SysAdminController extends BaseManagerController{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SysAdminController.class);
 

@@ -1,4 +1,4 @@
-package com.ivan.web.controller.admin;
+package com.ivan.web.controller.weixin.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
