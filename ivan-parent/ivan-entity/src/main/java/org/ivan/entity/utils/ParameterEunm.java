@@ -64,7 +64,6 @@ public enum ParameterEunm {
      * 用户无权限
      */
     ERROR_NO_POWER("用户无权限", 2003),;
-
     private Object parameterName;
 
     private Object backParameter;
