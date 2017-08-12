@@ -1,4 +1,4 @@
-package com.ivan.web.controller.weixin.controller;
+package com.ivan.web.controller.admin;
 
 import java.util.HashMap;
 import java.util.List;

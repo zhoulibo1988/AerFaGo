@@ -25,7 +25,6 @@ import org.ivan.entity.WeixinAuthorizationInfo;
 import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.WeixinBusinessInfo;
 import org.ivan.entity.weixin.dto.WeChatContants;
-import org.ivan.entity.weixin.utils.MD5Util;
 import org.ivan.entity.weixin.utils.XMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
