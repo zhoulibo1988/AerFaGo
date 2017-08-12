@@ -6,9 +6,10 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.ivan.api.admin.SysUcenterAdminService;
-import org.ivan.api.admin.SysUcenterFunctionService;
+import org.ivan.api.SysUcenterAdminService;
+import org.ivan.api.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterAdmin;
+import org.ivan.entity.utils.MapObjectUtil;
 import org.ivan.entity.utils.PageObject;
 import org.ivan.entity.utils.ParameterEunm;
 import org.ivan.entity.utils.PasswordEncoder;
@@ -18,7 +19,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,9 +26,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.alibaba.dubbo.config.annotation.Reference;
 
 @Controller
-@RequestMapping("/admin")
-@SuppressWarnings("rawtypes")
-public class SysAdminController extends BaseManagerController{
+@RequestMapping("sysAdmin")
+public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(SysAdminController.class);
 
 	@Reference
@@ -49,38 +49,33 @@ public class SysAdminController extends BaseManagerController{
 	@ResponseBody
 	public Map<String, Object> login(@RequestParam Map<String, Object> map, HttpServletRequest request) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		// 此处默认有值
-		try {
-			String username = map.get("userName").toString();
-			String password = map.get("password").toString();
-			String code = map.get("code").toString();
-			String oldCode = getSessionAttr("code").toString();
-			if (code != null && code.equalsIgnoreCase(oldCode)) {
-				// MD5加密
-				password = PasswordEncoder.getPassword(password);
-
-				SysUcenterAdmin admin = adminService.loginAdmin(username, password);
-				if (admin != null) {
-					setAdmin(admin);
-					resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, "admin/menu.do");
+		boolean isNotNull = MapObjectUtil.checkObject(new String[] { "userName", "password", "code"}, map);
+		if(isNotNull){
+			// 此处默认有值
+			try {
+				String username = map.get("userName").toString();
+				String password = map.get("password").toString();
+				String code = map.get("code").toString();
+				String oldCode = getSessionAttr("code").toString();
+				if (code != null && code.equalsIgnoreCase(oldCode)) {
+					// MD5加密
+					password = PasswordEncoder.getPassword(password);
+					SysUcenterAdmin admin = adminService.loginAdmin(username, password);
+					if (admin != null) {
+						setAdmin(admin);
+						resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, "admin/menu.do");
+					} else {
+						resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确账号和密码!");
+					}
 				} else {
-					resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确账号和密码!");
+					resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确验证码!");
 				}
-				// UsernamePasswordToken token = new
-				// UsernamePasswordToken(username, password);
-				// Subject currentUser = SecurityUtils.getSubject();
-				//
-				// if (!currentUser.isAuthenticated()) {
-				// token.setRememberMe(true);
-				// currentUser.login(token);
-				// }
-
-			} else {
-				resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确验证码!");
+			} catch (Exception e) {
+				LOGGER.error("登录失败", e);
+				resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确账号和密码!");
 			}
-		} catch (Exception e) {
-			LOGGER.error("登录失败", e);
-			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确账号和密码!");
+		}else{
+			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, null);
 		}
 		return resultMap;
 	}
@@ -103,7 +98,7 @@ public class SysAdminController extends BaseManagerController{
 	 * @Title: menu_admin
 	 * @Description:跳转到菜单中心
 	 */
-	@RequestMapping(value = "/menu", method = RequestMethod.GET)
+	@RequestMapping(value = "/menu")
 	public ModelAndView menu_admin(@RequestParam Map<String, Object> map, ModelAndView modelAndView) {
 		ModelAndView mv = null;
 		try {
