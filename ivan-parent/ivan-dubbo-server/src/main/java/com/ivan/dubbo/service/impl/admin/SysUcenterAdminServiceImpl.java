@@ -1,10 +1,11 @@
 package com.ivan.dubbo.service.impl.admin;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.ivan.api.admin.SysUcenterAdminService;
+import org.ivan.api.SysUcenterAdminService;
 import org.ivan.entity.admin.SysUcenterAdmin;
 import org.ivan.entity.utils.PageObject;
 import org.ivan.entity.utils.PasswordEncoder;
@@ -12,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.ivan.dubbo.dao.SysUcenterAdminMapper;
-import com.ivan.dubbo.service.impl.BaseServiceImpl;
 @Service
-public class SysUcenterAdminServiceImpl extends BaseServiceImpl<SysUcenterAdmin,SysUcenterAdminMapper> implements SysUcenterAdminService{
+public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
 	 // 注入当前dao对象
     @Autowired
     private SysUcenterAdminMapper sysUcenterAdminMapper;
@@ -99,11 +99,11 @@ public class SysUcenterAdminServiceImpl extends BaseServiceImpl<SysUcenterAdmin,
      * @see cn.iyizhan.teamwork.base.service.impl.BaseServiceImpl#add(java.util.Map)
     */
 
-    public SysUcenterAdmin add(Map<String, Object> map) throws Exception {
+    public void add(Map<String, Object> map) throws Exception {
         SysUcenterAdmin admin = M2O(map);
         admin.setAdmStatus(0);
         admin.setCreateTime(new Date());
-        return super.add(admin);
+        sysUcenterAdminMapper.insertByEntity(admin);
     }
     /* (非 Javadoc)
      * <p>Title: findById</p>
@@ -153,7 +153,7 @@ public class SysUcenterAdminServiceImpl extends BaseServiceImpl<SysUcenterAdmin,
             admin.setAdmPassword(pass);
         }
         admin.setUpdateTime(new Date());
-        super.update(admin);
+        sysUcenterAdminMapper.updateByEntity(admin);
     }
     
     /* (非 Javadoc)
@@ -164,10 +164,11 @@ public class SysUcenterAdminServiceImpl extends BaseServiceImpl<SysUcenterAdmin,
      * @see cn.iyizhan.teamwork.base.service.impl.BaseServiceImpl#Pagequery(java.util.Map)
     */
 
-    public PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map) {
-        map.put("admType", "NORMAL");
-        return super.Pagequery(map);
-    }
+//    public PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map) {
+//        map.put("admType", "NORMAL");
+//        sysUcenterAdminMapper.pageQueryByObject(map);
+//        return super.Pagequery(map);
+//    }
     
     /* (非 Javadoc)
      * <p>Title: loginAdmin</p>
@@ -185,4 +186,57 @@ public class SysUcenterAdminServiceImpl extends BaseServiceImpl<SysUcenterAdmin,
         admin.setAdmStatus(0);
         return admin = sysUcenterAdminMapper.selectSingle(admin);
     }
+
+	@Override
+	public List<SysUcenterAdmin> query(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(Map<String, Object> map) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(SysUcenterAdmin t) throws Throwable {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void update(SysUcenterAdmin t) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public SysUcenterAdmin detail(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SysUcenterAdmin M2O(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <R> List<R> handleGameInfo(List<R> list, boolean flag) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void add(SysUcenterAdmin t) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

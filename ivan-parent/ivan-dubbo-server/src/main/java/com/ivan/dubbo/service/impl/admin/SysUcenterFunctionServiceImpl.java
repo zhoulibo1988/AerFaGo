@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.api.admin.SysUcenterFunctionService;
+import org.ivan.api.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterFunction;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.ivan.dubbo.dao.SysUcenterFunctionMapper;
 import com.ivan.dubbo.dao.SysUcenterRoleMapper;
-import com.ivan.dubbo.service.impl.BaseServiceImpl;
 @Service
-public class SysUcenterFunctionServiceImpl extends BaseServiceImpl<SysUcenterFunction, SysUcenterFunctionMapper> implements SysUcenterFunctionService {
+public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService {
 
     // 注入当前dao对象
     @Autowired
@@ -38,7 +37,7 @@ public class SysUcenterFunctionServiceImpl extends BaseServiceImpl<SysUcenterFun
         map.put("funStatus", 0);
         map.put("sortName", "fun_sort");
         map.put("sortOrder", "desc");
-        return super.Pagequery(map);
+        return null;
     }
     /* (非 Javadoc)
      * <p>Title: listFunctionForNormal</p>
@@ -148,7 +147,7 @@ public class SysUcenterFunctionServiceImpl extends BaseServiceImpl<SysUcenterFun
     */
 
     public void addMenu(Long userId, Map<String, Object> map) {
-        SysUcenterFunction function = M2O(map);
+        SysUcenterFunction function = null;
         function.setCreateTime(new Date());
         function.setCreateUserBy(userId);
         functionMapper.insertByEntity(function);
@@ -163,7 +162,7 @@ public class SysUcenterFunctionServiceImpl extends BaseServiceImpl<SysUcenterFun
     */
 
     public void updMenu(Long userId, Map<String, Object> map) {
-        SysUcenterFunction function = M2O(map);
+        SysUcenterFunction function = null;
         function.setUpdateUserBy(userId);
         function.setUpdateTime(new Date());
         functionMapper.updateByEntity(function);
