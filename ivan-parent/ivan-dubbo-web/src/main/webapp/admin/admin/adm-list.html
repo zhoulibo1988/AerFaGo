@@ -8,7 +8,7 @@
 	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 
-<#include "lib/lib.html" />
+<#include "../lib/lib.html" />
 <title>管理员管理</title>
 </head>
 <body>
@@ -67,7 +67,7 @@
 							<td class="td-manage">
 								<#if dl.admStatus==0>
 								<a style="text-decoration:none" onClick="adm_stop(this,'${dl.id!}')" href="javascript:;" title="停用"><i class="Hui-iconfont">&#xe60e;</i></a> 
-								<a title="编辑" href="javascript:;" onclick="adm_edit('管理员编辑','${basePath}/admin/goaddadm.do?id=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">&#xe6df;</i></a> 
+								<a title="编辑" href="javascript:;" onclick="adm_edit('管理员编辑','${basePath}/sysAdmin/goaddadm.do?id=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">&#xe6df;</i></a> 
 								<a title="分配角色" href="javascript:;" onclick="adm_role('分配角色','${basePath}/roles/toadminrole.do?id=${dl.id!}&userName=${dl.admName}','1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe62b;</i></a>
 								<#else>
 								<a style="text-decoration:none" onClick="adm_start(this,'${dl.id!}')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe605;</i></a>
@@ -98,7 +98,7 @@
 	 	    jump: function(obj,first){ //触发分页后的回调
 // 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
 	 	    	if(!first){
-	 	         	 window.location.href="${basePath}/admin/goadminlist.do?curPage="+obj.curr +"&pageData="+10;
+	 	         	 window.location.href="${basePath}/sysAdmin/goadminlist.do?curPage="+obj.curr +"&pageData="+10;
 	 	    	}
 	 	    }
 	 	});
