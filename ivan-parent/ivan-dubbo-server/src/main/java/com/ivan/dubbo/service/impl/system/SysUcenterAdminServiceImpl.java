@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.ivan.api.system.SysUcenterAdminService;
 import org.ivan.entity.admin.SysUcenterAdmin;
+import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +17,6 @@ public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
     @Autowired
     private SysUcenterAdminMapper sysUcenterAdminMapper;
     public SysUcenterAdmin loginAdmin(String userName, String password) {
-    	System.out.println("进来了");
         SysUcenterAdmin admin = new SysUcenterAdmin();
         admin.setAdmName(userName);
         admin.setAdmPassword(password);
@@ -24,6 +24,23 @@ public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
         admin = sysUcenterAdminMapper.selectSingle(admin);
         return admin;
     }
+    /**
+     * 分页查询获取管理员列表
+     * @param map
+     * @return
+     */
+    public PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map) {
+    	if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
+    		map.put("curPage", 1);
+    		map.put("pageData", 10);
+    	}
+    	int totalData=	sysUcenterAdminMapper.getCount(map);
+    	PageHelper pageHelper = new PageHelper(totalData, map);
+		List<SysUcenterAdmin> list = sysUcenterAdminMapper.pageQueryByObject(pageHelper.getMap());
+		PageObject<SysUcenterAdmin> pageObject = pageHelper.getPageObject();
+		pageObject.setDataList(list);
+		return pageObject;
+	}
 	@Override
 	public SysUcenterAdmin getAdminByUserName(String userName) {
 		// TODO Auto-generated method stub
@@ -101,11 +118,6 @@ public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
 	}
 	@Override
 	public SysUcenterAdmin M2O(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map) {
 		// TODO Auto-generated method stub
 		return null;
 	}

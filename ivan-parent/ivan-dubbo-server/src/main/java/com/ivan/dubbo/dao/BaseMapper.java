@@ -11,6 +11,11 @@ public interface BaseMapper<T>{
 	 * @return int
 	 */
 	int getCount(T t);
+	/**
+	 * 获取总数
+	 * @param map
+	 * @return
+	 */
 	int getCount(Map<String,Object> map);
 	
 	/**

@@ -51,7 +51,6 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", userId);
         map.put("appsCode", appsCode);
-        System.out.println("F");
         return functionMapper.selectFunByUser(map);
     }
 
