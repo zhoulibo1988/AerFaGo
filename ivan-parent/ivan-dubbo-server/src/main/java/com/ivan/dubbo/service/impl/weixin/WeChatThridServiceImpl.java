@@ -7,7 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.ivan.api.WeChatThridService;
+import org.ivan.api.weixin.WeChatThridService;
 import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.ivan.entity.weixin.utils.XMLUtil;

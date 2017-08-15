@@ -2,7 +2,7 @@ package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
-import org.ivan.api.WxPayApiService;
+import org.ivan.api.weixin.WxPayApiService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

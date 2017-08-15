@@ -1,7 +1,7 @@
 package com.ivan.dubbo.service.impl.system;
 
 
-import org.ivan.api.SysUcenterUserMainService;
+import org.ivan.api.system.SysUcenterUserMainService;
 import org.ivan.entity.SysUcenterUserMain;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

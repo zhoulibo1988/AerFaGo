@@ -2,7 +2,7 @@ package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
-import org.ivan.api.WeixinAuthCodeService;
+import org.ivan.api.weixin.WeixinAuthCodeService;
 import org.ivan.entity.WeixinAuthCode;
 import org.springframework.beans.factory.annotation.Autowired;
 

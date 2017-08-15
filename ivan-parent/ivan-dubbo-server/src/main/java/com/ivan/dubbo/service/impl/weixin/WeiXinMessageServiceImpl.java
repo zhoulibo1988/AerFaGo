@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ivan.api.WeiXinMessageService;
+import org.ivan.api.weixin.WeiXinMessageService;
 import org.ivan.entity.weixin.message.MessageUtil;
 import org.ivan.entity.weixin.message.resp.TextMessage;
 import org.slf4j.Logger;

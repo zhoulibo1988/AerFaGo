@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.api.SysUcenterFunctionService;
+import org.ivan.api.system.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterFunction;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;

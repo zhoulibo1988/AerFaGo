@@ -2,7 +2,7 @@ package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
-import org.ivan.api.WeixinBusinessInfoService;
+import org.ivan.api.weixin.WeixinBusinessInfoService;
 import org.ivan.entity.WeixinBusinessInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 

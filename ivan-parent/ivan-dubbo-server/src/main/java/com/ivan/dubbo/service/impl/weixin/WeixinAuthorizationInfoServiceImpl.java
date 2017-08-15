@@ -2,7 +2,7 @@ package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
-import org.ivan.api.WeixinAuthorizationInfoService;
+import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.entity.WeixinAuthorizationInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 

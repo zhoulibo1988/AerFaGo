@@ -3,7 +3,7 @@ package com.ivan.dubbo.service.impl.system;
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.api.SysUcenterAdminService;
+import org.ivan.api.system.SysUcenterAdminService;
 import org.ivan.entity.admin.SysUcenterAdmin;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
