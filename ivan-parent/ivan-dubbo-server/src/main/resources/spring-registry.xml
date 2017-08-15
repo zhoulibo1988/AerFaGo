@@ -24,6 +24,7 @@
             <list>  
                <!--  <value>classpath:zookeeper.properties</value>   -->
                 <value>classpath:jdbc.properties</value>  
+                <value>classpath:log4j.properties</value>  
             </list>  
         </property>  
     </bean> 
