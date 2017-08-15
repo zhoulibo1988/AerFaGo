@@ -15,11 +15,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.ivan.api.WeChatThridService;
-import org.ivan.api.WeixinAuthCodeService;
-import org.ivan.api.WeixinAuthorizationInfoService;
-import org.ivan.api.WeixinAuthorizationTokenService;
-import org.ivan.api.WeixinBusinessInfoService;
+import org.ivan.api.weixin.WeChatThridService;
+import org.ivan.api.weixin.WeixinAuthCodeService;
+import org.ivan.api.weixin.WeixinAuthorizationInfoService;
+import org.ivan.api.weixin.WeixinAuthorizationTokenService;
+import org.ivan.api.weixin.WeixinBusinessInfoService;
 import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.WeixinAuthorizationInfo;
 import org.ivan.entity.WeixinAuthorizationToken;
