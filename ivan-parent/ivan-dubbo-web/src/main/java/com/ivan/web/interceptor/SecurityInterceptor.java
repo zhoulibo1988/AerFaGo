@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.ivan.entity.User;
+import org.ivan.entity.admin.SysUcenterAdmin;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -14,10 +14,10 @@ public class SecurityInterceptor implements HandlerInterceptor{
 	 @Override
 	    public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) throws Exception {
 	        HttpSession session = req.getSession();
-	        User user = null;
+	        SysUcenterAdmin user = null;
 	        if (session != null) {
 	            // 从session 里面获取用户名的信息
-	            user = (User) session.getAttribute("admin");
+	            user = (SysUcenterAdmin) session.getAttribute("admin");
 	        }
 	        // 判断如果没有取到用户信息，就跳转到登陆页面，提示用户进行登陆
 	        if (user == null || "".equals(user.toString())) {
