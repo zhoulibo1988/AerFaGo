@@ -15,7 +15,7 @@
     <!-- 消费方应用名，用于计算依赖关系，不是匹配条件，不要与提供方一样 -->  
     <dubbo:application name="ivan-dubbo-web" />  
   
-    <!-- 使用zookeeper广播注册中心暴露服务地址 -->  
+    <!-- 使用zookeeper广播注册中心暴露服务地址192.168.128.128  120.24.163.62-->  
     <dubbo:registry protocol="zookeeper" address="120.24.163.62:2181" />  
       
 </beans>  
