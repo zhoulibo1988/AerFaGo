@@ -1,4 +1,4 @@
-package org.ivan.api;
+package org.ivan.api.system;
 
 import java.util.List;
 import java.util.Map;
