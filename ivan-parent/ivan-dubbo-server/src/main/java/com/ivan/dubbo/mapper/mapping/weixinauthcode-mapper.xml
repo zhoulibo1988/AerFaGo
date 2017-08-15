@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<mapper namespace="com.ivan.dubbo.dao.WeixinAuthCodeMapper">
+<mapper namespace="com.ivan.dubbo.dao.weixin.WeixinAuthCodeMapper">
 
 	<resultMap id="weixinauthcode_result_map" type="org.ivan.entity.WeixinAuthCode" >
 		<id column="id" property="id" />

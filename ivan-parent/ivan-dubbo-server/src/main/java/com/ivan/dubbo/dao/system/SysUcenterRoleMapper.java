@@ -1,9 +1,11 @@
-package com.ivan.dubbo.dao;
+package com.ivan.dubbo.dao.system;
 
 import java.util.List;
 import java.util.Map;
 
 import org.ivan.entity.admin.SysUcenterRole;
+
+import com.ivan.dubbo.dao.BaseMapper;
 
 /**
  * @author buyuer

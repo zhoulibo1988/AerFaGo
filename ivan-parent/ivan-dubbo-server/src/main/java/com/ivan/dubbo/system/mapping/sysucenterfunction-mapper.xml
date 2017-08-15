@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ivan.dubbo.dao.SysUcenterFunctionMapper">
+<mapper namespace="com.ivan.dubbo.dao.system.SysUcenterFunctionMapper">
 
 	<resultMap id="sysucenterfunction_result_map" type="org.ivan.entity.admin.SysUcenterFunction">
 		<id column="id" property="id" />

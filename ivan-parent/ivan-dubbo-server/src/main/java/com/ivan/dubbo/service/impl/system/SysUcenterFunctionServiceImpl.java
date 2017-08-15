@@ -1,4 +1,4 @@
-package com.ivan.dubbo.service.impl.admin;
+package com.ivan.dubbo.service.impl.system;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -11,8 +11,8 @@ import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.ivan.dubbo.dao.SysUcenterFunctionMapper;
-import com.ivan.dubbo.dao.SysUcenterRoleMapper;
+import com.ivan.dubbo.dao.system.SysUcenterFunctionMapper;
+import com.ivan.dubbo.dao.system.SysUcenterRoleMapper;
 @Service
 public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService {
 
@@ -51,6 +51,7 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", userId);
         map.put("appsCode", appsCode);
+        System.out.println("F");
         return functionMapper.selectFunByUser(map);
     }
 

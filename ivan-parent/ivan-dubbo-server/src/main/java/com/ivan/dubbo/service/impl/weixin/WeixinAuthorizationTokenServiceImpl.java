@@ -1,4 +1,4 @@
-package com.ivan.dubbo.service.impl;
+package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
@@ -8,7 +8,7 @@ import org.ivan.entity.WeixinAuthorizationToken;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
-import com.ivan.dubbo.dao.WeixinAuthorizationTokenMapper;
+import com.ivan.dubbo.dao.weixin.WeixinAuthorizationTokenMapper;
 /**
  * @author cyl
  * @version 

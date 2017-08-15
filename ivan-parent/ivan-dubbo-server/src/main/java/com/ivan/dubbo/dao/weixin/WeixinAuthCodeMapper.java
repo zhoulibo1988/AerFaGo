@@ -1,4 +1,4 @@
-package com.ivan.dubbo.dao;
+package com.ivan.dubbo.dao.weixin;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package com.ivan.dubbo.service.impl;
+package com.ivan.dubbo.service.impl.weixin;
 
 import java.util.Map;
 
