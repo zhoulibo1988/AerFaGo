@@ -6,8 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.ivan.api.SysUcenterAdminService;
-import org.ivan.api.SysUcenterFunctionService;
+import org.ivan.api.system.SysUcenterAdminService;
+import org.ivan.api.system.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterAdmin;
 import org.ivan.entity.utils.MapObjectUtil;
 import org.ivan.entity.utils.PageObject;
@@ -32,7 +32,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	private static final Logger LOGGER = LoggerFactory.getLogger(SysAdminController.class);
 
 	@Reference
-	private SysUcenterAdminService adminService;
+	private SysUcenterAdminService sysUcenterAdminService;
 
 	//@Reference
 	//private SysUcenterAppsService appService;
@@ -60,10 +60,10 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 				if (code != null && code.equalsIgnoreCase(oldCode)) {
 					// MD5加密
 					password = PasswordEncoder.getPassword(password);
-					SysUcenterAdmin admin = adminService.loginAdmin(username, password);
+					SysUcenterAdmin admin = sysUcenterAdminService.loginAdmin(username, password);
 					if (admin != null) {
 						setAdmin(admin);
-						resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, "admin/menu.do");
+						resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, "sysAdmin/menu.do");
 					} else {
 						resultMap = ReMessage.resultBack(ParameterEunm.ERROR_PARAMS_CODE, "请输入正确账号和密码!");
 					}
@@ -227,7 +227,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	@RequestMapping("/goadminlist")
 	public ModelAndView toAdminList(@RequestParam Map<String, Object> map) {
 		ModelAndView view = new ModelAndView("admin/adm-list");
-		PageObject<SysUcenterAdmin> list = adminService.Pagequery(map);
+		PageObject<SysUcenterAdmin> list = sysUcenterAdminService.Pagequery(map);
 		view.addObject("list", list);
 		return view;
 	}
@@ -243,7 +243,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 		ModelAndView view = null;
 		if (id != null) {
 			view = new ModelAndView("admin/adm-edit");
-			SysUcenterAdmin admin = adminService.findById(id);
+			SysUcenterAdmin admin = sysUcenterAdminService.findById(id);
 			view.addObject("adm", admin);
 		} else {
 			view = new ModelAndView("admin/adm-add");
@@ -262,7 +262,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	public Map<String, Object> startAdm(@RequestParam("id") Long id) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			adminService.startAdmin(id);
+			sysUcenterAdminService.startAdmin(id);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		} catch (Exception e) {
 			LOGGER.error("服务器异常", e);
@@ -282,7 +282,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	public Map<String, Object> stopAdm(@RequestParam("id") Long id) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			adminService.stopAdmin(id);
+			sysUcenterAdminService.stopAdmin(id);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		} catch (Exception e) {
 			LOGGER.error("服务器异常", e);
@@ -302,7 +302,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	public Map<String, Object> delAdm(@RequestParam("id") Long id) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			adminService.delAdmin(id);
+			sysUcenterAdminService.delAdmin(id);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		} catch (Exception e) {
 			LOGGER.error("服务器异常", e);
@@ -322,7 +322,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	public Map<String, Object> addAdm(@RequestParam Map<String, Object> map) {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		try {
-			adminService.addAdmin(map);
+			sysUcenterAdminService.addAdmin(map);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		} catch (Exception e) {
 			LOGGER.error("服务器异常", e);
@@ -347,7 +347,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 			if (passWrod.equals("4c6e33e575da86adc6df9d85790c75ce")) {
 				map.put("admPassword", null);
 			}
-			adminService.update(map);
+			sysUcenterAdminService.update(map);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		} catch (Exception e) {
 			LOGGER.error("服务器异常", e);
