@@ -7,81 +7,67 @@ import java.util.Map;
 
 import org.ivan.api.system.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterFunction;
+import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.ivan.dubbo.dao.system.SysUcenterFunctionMapper;
-import com.ivan.dubbo.dao.system.SysUcenterRoleMapper;
+/**
+ * 菜单管理seviceImpl
+ * @author 周立波
+ *
+ */
 @Service
 public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService {
-
-    // 注入当前dao对象
     @Autowired
-    private SysUcenterFunctionMapper functionMapper;
-    @Autowired
-    private SysUcenterRoleMapper roleMapper;
-
-    /*
-     * (非 Javadoc) <p>Title: listFunctionForAdmin</p> <p>Description: </p>
-     * 
-     * @param map
-     * 
-     * @return
-     * 
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#listFunctionForAdmin(java.util.Map)
+    private SysUcenterFunctionMapper sysUcenterFunctionMapper;
+    /**
+     * 获取List
      */
-
     public PageObject<SysUcenterFunction> listFunctionForAdmin(Map<String, Object> map) {
 //        map.put("fid", -1);
         map.put("funStatus", 0);
         map.put("sortName", "fun_sort");
         map.put("sortOrder", "desc");
-        return null;
+        if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
+    		map.put("curPage", 1);
+    		map.put("pageData", 10);
+    	}
+    	int totalData=	sysUcenterFunctionMapper.getCount(map);
+    	PageHelper pageHelper = new PageHelper(totalData, map);
+		List<SysUcenterFunction> list = sysUcenterFunctionMapper.pageQueryByObject(pageHelper.getMap());
+		PageObject<SysUcenterFunction> pageObject = pageHelper.getPageObject();
+		pageObject.setDataList(list);
+		return pageObject;
     }
-    /* (非 Javadoc)
-     * <p>Title: listFunctionForNormal</p>
-     * <p>Description: </p>
-     * @param userId
-     * @return
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#listFunctionForNormal(java.lang.Long)
-    */
-
+    /**
+     * 
+     */
     public List<Map<String, Object>> listFunctionForNormal(Long userId, String appsCode) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("id", userId);
         map.put("appsCode", appsCode);
-        return functionMapper.selectFunByUser(map);
+        return sysUcenterFunctionMapper.selectFunByUser(map);
     }
-
-    /* (非 Javadoc)
-     * <p>Title: findById</p>
-     * <p>Description: </p>
-     * @param id
-     * @return
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#findById(java.lang.Long)
-    */
-
+    /**
+     * 
+     */
     public SysUcenterFunction findById(Long userId, Long id) {
         SysUcenterFunction function = new SysUcenterFunction();
         function.setId(id);
-        return functionMapper.selectSingle(function);
+        return sysUcenterFunctionMapper.selectSingle(function);
     }
-
-    /* (非 Javadoc)
-     * <p>Title: startFunction</p>
-     * <p>Description: </p>
-     * @param id
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#startFunction(java.lang.Long)
-    */
-
+    /**
+     * 
+     */
     public void startFunction(Long userId, Long id) {
         SysUcenterFunction function = new SysUcenterFunction();
         function.setId(id);
         function.setFunStatus(0);
         function.setUpdateTime(new Date());
         function.setUpdateUserBy(userId);
-        functionMapper.updateByEntity(function);
+        sysUcenterFunctionMapper.updateByEntity(function);
         
         //开启子元素
         function = new SysUcenterFunction();
@@ -89,24 +75,19 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
         function.setFunStatus(0);
         function.setUpdateTime(new Date());
         function.setUpdateUserBy(userId);
-        functionMapper.updateFunction(function);
+        sysUcenterFunctionMapper.updateFunction(function);
         
     }
-
-    /* (非 Javadoc)
-     * <p>Title: stopFunction</p>
-     * <p>Description: </p>
-     * @param id
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#stopFunction(java.lang.Long)
-    */
-
+    /**
+     * 
+     */
     public void stopFunction(Long userId, Long id) {
         SysUcenterFunction function = new SysUcenterFunction();
         function.setId(id);
         function.setFunStatus(1);
         function.setUpdateTime(new Date());
         function.setUpdateUserBy(userId);
-        functionMapper.updateByEntity(function);   
+        sysUcenterFunctionMapper.updateByEntity(function);   
         
         //锁定子元素
         function = new SysUcenterFunction();
@@ -114,83 +95,56 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
         function.setFunStatus(1);
         function.setUpdateTime(new Date());
         function.setUpdateUserBy(userId);
-        functionMapper.updateFunction(function);   
+        sysUcenterFunctionMapper.updateFunction(function);   
     }
-
-    /* (非 Javadoc)
-     * <p>Title: delFunction</p>
-     * <p>Description: </p>
-     * @param id
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#delFunction(java.lang.Long)
-    */
-
+    /**
+     * 删除
+     */
     public void delFunction(Long id) {
         
         SysUcenterFunction function = new SysUcenterFunction();
         //删除子元素
         function.setId(id);
-        functionMapper.deleteByEntity(function);
+        sysUcenterFunctionMapper.deleteByEntity(function);
         
         //删除子元素
         function = new SysUcenterFunction();
         function.setFid(id);
-        functionMapper.deleteByEntity(function);
+        sysUcenterFunctionMapper.deleteByEntity(function);
         
     }
-    
-    /* (非 Javadoc)
-     * <p>Title: addMenu</p>
-     * <p>Description: </p>
-     * @param userId
-     * @param map
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#addMenu(java.lang.Long, java.util.Map)
-    */
-
+    /**
+     * 添加菜单
+     */
     public void addMenu(Long userId, Map<String, Object> map) {
         SysUcenterFunction function = null;
         function.setCreateTime(new Date());
         function.setCreateUserBy(userId);
-        functionMapper.insertByEntity(function);
+        sysUcenterFunctionMapper.insertByEntity(function);
     }
-    
-    /* (非 Javadoc)
-     * <p>Title: updMenu</p>
-     * <p>Description: </p>
-     * @param userId
-     * @param map
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#updMenu(java.lang.Long, java.util.Map)
-    */
-
+    /**
+     * 修改菜单
+     */
     public void updMenu(Long userId, Map<String, Object> map) {
         SysUcenterFunction function = null;
         function.setUpdateUserBy(userId);
         function.setUpdateTime(new Date());
-        functionMapper.updateByEntity(function);
+        sysUcenterFunctionMapper.updateByEntity(function);
     }
-    
-    /* (非 Javadoc)
-     * <p>Title: findMenuListByAppId</p>
-     * <p>Description: </p>
-     * @param appId
-     * @return
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#findMenuListByAppId(java.lang.Integer)
-    */
-
+    /**
+     * 
+     */
     public List<SysUcenterFunction> findMenuListByAppId(Integer appId) {
         SysUcenterFunction  function = new SysUcenterFunction();
         function.setAppId(appId);
         function.setFunStatus(0);
-        return functionMapper.selectByObject(function);
+        return sysUcenterFunctionMapper.selectByObject(function);
     }
-    
-    /* (非 Javadoc)
-     * <p>Title: selectFunList</p>
-     * <p>Description: </p>
-     * @return
-     * @see cn.iyizhan.teamwork.manager.service.SysUcenterFunctionService#selectFunList()
-    */
+    /**
+     * 
+     */
     public List<Map<String, Object>> selectFunList() {
-        return functionMapper.selectFunList();
+        return sysUcenterFunctionMapper.selectFunList();
     }
     
 }

@@ -95,4 +95,10 @@ public class SysUcenterAppsServiceImpl implements SysUcenterAppsService{
 	public void delete(Map<String, Object> map) {
 		sysUcenterAppsMapper.deleteByEntity(map);
 	}
+	/**
+	 * 查询
+	 */
+	public List<SysUcenterApps> query(Map<String, Object> map) {
+		return sysUcenterAppsMapper.selectByObject(map);
+	}
 }

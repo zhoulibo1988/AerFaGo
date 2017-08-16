@@ -77,4 +77,6 @@ public interface SysUcenterAppsService {
      * @param map
      */
     void delete(Map<String,Object> map);
+    
+    List<SysUcenterApps> query(Map<String,Object> map);
 }

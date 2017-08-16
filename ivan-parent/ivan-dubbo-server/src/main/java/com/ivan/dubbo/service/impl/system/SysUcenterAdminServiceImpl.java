@@ -1,5 +1,6 @@
 package com.ivan.dubbo.service.impl.system;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ import org.ivan.api.system.SysUcenterAdminService;
 import org.ivan.entity.admin.SysUcenterAdmin;
 import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.utils.PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -41,89 +43,78 @@ public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
 		pageObject.setDataList(list);
 		return pageObject;
 	}
-	@Override
-	public SysUcenterAdmin getAdminByUserName(String userName) {
-		// TODO Auto-generated method stub
-		return null;
+    /**
+     * 根据ID获取管理员
+     */
+    public SysUcenterAdmin findById(Long id) {
+    	 SysUcenterAdmin admin = new SysUcenterAdmin();
+         admin.setId(id);
+         return sysUcenterAdminMapper.selectSingle(admin);
 	}
-	@Override
-	public Integer getCount(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+    /**
+     * 启用管理员
+     */
+    public void startAdmin(Long id) {
+    	SysUcenterAdmin admin = new SysUcenterAdmin();
+        admin.setId(id);
+        admin.setAdmStatus(0);
+        admin.setUpdateTime(new Date());
+        sysUcenterAdminMapper.updateByEntity(admin);
 	}
-	@Override
-	public void startAdmin(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
+    /**
+     * 禁用管理员
+     */
 	public void stopAdmin(Long id) {
-		// TODO Auto-generated method stub
-		
+		SysUcenterAdmin admin = new SysUcenterAdmin();
+        admin.setId(id);
+        admin.setAdmStatus(1);
+        admin.setUpdateTime(new Date());
+        sysUcenterAdminMapper.updateByEntity(admin);
 	}
-	@Override
+	/**
+	 * 删除管理员
+	 */
 	public void delAdmin(Long id) {
-		// TODO Auto-generated method stub
+		SysUcenterAdmin admin = new SysUcenterAdmin();
+        admin.setId(id);
+        sysUcenterAdminMapper.deleteByEntity(admin);
 		
 	}
-	@Override
+	/**
+	 * 添加管理员
+	 */
 	public void addAdmin(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		
+		SysUcenterAdmin admin =new SysUcenterAdmin();
+		admin.setAdmDisplayName(String.valueOf(map.get("admDisplayName")));
+		admin.setAdmName( String.valueOf(map.get("admName")));
+		admin.setAdmTel(String.valueOf(map.get("admTel")));
+        String pass = admin.getAdmPassword();
+        pass = PasswordEncoder.getPassword(pass);
+        admin.setAdmPassword(pass);
+        admin.setAdmType("NORMAL");
+        admin.setAdmStatus(0);
+        admin.setCreateTime(new Date());
+        sysUcenterAdminMapper.insertByEntity(admin);
 	}
-	@Override
-	public SysUcenterAdmin findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public List<SysUcenterAdmin> query(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public void delete(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void delete(SysUcenterAdmin t) throws Throwable {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void add(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
-	public void add(SysUcenterAdmin t) throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
-	@Override
+	/**
+	 * 修改管理信息
+	 */
 	public void update(Map<String, Object> map) throws Exception {
-		// TODO Auto-generated method stub
-		
+		sysUcenterAdminMapper.updateByEntity(map);
 	}
-	@Override
-	public void update(SysUcenterAdmin t) throws Exception {
-		// TODO Auto-generated method stub
-		
+	/**
+	 * 提供管理员名字查询管理员
+	 */
+	public SysUcenterAdmin getAdminByUserName(String userName) {
+		SysUcenterAdmin admin = new SysUcenterAdmin();
+		admin.setAdmStatus(0);
+		admin.setAdmName(userName);
+		return sysUcenterAdminMapper.selectSingle(admin);
 	}
-	@Override
-	public SysUcenterAdmin detail(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public SysUcenterAdmin M2O(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public <R> List<R> handleGameInfo(List<R> list, boolean flag) {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * 查询总数
+	 */
+	public Integer getCount(Map<String, Object> map) {
+		 return sysUcenterAdminMapper.getCount(map);
 	}
 }

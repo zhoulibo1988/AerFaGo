@@ -1,6 +1,5 @@
 package org.ivan.api.system;
 
-import java.util.List;
 import java.util.Map;
 
 import org.ivan.entity.admin.SysUcenterAdmin;
@@ -80,26 +79,16 @@ public interface SysUcenterAdminService{
      * @param password 密码
      */
     SysUcenterAdmin loginAdmin(String userName, String password);
-    
-    List<SysUcenterAdmin> query(Map<String, Object> map);
-
-    void delete(Map<String, Object> map) throws Exception;
-
-    void delete(SysUcenterAdmin t) throws Throwable;
-
-    void add(Map<String, Object> map) throws Exception;
-
-    void add(SysUcenterAdmin t) throws Exception;
-
+    /**
+     * 修改
+     * @param map
+     * @throws Exception
+     */
     void update(Map<String, Object> map) throws Exception;
-
-    void update(SysUcenterAdmin t) throws Exception;
-
-    SysUcenterAdmin detail(Map<String, Object> map);
-
-    SysUcenterAdmin M2O(Map<String, Object> map);
-
+    /**
+     * 分页查询
+     * @param map
+     * @return
+     */
     PageObject<SysUcenterAdmin> Pagequery(Map<String, Object> map);
-	
-	public <R> List<R> handleGameInfo(List<R> list, boolean flag);
 }
