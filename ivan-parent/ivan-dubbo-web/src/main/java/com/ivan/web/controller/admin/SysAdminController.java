@@ -7,8 +7,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.ivan.api.system.SysUcenterAdminService;
+import org.ivan.api.system.SysUcenterAppsService;
 import org.ivan.api.system.SysUcenterFunctionService;
 import org.ivan.entity.admin.SysUcenterAdmin;
+import org.ivan.entity.admin.SysUcenterApps;
 import org.ivan.entity.utils.MapObjectUtil;
 import org.ivan.entity.utils.PageObject;
 import org.ivan.entity.utils.ParameterEunm;
@@ -34,8 +36,8 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	@Reference
 	private SysUcenterAdminService sysUcenterAdminService;
 
-	//@Reference
-	//private SysUcenterAppsService appService;
+	@Reference
+	private SysUcenterAppsService sysUcenterAppsService;
 	@Reference
 	private SysUcenterFunctionService sysUcenterFunctionService;
 
@@ -122,60 +124,60 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 		return view;
 	}
 
-//	/**
-//	 * 
-//	 * @author buyuer
-//	 * @Title: appList
-//	 * @Description: 应用列表
-//	 */
-//	@RequestMapping("/goapplist")
-//	public ModelAndView goapplist(@RequestParam Map<String, Object> map) {
-//		ModelAndView mv = new ModelAndView("app/app-list");
-//		PageObject<SysUcenterApps> pageObject = appService.Pagequery(map);
-//		mv.addObject("list", pageObject);
-//		return mv;
-//	}
+	/**
+	 * 
+	 * @author buyuer
+	 * @Title: appList
+	 * @Description: 应用列表
+	 */
+	@RequestMapping("/goapplist")
+	public ModelAndView goapplist(@RequestParam Map<String, Object> map) {
+		ModelAndView mv = new ModelAndView("app/app-list");
+		PageObject<SysUcenterApps> pageObject = sysUcenterAppsService.Pagequery(map);
+		mv.addObject("list", pageObject);
+		return mv;
+	}
 
-//	/**
-//	 * 
-//	 * @author buyuer
-//	 * @Title: goAddApp
-//	 * @Description: 去添加应用页面
-//	 */
-//	@RequestMapping("/goaddapp")
-//	public ModelAndView goAddApp(@RequestParam(value = "id", required = false) Integer id) {
-//		ModelAndView mv = null;
-//		if (id != null) {
-//			mv = new ModelAndView("app/app-edit");
-//			SysUcenterApps apps = appService.findById(id);
-//			mv.addObject("app", apps);
-//		} else {
-//			mv = new ModelAndView("app/app-add");
-//		}
-//
-//		return mv;
-//	}
+	/**
+	 * 
+	 * @author buyuer
+	 * @Title: goAddApp
+	 * @Description: 去添加应用页面
+	 */
+	@RequestMapping("/goaddapp")
+	public ModelAndView goAddApp(@RequestParam(value = "id", required = false) Integer id) {
+		ModelAndView mv = null;
+		if (id != null) {
+			mv = new ModelAndView("app/app-edit");
+			SysUcenterApps apps = sysUcenterAppsService.findById(id);
+			mv.addObject("app", apps);
+		} else {
+			mv = new ModelAndView("app/app-add");
+		}
 
-//	/**
-//	 * 
-//	 * @author buyuer
-//	 * @Title: doAddApp
-//	 * @Description: 保存应用
-//	 */
-//	@ResponseBody
-//	@RequestMapping("/addapp")
-//	public Map<String, Object> doAddApp(@RequestParam Map<String, Object> map) {
-//		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		try {
-//			map.put("createUserBy", getAdmin().getId());
-//			appService.add(map);
-//			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
-//		} catch (Exception e) {
-//			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
-//			LOGGER.error(e.getMessage());
-//		}
-//		return resultMap;
-//	}
+		return mv;
+	}
+
+	/**
+	 * 
+	 * @author buyuer
+	 * @Title: doAddApp
+	 * @Description: 保存应用
+	 */
+	@ResponseBody
+	@RequestMapping("/addapp")
+	public Map<String, Object> doAddApp(@RequestParam Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			map.put("createUserBy", getAdmin().getId());
+			sysUcenterAppsService.add(map);
+			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
+		} catch (Exception e) {
+			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
+			LOGGER.error(e.getMessage());
+		}
+		return resultMap;
+	}
 
 	/**
 	 * 
@@ -183,40 +185,40 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	 * @Title: doAddApp
 	 * @Description: 修改应用
 	 */
-//	@ResponseBody
-//	@RequestMapping("/updapp")
-//	public Map<String, Object> updapp(@RequestParam Map<String, Object> map) {
-//		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		try {
-//			map.put("updateUserBy", getAdmin().getId());
-//			appService.update(map);
-//			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
-//		} catch (Exception e) {
-//			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
-//			LOGGER.error(e.getMessage());
-//		}
-//		return resultMap;
-//	}
+	@ResponseBody
+	@RequestMapping("/updapp")
+	public Map<String, Object> updapp(@RequestParam Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			map.put("updateUserBy", getAdmin().getId());
+			sysUcenterAppsService.update(map);
+			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
+		} catch (Exception e) {
+			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
+			LOGGER.error(e.getMessage());
+		}
+		return resultMap;
+	}
 
 	/**
 	 * 
 	 * @author buyuer
 	 * @Title: doAddApp
-	 * @Description: 修改应用
+	 * @Description: 删除应用
 	 */
-//	@ResponseBody
-//	@RequestMapping("/delapp")
-//	public Map<String, Object> delapp(@RequestParam Map<String, Object> map) {
-//		Map<String, Object> resultMap = new HashMap<String, Object>();
-//		try {
-//			appService.delete(map);
-//			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
-//		} catch (Exception e) {
-//			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
-//			LOGGER.error(e.getMessage());
-//		}
-//		return resultMap;
-//	}
+	@ResponseBody
+	@RequestMapping("/delapp")
+	public Map<String, Object> delapp(@RequestParam Map<String, Object> map) {
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		try {
+			sysUcenterAppsService.delete(map);
+			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
+		} catch (Exception e) {
+			resultMap = ReMessage.resultBack(ParameterEunm.ERROR_500_CODE, null);
+			LOGGER.error(e.getMessage());
+		}
+		return resultMap;
+	}
 
 	/**
 	 * 
