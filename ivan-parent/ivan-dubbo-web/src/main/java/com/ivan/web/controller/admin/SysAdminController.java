@@ -26,7 +26,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-
+/**
+ * 登录管理
+ * @author 周立波
+ *
+ */
 @Controller
 @RequestMapping("sysAdmin")
 public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
