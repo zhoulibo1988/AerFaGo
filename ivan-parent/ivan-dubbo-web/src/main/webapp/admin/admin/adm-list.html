@@ -19,14 +19,14 @@
 	</nav>
 	<div class="pd-20 text-c">
 		<div class="text-c">
-			<form action="${basePath}/admin/goadminlist.do">
+			<form action="${basePath}/sysAdmin/goadminlist.do">
 				<input type="text" name="admName" id="admName" placeholder="管理员名称" style="width: 250px" class="input-text">
 				<button name="" id="" class="btn btn-success" type="submit"> <i class="Hui-iconfont">&#xe665;</i> 搜索 </button>
 			</form>
 		</div>
 		<div class="cl pd-5 bg-1 bk-gray mt-20">
 			<span class="l">
-				<a class="btn btn-primary radius" onclick="adm_add('添加管理员','${basePath}/admin/goaddadm.do')" href="javascript:;">
+				<a class="btn btn-primary radius" onclick="adm_add('添加管理员','${basePath}/sysAdmin/goaddadm.do')" href="javascript:;">
 				<i class="Hui-iconfont">&#xe600;</i> 添加管理员</a></span> <span class="r"> 
 			</span>
 		</div>
@@ -125,7 +125,7 @@
 				var data = {};
 				data.id = id;
 				//后台请求保存数据
- 				$.axse("${basePath}/admin/deladm.do",  data, function(d){
+ 				$.axse("${basePath}/sysAdmin/deladm.do",  data, function(d){
 					if(d.resultCode == 200){
 						$(obj).parents("tr").remove();
 						layer.msg('已删除!', {
@@ -154,7 +154,7 @@
 				var data = {};
 				data.id = id;
 				//后台请求保存数据
-				$.axse("${basePath}/admin/stopadm.do",  data, function(d){
+				$.axse("${basePath}/sysAdmin/stopadm.do",  data, function(d){
 					if(d.resultCode == 200){
 						layer.msg('已锁定!', {
 							icon : 1,
@@ -183,7 +183,7 @@
 				var data = {};
 				data.id = id;
 				//后台请求保存数据
-				$.axse("${basePath}/admin/startadm.do",  data, function(d){
+				$.axse("${basePath}/sysAdmin/startadm.do",  data, function(d){
 					if(d.resultCode == 200){
 						layer.msg('已解锁!', {
 							icon : 1,
