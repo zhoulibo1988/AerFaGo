@@ -130,16 +130,20 @@
 			<!-- 一级目录 -->
 			<mvc:mapping path="/*.do" />
 			<mvc:mapping path="/*.ajax" />
-			<mvc:mapping path="/*.html" />
+			<mvc:mapping path="/*.htm" />
 
 			<!-- 二级目录 -->
 			<mvc:mapping path="/*/*.do" />
 			<mvc:mapping path="/*/*.ajax" />
-			<mvc:mapping path="/*/*.html" />
+			<mvc:mapping path="/*/*.htm" />
 			<!-- 以下接口不会拦截 -->
 			<mvc:exclude-mapping path="/sys/login.do" />
 			<mvc:exclude-mapping path="/sys/error.do" />
 			<mvc:exclude-mapping path="/sysAdmin/login.do" />
+			<mvc:exclude-mapping path="/static/*" />
+			<mvc:exclude-mapping path="/public/*" />
+			<mvc:exclude-mapping path="/staticPage/*" />
+			<mvc:exclude-mapping path="/admin/*" />
 			<bean class="com.ivan.web.interceptor.SecurityInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
