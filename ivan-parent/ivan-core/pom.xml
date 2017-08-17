@@ -22,5 +22,11 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <!-- 应用entity工程 -->
+		<dependency>
+			<groupId>com.ivan.entity</groupId>
+			<artifactId>ivan-entity</artifactId>
+			<version>0.0.2</version>
+		</dependency>
   </dependencies>
 </project>
