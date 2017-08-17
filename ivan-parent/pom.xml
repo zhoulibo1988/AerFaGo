@@ -292,5 +292,16 @@
 		    <artifactId>commons-configuration</artifactId>
 		    <version>1.10</version>
 		</dependency>
+		<!-- alipay -->
+		<dependency>
+		  <groupId>com.iwuduan</groupId>
+		  <artifactId>alipay-sdk-java</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>commons-codec</groupId>
+		    <artifactId>commons-codec</artifactId>
+		    <version>1.9</version>
+		</dependency>
 	</dependencies>
 </project>
