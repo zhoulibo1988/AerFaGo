@@ -34,7 +34,12 @@
 			<artifactId>ivan-api</artifactId>
 			<version>0.0.2</version>
 		</dependency>
-
+		<!-- 微信API -->
+		<dependency>
+			<groupId>com.ivan.weixin.popular</groupId>
+			<artifactId>ivan-weixin-popular</artifactId>
+			<version>2.8.10</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>ivan-dubbo-web</finalName>
