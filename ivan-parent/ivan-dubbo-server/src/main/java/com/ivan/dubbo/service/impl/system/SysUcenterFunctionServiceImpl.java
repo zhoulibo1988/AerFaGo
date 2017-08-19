@@ -117,7 +117,14 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
      * 添加菜单
      */
     public void addMenu(Long userId, Map<String, Object> map) {
-        SysUcenterFunction function = null;
+        SysUcenterFunction function =new SysUcenterFunction();
+        function.setAppId(Integer.valueOf(map.get("appId").toString()));
+        function.setFid(Long.valueOf(map.get("fid").toString()));
+        function.setFunName(map.get("funName").toString());
+        function.setFunCode(map.get("funCode").toString());
+        function.setFunPath( map.get("funPath").toString());
+        function.setFunSort(Integer.valueOf(map.get("funSort").toString()));
+        function.setFunRemark(map.get("funRemark").toString());
         function.setCreateTime(new Date());
         function.setCreateUserBy(userId);
         sysUcenterFunctionMapper.insertByEntity(function);
