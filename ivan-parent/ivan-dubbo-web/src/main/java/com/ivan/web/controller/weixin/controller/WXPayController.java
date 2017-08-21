@@ -49,8 +49,8 @@ import com.ivan.web.controller.weixin.config.WxPayConfig;
 @Controller
 @RequestMapping("/wx")
 @SuppressWarnings("rawtypes")
-public class WeixinPayController extends BaseManagerController{
-	 private static final Logger logger = LoggerFactory.getLogger(WeixinPayController.class);
+public class WXPayController extends BaseManagerController{
+	 private static final Logger logger = LoggerFactory.getLogger(WXPayController.class);
 	 //授权后跳转地址
 	 private static String baseUrl = "http://zlbgogo.tunnel.echomod.cn/wx/getInfo";
 	//获取openId地址

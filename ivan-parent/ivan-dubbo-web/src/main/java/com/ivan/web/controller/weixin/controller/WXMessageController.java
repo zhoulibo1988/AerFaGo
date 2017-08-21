@@ -33,8 +33,8 @@ import com.qq.weixin.mp.aes.WXBizMsgCrypt;
  */
 @Controller
 @RequestMapping("/{APPID}")
-public class WeiXinMessageController {
-	private static final Logger logger = LoggerFactory.getLogger(WeiXinMessageController.class);
+public class WXMessageController {
+	private static final Logger logger = LoggerFactory.getLogger(WXMessageController.class);
 	@Reference
 	private WeiXinMessageService weiXinMessageService;
 	@Reference
