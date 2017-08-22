@@ -176,7 +176,7 @@ public class CustomserviceAPI extends BaseAPI {
 	 * 创建会话
 	 * @param access_token access_token
 	 * @param openid 客户openid
-	 * @param kf_account 完整客服账号
+	 * @param kf_account 完整客服帐号，格式为：帐号前缀@公众号微信号
 	 * @param text 附加信息，非必须
 	 * @return BaseResult
 	 */
