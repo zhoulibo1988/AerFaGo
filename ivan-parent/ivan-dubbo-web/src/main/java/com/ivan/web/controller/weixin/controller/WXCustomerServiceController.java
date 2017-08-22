@@ -12,6 +12,7 @@ import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,8 +22,11 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import weixin.popular.api.CustomserviceAPI;
 import weixin.popular.bean.BaseResult;
 import weixin.popular.bean.customservice.KFAccount;
+import weixin.popular.bean.customservice.KFCustomSession;
 import weixin.popular.bean.customservice.KFMsgRecord;
 import weixin.popular.bean.customservice.KFOnline;
+import weixin.popular.bean.customservice.KFSession;
+import weixin.popular.bean.customservice.KFWaitcase;
 
 /**
  * 新版客服功能管理
@@ -30,6 +34,8 @@ import weixin.popular.bean.customservice.KFOnline;
  * @author 周立波
  *
  */
+@Controller
+@RequestMapping("/CustomerService")
 public class WXCustomerServiceController {
 	private static final Logger logger = LoggerFactory.getLogger(WXCustomerServiceController.class);
 	@Reference
@@ -236,5 +242,116 @@ public class WXCustomerServiceController {
 		returnMap.put("kFMsgRecord", kFMsgRecord);
 		return returnMap;
 	}
-	// 会话管理未实现
+	// 会话管理
+	/**
+	 * 创建会话
+	 * 注意：此接口在客服和用户之间创建一个会话，如果该客服和用户会话已存在，则直接返回0。指定的客服帐号必须已经绑定微信号且在线
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/createSession")
+	public  Map<String,Object>  createSession(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		//此处的opneid需要获取用户授权登录
+		String openid=String.valueOf(map.get("openid"));
+		String kf_account=String.valueOf(map.get("kf_account"));
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		BaseResult baseResult 	=CustomserviceAPI.kfsessionCreate(weixinAuthorizationToken.getAuthorizerAccessToken(), openid, kf_account, null);
+		returnMap.put("baseResult", baseResult);
+		return returnMap;
+	}
+	/**
+	 * 关闭会话
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/closeSession")
+	public Map<String,Object> closeSession(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		//此处的opneid需要获取用户授权登录
+		String openid=String.valueOf(map.get("openid"));
+		String kf_account=String.valueOf(map.get("kf_account"));
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		BaseResult baseResult 	=CustomserviceAPI.kfsessionClose(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account, openid, null);
+		returnMap.put("baseResult", baseResult);
+		return returnMap;
+	}
+	/**
+	 * 获取客户会话状态
+	 * 此接口获取一个客户的会话，如果不存在，则kf_account为空。
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getSession")
+	public Map<String, Object> getSession(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		// 此处的opneid需要获取用户授权登录
+		String openid = String.valueOf(map.get("openid"));
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		KFCustomSession kFCustomSession=CustomserviceAPI.kfsessionGetsession(weixinAuthorizationToken.getAuthorizerAccessToken(), openid);
+		returnMap.put("kFCustomSession", kFCustomSession);
+		return returnMap;
+	}
+	/**
+	 * 获取客服会话列表
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getSessionList")
+	public Map<String, Object> getSessionList(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		String kf_account = String.valueOf(map.get("kf_account"));
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		KFSession kFSession =	CustomserviceAPI.kfsessionGetsessionlist(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account);
+		returnMap.put("kFSession", kFSession);
+		return returnMap;
+	}
+	/**
+	 * 获取未接入会话列表
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getwaitcase")
+	public Map<String, Object> getwaitcase(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		Map<String, Object> returnMap = new HashMap<String, Object>();
+		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
+		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
+		weixinAuthorizationToken.setAppId(WeChatContants.appId);
+		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
+		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
+		KFWaitcase kFWaitcase =CustomserviceAPI.kfsessionGetwaitcase(weixinAuthorizationToken.getAuthorizerAccessToken());
+		returnMap.put("kFWaitcase", kFWaitcase);
+		return returnMap;
+	}
 }
