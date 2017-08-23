@@ -91,6 +91,7 @@ public class WXComponentController {
 	 */
 	@RequestMapping(value = "/authorize", method = { RequestMethod.GET,RequestMethod.POST })
 	public void acceptAuthorizeEvent(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map) {
+		response.setHeader("Access-Control-Allow-Origin", "*");
 		logger.info("-----------》微信来推送XML了《-----------");
 		try{
 			//处理授权事件
