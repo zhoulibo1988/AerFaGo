@@ -144,6 +144,8 @@
 			<mvc:exclude-mapping path="/public/*" />
 			<mvc:exclude-mapping path="/staticPage/*" />
 			<mvc:exclude-mapping path="/admin/*" />
+			<mvc:exclude-mapping path="/WeixinComponent/*" />
+			<mvc:exclude-mapping path="/SourceMaterial/*" />
 			<bean class="com.ivan.web.interceptor.SecurityInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
