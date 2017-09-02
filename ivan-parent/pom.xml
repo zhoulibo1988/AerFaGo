@@ -315,5 +315,11 @@
 		    <artifactId>mail</artifactId>
 		    <version>1.4.4</version>
 		</dependency>
+		<!-- POI解析Excel -->
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+			    <artifactId>poi</artifactId>
+			    <version>3.5-FINAL</version>
+		</dependency>
 	</dependencies>
 </project>
