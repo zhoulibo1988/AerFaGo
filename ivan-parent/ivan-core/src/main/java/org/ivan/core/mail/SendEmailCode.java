@@ -111,11 +111,7 @@ public class SendEmailCode {
         }
     }  
      
-    public static void main(String[] args) throws Exception {
-//        sendHtmlEmail("zhoulibo_vip@163.com", 88888);
-        sendTextEmail("zhoulibo_vip@163.com", 88888);
-//        sendTextEmail();
-    }
+   
     public static boolean sendTextEmail() throws MessagingException, GeneralSecurityException {
         Properties props = new Properties();
 
@@ -369,4 +365,9 @@ public class SendEmailCode {
         //发送邮件  
         Transport.send(message);  
     }
+    public static void main(String[] args) throws Exception {
+//      sendHtmlEmail("zhoulibo_vip@163.com", 88888);
+      sendTextEmail("zhoulibo_vip@163.com", 88888);
+//      sendTextEmail();
+  }
 }
