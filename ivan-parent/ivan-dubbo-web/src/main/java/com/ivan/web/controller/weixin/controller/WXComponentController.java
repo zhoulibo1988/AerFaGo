@@ -1,10 +1,8 @@
 package com.ivan.web.controller.weixin.controller;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,24 +22,25 @@ import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.WeixinAuthorizationInfo;
 import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.WeixinBusinessInfo;
+import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.utils.ParameterEunm;
+import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.ivan.entity.weixin.utils.XMLUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import weixin.popular.api.ComponentAPI;
-import weixin.popular.api.CustomserviceAPI;
-import weixin.popular.api.MenuAPI;
 import weixin.popular.bean.BaseResult;
 import weixin.popular.bean.component.ApiGetAuthorizerInfoResult;
 import weixin.popular.bean.component.ApiGetAuthorizerInfoResult.Authorizer_info.Business_info;
@@ -51,14 +50,6 @@ import weixin.popular.bean.component.AuthorizerOption;
 import weixin.popular.bean.component.ComponentAccessToken;
 import weixin.popular.bean.component.FuncInfo;
 import weixin.popular.bean.component.PreAuthCode;
-import weixin.popular.bean.customservice.KFAccount;
-import weixin.popular.bean.customservice.KFMsgRecord;
-import weixin.popular.bean.customservice.KFOnline;
-import weixin.popular.bean.menu.Button;
-import weixin.popular.bean.menu.Matchrule;
-import weixin.popular.bean.menu.MenuButtons;
-import weixin.popular.bean.menu.selfmenu.CurrentSelfmenuInfo;
-import weixin.popular.util.JsonUtil;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.qq.weixin.mp.aes.WXBizMsgCrypt;
@@ -183,9 +174,10 @@ public class WXComponentController {
 	/**
      * 引导用户进入授权页面
      */
+	@ResponseBody
     @RequestMapping(value="/goAuthPage",method={RequestMethod.GET,RequestMethod.POST})
-    public String goAuthPage( HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map,Model model){
-        String result="auth";
+    public Map<String,Object> goAuthPage( HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+        Map<String,Object> resultMap=new HashMap<String, Object>();
             try {
                 request.getSession();
                 //查找预授权码
@@ -193,27 +185,29 @@ public class WXComponentController {
                 WeixinAuthCode weixinAuthCode = weixinAuthCodeService.selectSingle(map);
                if(weixinAuthCode!=null){
             	   if(weixinAuthCode.getAuthCode().equals("")){
-                       request.setAttribute("errorMsg","预授权码为空！");
-                       return "error";
+                       resultMap.put("errorMsg", "预授权码为空！");
+                       resultMap.put("code", 10001);
+                       return resultMap;
                    }
                    /**********************跳转到授权页面********************************/
             	   String authorizationUrl= ComponentAPI.componentloginpage(WeChatContants.appId, weixinAuthCode.getAuthCode(), WeChatContants.redirect_uri);
                    logger.info("跳转的URL："+authorizationUrl);
-//                   response.sendRedirect(authorizationUrl);
-                   model.addAttribute("authorizationUrl", authorizationUrl);
+                   resultMap.put("authorizationUrl", authorizationUrl);
+                   resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, resultMap);
                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        return result;  
+        return resultMap;  
     }
     /**
      * 处理微信授权事件完成跳转URL
      * @return
      */
     @RequestMapping(value="/authInfo",method={RequestMethod.GET,RequestMethod.POST})
-    public String successAuthorizeInfo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
-        String result="error";
+    public ModelAndView successAuthorizeInfo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/licensor-list");
+		String result="error";
         try {
             //获取authorization_code ：预授权码 
         	logger.info("微信返回的预授权码：-------------》"+map);
@@ -238,7 +232,7 @@ public class WXComponentController {
             if(apiQueryAuthResult.getErrcode()!=null){
             	logger.error("获取authorizer_access_token---------------》失败");
                 request.getSession().setAttribute("errorMsg", "缺少配置，请联系管理员！");
-                return "error";
+                return mv;
             }else if(apiQueryAuthResult!=null){
             	/*
                  * 注意：获取了authorizer_access_token（令牌）与authorizer_refresh_token（接口调用凭据刷新令牌值）
@@ -284,13 +278,15 @@ public class WXComponentController {
             		weixinAuthorizationTokenService.insert(weixinAuthorizationToken1);
             		logger.info("授权信息存储数据成功！");
             	}
+            	PageObject<WeixinAuthorizationToken>  pageObject=weixinAuthorizationTokenService.Pagequery(map);
+            	mv.addObject("list", pageObject);
+        		return mv;
             }
             
         }catch (Exception e) {
            logger.info(e.getMessage());
         }
-        request.setAttribute("errorMsg","授权成功！");
-        return result;
+        return mv;
     }
     /**
      * 获取（刷新）授权公众号的令牌:注意：此处token是2小时刷新一次，开发者需要自行进行token的缓存，避免token的获取次数达到每日的限定额度
@@ -327,7 +323,7 @@ public class WXComponentController {
         				weixinAuthorizationTokenService.updateByEntity(weixinAuthorizationToken);
         				logger.info("获取（刷新）令牌成功！");
         				returnMap.put("errorMsg", "获取（刷新）令牌成功！");
-        				
+        				returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE,null);
         			}else{
         				logger.error("刷新或者获取令牌失败！原因为微信返回错误码：------》"+authorizerAccessToken.getErrcode()+"==>微信返回错误信息----》"+authorizerAccessToken.getErrmsg());
         				returnMap.put("errorMsg", "刷新或者获取令牌失败！原因为微信返回错误码：------》"+authorizerAccessToken.getErrcode()+"==>微信返回错误信息----》"+authorizerAccessToken.getErrmsg());
@@ -379,11 +375,19 @@ public class WXComponentController {
 						weixinAuthorizationInfo.setAuthorizerAppid(authorizer_appid);
 						weixinAuthorizationInfo=weixinAuthorizationInfoService.selectSingle(weixinAuthorizationInfo);
 						if(weixinAuthorizationInfo!=null){
+							Integer weixinAuthorizationInfoId=weixinAuthorizationInfo.getId();
 							Map<String, Object>  mapInfo=addinfo(weixinAuthorizationInfo, apiGetAuthorizerInfoResult);
 							weixinAuthorizationInfo=(WeixinAuthorizationInfo) mapInfo.get("weixinAuthorizationInfo");
 							WeixinBusinessInfo weixinBusinessInfo=(WeixinBusinessInfo) mapInfo.get("weixinBusinessInfo");
+							weixinAuthorizationInfo.setId(weixinAuthorizationInfoId);
 							weixinAuthorizationInfoService.updateByEntity(weixinAuthorizationInfo);
-							weixinBusinessInfoService.updateByEntity(weixinBusinessInfo);
+							Map<String,Object> infoMap=new HashMap<String, Object>();
+							infoMap.put("authorizerAppid", authorizer_appid);
+							WeixinBusinessInfo weixinBusinessInfo1=weixinBusinessInfoService.selectSingle(infoMap);
+							if(weixinBusinessInfo1!=null){
+								weixinBusinessInfo.setId(weixinBusinessInfo1.getId());
+								weixinBusinessInfoService.updateByEntity(weixinBusinessInfo);
+							}
 							logger.info("更新授权方基础信息成功！");
 						}else{
 							Map<String, Object>  mapInfo=addinfo(weixinAuthorizationInfo, apiGetAuthorizerInfoResult);
@@ -397,7 +401,8 @@ public class WXComponentController {
 						}
 					}
     			}.start();
-    			returnMap.put("apiGetAuthorizerInfoResult", apiGetAuthorizerInfoResult);
+//    			returnMap.put("apiGetAuthorizerInfoResult", apiGetAuthorizerInfoResult);
+    			returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE,null);
     		}else{
     			logger.error("获取授权方信息失败");
     			returnMap.put("errorMsg", "获取授权方信息失败");
@@ -524,5 +529,49 @@ public class WXComponentController {
 		BaseResult BaseResult=ComponentAPI.clear_quota(weixinAuthCode.getComponentAccessToken(), WeChatContants.appId);
     	returnMap.put("baseResult", BaseResult);
 		return returnMap;
+    }
+    /**
+     * 获取预授权码列表页面展示
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping(value="/getAccessToken",method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView getAccessToken(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/access_token-list");
+    	PageObject<WeixinAuthCode>  pageObject=weixinAuthCodeService.Pagequery(map);
+    	mv.addObject("list", pageObject);
+		return mv;
+    }
+    /**
+     * 获取授权方列表
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping(value="/getLicensorList",method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView getLicensorList(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/licensor-list");
+    	PageObject<WeixinAuthorizationToken>  pageObject=weixinAuthorizationTokenService.Pagequery(map);
+    	mv.addObject("list", pageObject);
+		return mv;
+    }
+    /**
+     * 获取某一个授权方信息
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping(value="/getLicensorInfo",method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView getLicensorInfo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/licensor-list");
+    	
+    	weixinAuthorizationInfoService.selectSingle(map);
+    	
+		return mv;
+    	
     }
 }
