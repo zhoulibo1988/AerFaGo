@@ -130,12 +130,19 @@ public class SysUcenterFunctionServiceImpl implements SysUcenterFunctionService 
         sysUcenterFunctionMapper.insertByEntity(function);
     }
     /**
-     * 修改菜单
+     * 修改菜单id=75  fid=73  funName=授权方令牌管理  funCode=WEIXIN_SQ_01  funPath=/WeixinComponent/getLicensorList.do  funSort=2  funRemark=微信管理-授权方管理  
      */
     public void updMenu(Long userId, Map<String, Object> map) {
-        SysUcenterFunction function = null;
+        SysUcenterFunction function = new SysUcenterFunction();
         function.setUpdateUserBy(userId);
         function.setUpdateTime(new Date());
+        function.setFid(Long.valueOf(map.get("fid").toString()));
+        function.setFunName(map.get("funName").toString());
+        function.setFunCode(map.get("funCode").toString());
+        function.setFunPath( map.get("funPath").toString());
+        function.setFunSort(Integer.valueOf(map.get("funSort").toString()));
+        function.setFunRemark(map.get("funRemark").toString());
+        function.setId(Long.valueOf(map.get("id").toString()));
         sysUcenterFunctionMapper.updateByEntity(function);
     }
     /**

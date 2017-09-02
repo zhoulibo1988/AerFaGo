@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.ivan.entity.WeixinAuthCode;
 
+import com.ivan.dubbo.dao.BaseMapper;
+
 /**
  * @author cyl
  * @version 
  */
-public interface WeixinAuthCodeMapper{
-	public Integer getCount(Map<String,Object> map);
+public interface WeixinAuthCodeMapper extends BaseMapper<WeixinAuthCode>{
 	public void insertByEntity(WeixinAuthCode weixinAuthCode);
 	public void deleteByEntity(Map<String,Object> map);
 	public void updateByEntity(Map<String,Object> map);

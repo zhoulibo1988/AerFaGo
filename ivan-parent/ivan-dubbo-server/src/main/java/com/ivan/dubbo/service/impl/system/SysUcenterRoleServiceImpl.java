@@ -27,6 +27,9 @@ public class SysUcenterRoleServiceImpl implements SysUcenterRoleService {
         SysUcenterRole role =new SysUcenterRole();
         role.setCreateTime(new Date());
         role.setCreateUserBy(userId);
+        role.setAppId(Integer.valueOf(map.get("appId").toString()));
+        role.setRolCode(map.get("rolCode").toString());
+        role.setRolName(map.get("rolName").toString());
         sysUcenterRoleMapper.insertByEntity(role);
     }
 
@@ -112,7 +115,10 @@ public class SysUcenterRoleServiceImpl implements SysUcenterRoleService {
     @SuppressWarnings("unchecked")
 
     public PageObject<Map<String, Object>> pageQueryByObject_Map(Map<String, Object> map) {
-        // TODO Auto-generated method stub
+    	if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
+    		map.put("curPage", 1);
+    		map.put("pageData", 10);
+    	}
         int totalData = sysUcenterRoleMapper.getCount_Map(map);
         PageHelper pageHelper = new PageHelper(totalData, map);
         List<Map<String, Object>> list = sysUcenterRoleMapper.pageQueryByObject_Map(pageHelper.getMap());
