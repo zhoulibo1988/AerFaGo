@@ -12,7 +12,7 @@
 </head>
 <body>
 <div class="pd-20">
-	<form action="${basePath}/admin/addapp.do" method="post" class="form form-horizontal" id="form-app-add">
+	<form action="${basePath}/sysAdmin/addapp.do" method="post" class="form form-horizontal" id="form-app-add">
 		<div class="row cl">
 			<label class="form-label col-3"><span class="c-red">*</span>应用名称：</label>
 			<div class="formControls col-5">
@@ -73,7 +73,7 @@ $(function(){
 					icon : 1,
 					time : 1000
 				});
-				parent.location.replace("${basePath}/admin/goapplist.do");
+				parent.location.replace("${basePath}/sysAdmin/goapplist.do");
 				layer_close();
 			}else{
 				$("#form-app-add").resetForm();

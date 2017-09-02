@@ -21,7 +21,7 @@
 	</nav>
 	<div class="pd-20 text-c">
 		<div class="text-c">
-			<form action="${basePath}/admin/goapplist.do">
+			<form action="${basePath}/sysAdmin/goapplist.do">
 				<input type="text" name="appName" id="appName" placeholder="应用名称、id" style="width: 250px" class="input-text">
 				<button name="" id="" class="btn btn-success" type="submit">
 					<i class="Hui-iconfont">&#xe665;</i> 搜索
@@ -62,7 +62,7 @@
 							<td>${dl.createTime?string('yyyy-MM-dd')}</td>
 							<td class="td-manage">
 								<a title="添加菜单" href="javascript:;" onclick="add_menu('添加菜单','${basePath}/function/goaddmenu.do?appId=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6bf;</i></a>
-								<a title="编辑" href="javascript:;" onclick="app_edit('编辑应用','${basePath}/admin/goaddapp.do?id=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">&#xe6df;</i></a> 
+								<a title="编辑" href="javascript:;" onclick="app_edit('编辑应用','${basePath}/sysAdmin/goaddapp.do?id=${dl.id!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont edit-btn">&#xe6df;</i></a> 
 								<a title="删除" href="javascript:;" onclick="app_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn">&#xe6e2;</i></a></td>
 						</tr>
 					</#list>
@@ -92,7 +92,7 @@
 		 	    jump: function(obj,first){ //触发分页后的回调
 	// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
 		 	    	if(!first){
-		 	         	 window.location.href="${basePath}/admin/goapplist.do?curPage="+obj.curr +"&pageData="+10;
+		 	         	 window.location.href="${basePath}/sysAdmin/goapplist.do?curPage="+obj.curr +"&pageData="+10;
 		 	    	}
 		 	    }
 		 	});
@@ -118,7 +118,7 @@
 				var data = {};
 				data.id = id;
 				//后台请求保存数据
-				$.axse("${basePath}/admin/delapp.do",  data, function(d){
+				$.axse("${basePath}/sysAdmin/delapp.do",  data, function(d){
 					if(d.resultCode == 200){
 						$(obj).parents("tr").remove();
 						layer.msg('已删除!', {

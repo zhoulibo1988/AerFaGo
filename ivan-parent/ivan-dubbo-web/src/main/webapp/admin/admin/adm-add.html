@@ -67,7 +67,7 @@ $(function(){
 					icon : 1,
 					time : 1000
 				});
-				parent.location.replace("${basePath}/admin/goadminlist.do");
+				parent.location.replace("${basePath}/sysAdmin/goadminlist.do");
 				layer_close();
 			}else{
 				$("#form-adm-add").resetForm();
@@ -85,7 +85,7 @@ function btnSubmit(){
 	var password = hex_md5($("#admPassword").val());
 	$("#form-adm-add").attr(
 			"action",
-			"${basePath}/admin/addadm.do?admPassword="+password).submit(); 
+			"${basePath}/sysAdmin/addadm.do?admPassword="+password).submit(); 
 }
 </script>
 </body>
