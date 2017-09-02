@@ -4,7 +4,9 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans          
     http://www.springframework.org/schema/beans/spring-beans.xsd          
     http://code.alibabatech.com/schema/dubbo          
-    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">  
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+    <!-- 访问日志 -->
+    <dubbo:protocol accesslog="true" />
     <!-- 提供方应用信息，用于计算依赖关系 -->  
     <dubbo:application name="ivan-dubbo-server" />  
   
@@ -27,5 +29,5 @@
                 <value>classpath:log4j.properties</value>  
             </list>  
         </property>  
-    </bean> 
+    </bean>
 </beans>
