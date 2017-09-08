@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "../lib/lib.html" />
+<title>添加客服</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="${basePath}/CustomerService/kfaccountAdd.do" method="post" class="form form-horizontal" id="form-app-add">
+		<input type="hidden" value="${map.authorizer_appid!}" name="authorizer_appid"/>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>客服账号：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="kf_account" name="kf_account" datatype="*2-60" nullmsg="客服账号不能为空">格式为：账号前缀@公众号微信号，账号前缀最多10个字符，必须是英文或者数字字符
+			</div>
+			<div class="col-4"> </div>
+			
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>客服昵称：</label>
+			<div class="formControls col-5">
+				<input type="text" placeholder="" autocomplete="off" class="input-text" errormsg="客服昵称" datatype="*2-60"   id="nickname" name="nickname">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="submit" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript" src="${basePath}/public/js/jquery.myhtml5upload.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("#form-app-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/CustomerService/getInfoList.do");
+				layer_close();
+			}else{
+				$("#form-app-add").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	});
+});
+</script>
+</body>
+</html>

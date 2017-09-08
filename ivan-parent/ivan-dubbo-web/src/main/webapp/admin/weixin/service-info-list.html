@@ -10,12 +10,12 @@
 
 <#include "../lib/lib.html" />
 
-<title>微信管理</title>
+<title>微信客服管理</title>
 </head>
 <body>
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		微信管理 <span class="c-gray en">&gt;</span> 微信预授权管理 
+		微信客服管理 <span class="c-gray en">&gt;</span> 微信客服列表详情
 		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
 		<i class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
@@ -40,34 +40,28 @@
 				<thead>
 					<tr class="text-c">
 						<th width="10%"><!-- <input type="checkbox" name="" value=""> --></th>
-						<th width="10%">平台appid</th>
-						<th width="10%">授权方APPID</th>
-						<th width="10%">令牌</th>
-						<th width="10%">接口调用凭据刷新令牌</th>
-						<th width="10%">有效时间(秒)</th>
-						<th width="10%">授权时间</th>
+						<th width="10%">客服账号</th>
+						<th width="10%">客服头像</th>
+						<th width="10%">客服工号</th>
+						<th width="10%">客服昵称</th>
+						<th width="10%">客服微信号</th>
 						<th width="10%">操作</th>
 					</tr>
 				</thead>
 				<tbody>
-					<#if list.dataList?? && list.dataList?size gt 0>
-					<#list list.dataList as dl >
+					<#if kFAccount.kf_list?? && kFAccount.kf_list?size gt 0>
+					<#list kFAccount.kf_list as dl >
 						<tr class="text-c">
 							<td>${dl_index+1}</td>
-							<td>${dl.appId!}</td>
-							<td>${dl.authorizerAppid!}</td>
+							<td>${dl.kf_account!}</td>
 							<td>
-							<input type="text" size="35" value="${dl.authorizerAccessToken!}">	
+								<img src="${dl.kf_headimgurl!}" alt="" class="round" style="width: 80px;height: 80px;">
 							</td>
-							<td>
-								${dl.authorizerRefreshToken!}
-							</td>
-							<td>${dl.expiresIn!}</td>
-							<td>${dl.time?string('yyyy-MM-dd HH:mm:ss')}</td>
+							<td>${dl.kf_id!}</td>
+							<td>${dl.kf_nick!}</td>
+							<td>${dl.kf_wx!}</td>
 							<td class="td-manage">
-								<a title="刷新授权令牌" href="javascript:;" onclick="app_del(this,'${dl.authorizerAppid!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6c4;</i></a>
-								<a title="刷新授权方信息" href="javascript:;" onclick="app_info(this,'${dl.authorizerAppid!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe60d;</i></a>
-								<a title="授权方信息" href="javascript:;" onclick="app_getInfo('授权方信息','${basePath}/WeixinComponent/getLicensorInfo.do?authorizerAppid=${dl.authorizerAppid!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe695;</i></a>
+								<a title="获取客服列表" href="javascript:;" onclick="app_getList('获取客服列表','${basePath}/CustomerService/getkflistByAll.do?authorizer_appid=${dl.authorizerAppid!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe667;</i></a>
 							</td>
 						</tr>
 					</#list>
@@ -75,40 +69,15 @@
 				</tbody>
 			</table>
 			</br>
-			<#if list.dataList?? && list.dataList?size gt 0>
-				<div class="page_list"></div>
-			</#if>
 		</div>
 	</div>
 	<script type="text/javascript">
-	
-		$(function(){
-		 	laypage({
-		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
-			    pages: ${list.endPage! }, //总页数
-		 	    //skip: true, //是否开启跳页
-	// 	    	skin: 'molv',
-		 	    groups: 10, //连续显示分页数
-		 	    first: '首页', //若不显示，设置false即可
-		 	    last: '尾页', //若不显示，设置false即可
-		 	    curr:${list.curPage!},
-		 	   	hash: true, //开启hash
-		 	    skin: '#00AA91',
-		 	    jump: function(obj,first){ //触发分页后的回调
-	// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
-		 	    	if(!first){
-		 	         	 window.location.href="${basePath}/admin/goapplist.do?curPage="+obj.curr +"&pageData="+10;
-		 	    	}
-		 	    }
-		 	});
-		 			
-		});
 		/*系统-应用-添加*/
-		function app_add(title, url, w, h) {
+		function add_service(title, url, w, h) {
 			layer_show(title, url, w, h);
 		}
 		/*系统-应用-编辑*/
-		function app_getInfo(title, url, id, w, h) {
+		function app_getList(title, url, id, w, h) {
 			layer_show(title, url, w, h);
 		}
 		

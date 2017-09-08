@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "../lib/lib.html" />
+<title>授权方资料</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="${basePath}/sysAdmin/updapp.do" method="post" class="form form-horizontal" id="form-app-edit">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>授权方昵称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.nickName!}" placeholder="" id="nickName" name="nickName" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>授权方图像：</label>
+			<div class="formControls col-5">
+				<img src="${weixinAuthorizationInfo.headImg!}" alt="" class="round" style="width: 140px;height: 140px;"> 
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-3">公众号类型：</label>
+			<div class="formControls col-5">
+				<#if weixinAuthorizationInfo.serviceTypeInfo==0>
+					订阅号
+				<#elseif weixinAuthorizationInfo.serviceTypeInfo==1>
+					升级后的订阅号
+				<#elseif weixinAuthorizationInfo.serviceTypeInfo==2>
+					服务号
+				</#if>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">授权方认证类型：</label>
+			<div class="formControls col-5"><#if
+					weixinAuthorizationInfo.verifyTypeInfo==-1> 未认证 <#elseif
+					weixinAuthorizationInfo.verifyTypeInfo==0> 微信认证 <#elseif
+					weixinAuthorizationInfo.verifyTypeInfo==1> 新浪微博认证 <#elseif
+					weixinAuthorizationInfo.verifyTypeInfo==2> 腾讯微博认证 <#elseif
+					weixinAuthorizationInfo.verifyTypeInfo==3> 已资质认证通过但还未通过名称认证
+					<#elseif weixinAuthorizationInfo.verifyTypeInfo==4>
+					资质认证通过、还未通过名称认证，但通过了新浪微博认证 <#elseif
+					weixinAuthorizationInfo.verifyTypeInfo==5>
+					资质认证通过、还未通过名称认证，但通过了腾讯微博认证 </#if></div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>授权方公众号的原始ID：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.userName!}" placeholder="" id="userName" name="userName" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>公众号的主体名称：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.principalName!}" placeholder="" id="principalName" name="principalName" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>授权方公众号所设置的微信号：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.alias!}" placeholder="" id="alias" name="alias" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>二维码图片的UR：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.qrcodeUrl!}" placeholder="" id="qrcodeUrl" name="qrcodeUrl" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>授权方appid：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="${weixinAuthorizationInfo.authorizerAppid!}" placeholder="" id="authorizerAppid" name="authorizerAppid" datatype="*2-60" nullmsg="">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">公众号授权给开发者的权限集列表：</label>
+			<div class="formControls col-5">
+				${qMap.id1!}</br>
+				${qMap.id2!}</br>
+				${qMap.id3!}</br>
+				${qMap.id4!}</br>
+				${qMap.id5!}</br>
+				${qMap.id6!}</br>
+				${qMap.id7!}</br>
+				${qMap.id8!}</br>
+				${qMap.id9!}</br>
+				${qMap.id10!}</br>
+				${qMap.id11!}</br>
+				${qMap.id12!}</br>
+				${qMap.id13!}</br>
+				${qMap.id14!}</br>
+				${qMap.id15!}</br>
+				${qMap.id16!}</br>
+				${qMap.id22!}</br>
+				${qMap.id23!}</br>
+				${qMap.id26!}</br>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">授权方开通状况：</label>
+			<div class="formControls col-5">
+				是否开通微信门店功能:
+				<#if weixinBusinessInfo.openStore==0>
+					NO
+				<#else>
+					YES	
+				</#if></br>	
+				是否开通微信扫商品功能:
+				<#if weixinBusinessInfo.openScan==0>
+					NO
+				<#else>
+					YES	
+				</#if></br>
+				是否开通微信支付功能:
+				<#if weixinBusinessInfo.openPay==0>
+					NO
+				<#else>
+					YES	
+				</#if></br>
+				是否开通微信卡券功能:
+				<#if weixinBusinessInfo.openCard==0>
+					NO
+				<#else>
+					YES	
+				</#if></br>	
+				是否开通微信摇一摇功能:
+				<#if weixinBusinessInfo.openShake==0>
+					NO
+				<#else>
+					YES	
+				</#if></br>			
+			 </div>
+		</div>
+	</form>
+</div>
+</body>
+<script type="text/javascript">
+
+</script>
+</html>
