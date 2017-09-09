@@ -10,6 +10,7 @@
 <#include "../lib/lib.html" />
 <title>授权方资料</title>
 </head>
+<meta name="referrer" content="never">
 <body>
 <div class="pd-20">
 	<form action="${basePath}/sysAdmin/updapp.do" method="post" class="form form-horizontal" id="form-app-edit">
@@ -75,9 +76,9 @@
 			<div class="col-4"> </div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-3"><span class="c-red">*</span>二维码图片的UR：</label>
+			<label class="form-label col-3"><span class="c-red">*</span>二维码：</label>
 			<div class="formControls col-5">
-				<input type="text" class="input-text" value="${weixinAuthorizationInfo.qrcodeUrl!}" placeholder="" id="qrcodeUrl" name="qrcodeUrl" datatype="*2-60" nullmsg="">
+				<img src="${weixinAuthorizationInfo.qrcodeUrl!}" alt="" class="radius" style="width: 140px;height: 140px;"> 
 			</div>
 			<div class="col-4"> </div>
 		</div>

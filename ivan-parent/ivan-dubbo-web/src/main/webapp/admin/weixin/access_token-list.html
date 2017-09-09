@@ -52,10 +52,12 @@
 					<#list list.dataList as dl >
 						<tr class="text-c">
 							<td>${dl_index+1}</td>
-							<td>${dl.authCode!}</td>
+							<td>
+								<textarea style="width:300px;height:50px;">${dl.authCode!}</textarea>
+							</td>
 							<td>${dl.appId!}</td>
 							<td>
-								<input type="text" style="width: 200px" value="${dl.componentAccessToken!}"></input>
+								<textarea style="width:300px;height:50px;">${dl.componentAccessToken!}</textarea>
 							</td>
 							<td>${dl.time?string('yyyy-MM-dd HH:mm:ss')}</td>
 							<td class="td-manage">
