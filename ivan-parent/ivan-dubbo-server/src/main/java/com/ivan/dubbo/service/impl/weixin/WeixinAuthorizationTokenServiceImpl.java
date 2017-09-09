@@ -57,5 +57,11 @@ public class WeixinAuthorizationTokenServiceImpl implements WeixinAuthorizationT
 		pageObject.setDataList(list);
 		return pageObject;
 	}
+	/**
+	 * 获取数据List集合
+	 */
+	public List<WeixinAuthorizationToken> getList(Map<String, Object> map) {
+		return weixinAuthorizationTokenMapper.selectByObject(map);
+	}
  
 }

@@ -7,17 +7,22 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
+import org.ivan.entity.WeixinAuthorizationInfo;
 import org.ivan.entity.WeixinAuthorizationToken;
+import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.utils.ParameterEunm;
+import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.web.servlet.ModelAndView;
 
 import weixin.popular.api.CustomserviceAPI;
 import weixin.popular.bean.BaseResult;
@@ -27,6 +32,8 @@ import weixin.popular.bean.customservice.KFMsgRecord;
 import weixin.popular.bean.customservice.KFOnline;
 import weixin.popular.bean.customservice.KFSession;
 import weixin.popular.bean.customservice.KFWaitcase;
+
+import com.alibaba.dubbo.config.annotation.Reference;
 
 /**
  * 新版客服功能管理
@@ -40,7 +47,22 @@ public class WXCustomerServiceController {
 	private static final Logger logger = LoggerFactory.getLogger(WXCustomerServiceController.class);
 	@Reference
 	private WeixinAuthorizationTokenService weixinAuthorizationTokenService;
-
+	@Reference
+	private WeixinAuthorizationInfoService weixinAuthorizationInfoService;
+	 /**
+     * 获取授权方列表
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping(value="/getInfoList",method={RequestMethod.GET,RequestMethod.POST})
+    public ModelAndView getLicensorList(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/service-list");
+    	PageObject<WeixinAuthorizationInfo>  pageObject=weixinAuthorizationInfoService.Pagequery(map);
+    	mv.addObject("list", pageObject);
+		return mv;
+    }
 	// /////////////////////////////////消息管理-客服消息////////////////////////////////////////
 	// 微信客服说明文档地址：https://mp.weixin.qq.com/cgi-bin/announce?action=getannouncement&key=1464266075&version=12&lang=zh_CN
 	/**
@@ -66,6 +88,7 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		BaseResult baseResult = CustomserviceAPI.newkfaccountAdd(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account, nickname);
 		returnMap.put("baseResult", baseResult);
+		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, returnMap);
 		return returnMap;
 	}
 
@@ -93,6 +116,7 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		BaseResult baseResult = CustomserviceAPI.bindingWeChat(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account, invite_wx);
 		returnMap.put("baseResult", baseResult);
+		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, returnMap);
 		return returnMap;
 	}
 
@@ -104,10 +128,9 @@ public class WXCustomerServiceController {
 	 * @param map
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/getkflistByAll")
-	public Map<String, Object> getkflistByAll(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
-		Map<String, Object> returnMap = new HashMap<String, Object>();
+	public ModelAndView getkflistByAll(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		ModelAndView mv=new ModelAndView("weixin/service-info-list");
 		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
 		// 获取授权方的access_token
 		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
@@ -115,8 +138,9 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		KFAccount kFAccount = CustomserviceAPI.getkflist(weixinAuthorizationToken.getAuthorizerAccessToken());
-		returnMap.put("kFAccount", kFAccount);
-		return returnMap;
+		mv.addObject("kFAccount", kFAccount);
+		mv.addObject("map", map);
+		return mv;
 	}
 
 	/**
@@ -127,10 +151,9 @@ public class WXCustomerServiceController {
 	 * @param map
 	 * @return
 	 */
-	@ResponseBody
 	@RequestMapping("/getOnlinekflist")
-	public Map<String, Object> getOnlinekflist(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
-		Map<String, Object> returnMap = new HashMap<String, Object>();
+	public ModelAndView getOnlinekflist(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		ModelAndView mv=new ModelAndView("weixin/service-On-line-list");
 		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
 		// 获取授权方的access_token
 		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
@@ -138,8 +161,8 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		KFOnline kFOnline = CustomserviceAPI.getOnlinekflist(weixinAuthorizationToken.getAuthorizerAccessToken());
-		returnMap.put("kFOnline", kFOnline);
-		return returnMap;
+		mv.addObject("kFOnline", kFOnline);
+		return mv;
 	}
 
 	/**
@@ -164,6 +187,7 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		BaseResult baseResult = CustomserviceAPI.newkfaccountUpdate(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account, nickname);
 		returnMap.put("baseResult", baseResult);
+		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, returnMap);
 		return returnMap;
 	}
 
@@ -181,8 +205,8 @@ public class WXCustomerServiceController {
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		String authorizer_appid = String.valueOf(map.get("authorizer_appid"));
 		String kf_account = String.valueOf(map.get("kf_account"));
-		// File file=new File("‪d:/AAAAA.jpg");
-		File file = new File("d:/QQ图片20170629173126.jpg");
+		String filePath= String.valueOf(map.get("filePath"));
+		File file = new File(filePath);
 		// 获取授权方的access_token
 		WeixinAuthorizationToken weixinAuthorizationToken = new WeixinAuthorizationToken();
 		weixinAuthorizationToken.setAppId(WeChatContants.appId);
@@ -190,6 +214,7 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		BaseResult baseResult = CustomserviceAPI.kfaccountUploadHeadimg(weixinAuthorizationToken.getAuthorizerAccessToken(), kf_account, file);
 		returnMap.put("baseResult", baseResult);
+		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, returnMap);
 		return returnMap;
 	}
 
@@ -353,5 +378,69 @@ public class WXCustomerServiceController {
 		KFWaitcase kFWaitcase =CustomserviceAPI.kfsessionGetwaitcase(weixinAuthorizationToken.getAuthorizerAccessToken());
 		returnMap.put("kFWaitcase", kFWaitcase);
 		return returnMap;
+	}
+	/**
+	 * 微信客服系统登录
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping("/serviceLogin")
+	public ModelAndView serviceLogin(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map) {
+		return new ModelAndView("redirect:https://mpkf.weixin.qq.com");
+	}
+	/**
+	 * 跳转添加客服页面
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="/addServiceTo",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addServiceTo(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		ModelAndView mv=new ModelAndView("weixin/add-service");
+		mv.addObject("map",map);
+		return mv;
+	}
+	
+	/**
+	 * 跳转绑定微信页面
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="/addWeiXinTo",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView addWeiXinTo(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		ModelAndView mv=new ModelAndView("weixin/add-weixin");
+		mv.addObject("map",map);
+		return mv;
+	}
+	/**
+	 * 跳转绑定微信页面
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="/updateNikeNameTo",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView updateNikeNameTo(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		ModelAndView mv=new ModelAndView("weixin/update-service-nickname");
+		mv.addObject("map",map);
+		return mv;
+	}
+	/**
+	 * 跳转绑定微信页面
+	 * @param response
+	 * @param request
+	 * @param map
+	 * @return
+	 */
+	@RequestMapping(value="/uploadNameImgTo",method={RequestMethod.GET,RequestMethod.POST})
+	public ModelAndView uploadNameImgTo(HttpServletResponse response, HttpServletRequest request, @RequestParam Map<String, Object> map){
+		ModelAndView mv=new ModelAndView("weixin/upload-service-img");
+		mv.addObject("map",map);
+		return mv;
 	}
 }

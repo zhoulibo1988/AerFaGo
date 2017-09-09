@@ -12,6 +12,7 @@
 
 <title>微信客服管理</title>
 </head>
+<meta name="referrer" content="never">
 <body>
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
@@ -20,21 +21,6 @@
 		<i class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="pd-20 text-c">
-		<!-- <div class="text-c">
-			<form action="${basePath}/admin/goapplist.do">
-				<input type="text" name="appName" id="appName" placeholder="应用名称、id" style="width: 250px" class="input-text">
-				<button name="" id="" class="btn btn-success" type="submit">
-					<i class="Hui-iconfont">&#xe665;</i> 搜索
-				</button>
-			</form>
-		</div> -->
-		<!-- <div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l">
-				
-				<a class="btn btn-primary radius" onclick="app_add('添加应用','${basePath}/admin/goaddapp.do')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加应用</a></span> <span class="r">
-				
-			</span>
-		</div> -->
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
@@ -60,8 +46,19 @@
 							<td>${dl.kf_id!}</td>
 							<td>${dl.kf_nick!}</td>
 							<td>${dl.kf_wx!}</td>
+							
 							<td class="td-manage">
-								<a title="获取客服列表" href="javascript:;" onclick="app_getList('获取客服列表','${basePath}/CustomerService/getkflistByAll.do?authorizer_appid=${dl.authorizerAppid!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe667;</i></a>
+								<#if dl.kf_wx??>
+									已邀请
+								<#else>
+									<a title="绑定微信" href="javascript:;" onclick="add_weixin_info('绑定微信','${basePath}/CustomerService/addWeiXinTo.do?authorizer_appid=${map.authorizer_appid!}&kf_account=${dl.kf_account!}','1','600','400')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6ce;</i></a>
+								</#if>
+								<!-- 修改昵称 -->
+								<a title="修改昵称" href="javascript:;" onclick="updateNikeName('修改昵称','${basePath}/CustomerService/updateNikeNameTo.do?authorizer_appid=${map.authorizer_appid!}&kf_account=${dl.kf_account!}','1','600','400')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe60c;</i></a>
+								<!-- 上传图像 -->
+								<a title="上传图像" href="javascript:;" onclick="uploadNameImg('上传图像','${basePath}/CustomerService/uploadNameImgTo.do?authorizer_appid=${map.authorizer_appid!}&kf_account=${dl.kf_account!}','1','600','400')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe642;</i></a>
+								<!-- 删除客服人员 -->
+								<a title="删除客服人员" href="javascript:;" onclick="service_del(this,'${map.authorizer_appid!}','${dl.kf_account!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe609;</i></a>
 							</td>
 						</tr>
 					</#list>
@@ -72,49 +69,26 @@
 		</div>
 	</div>
 	<script type="text/javascript">
-		/*系统-应用-添加*/
-		function add_service(title, url, w, h) {
+		/*绑定微信邀请*/
+		function add_weixin_info(title, url, id, w, h) {
 			layer_show(title, url, w, h);
 		}
-		/*系统-应用-编辑*/
-		function app_getList(title, url, id, w, h) {
+		/*修改客服昵称*/
+		function updateNikeName(title, url, id, w, h) {
 			layer_show(title, url, w, h);
 		}
-		
-		/*添加菜单*/
-		function to_grant_authorization(title, url, id, w, h) {
+		/*修改客服昵称*/
+		function uploadNameImg(title, url, id, w, h) {
 			layer_show(title, url, w, h);
 		}
-		
-		/*刷新授权令牌*/
-		function app_del(obj, authorizerAppid) {
-			layer.confirm('确认要刷新授权令牌吗？', function(index) {
+		/*删除客服*/
+		function service_del(obj, authorizerAppid,kf_account) {
+			layer.confirm('确认要删除吗？', function(index) {
 				var data = {};
 				data.authorizer_appid = authorizerAppid;
+				data.kf_account=kf_account;
 				//后台请求保存数据
-				$.axse("${basePath}/WeixinComponent/getApiAuthorizerToken.do",  data, function(d){
-					if(d.resultCode == 200){
-						layer.msg('已刷新!', {
-							icon : 1,
-							time : 1000
-						});
-						
-					}else{
-						Huimodal_alert("刷新授权失败,请重试!",1500);
-					}
-				},
-				function(d){
-					Huimodal_alert("刷新授权失败,请重试!",1500);
-				});
-			});
-		}
-		/*刷新授权方信息*/
-		function app_info(obj, authorizerAppid) {
-			layer.confirm('确认要刷新吗？', function(index) {
-				var data = {};
-				data.authorizer_appid = authorizerAppid;
-				//后台请求保存数据
-				$.axse("${basePath}/WeixinComponent/getAuthorizerInfo.do",  data, function(d){
+				$.axse("${basePath}/CustomerService/kfaccountDel.do",  data, function(d){
 					if(d.resultCode == 200){
 						layer.msg('已刷新!', {
 							icon : 1,

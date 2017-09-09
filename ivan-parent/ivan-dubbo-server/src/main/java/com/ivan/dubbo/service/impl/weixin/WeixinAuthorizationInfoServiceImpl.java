@@ -1,9 +1,12 @@
 package com.ivan.dubbo.service.impl.weixin;
 
+import java.util.List;
 import java.util.Map;
 
 import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.entity.WeixinAuthorizationInfo;
+import org.ivan.entity.utils.PageHelper;
+import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -38,6 +41,24 @@ public class WeixinAuthorizationInfoServiceImpl implements WeixinAuthorizationIn
 
 	public void insert(WeixinAuthorizationInfo WeixinAuthorizationInfo) {
 		weixinAuthorizationInfoMapper.insertByEntity(WeixinAuthorizationInfo);
+	}
+
+	public List<WeixinAuthorizationInfo> getListByMap(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return weixinAuthorizationInfoMapper.selectByObject(map);
+	}
+
+	public PageObject<WeixinAuthorizationInfo> Pagequery(Map<String, Object> map) {
+		if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
+    		map.put("curPage", 1);
+    		map.put("pageData", 10);
+    	}
+    	int totalData=	weixinAuthorizationInfoMapper.getCount(map);
+    	PageHelper pageHelper = new PageHelper(totalData, map);
+		List<WeixinAuthorizationInfo> list = weixinAuthorizationInfoMapper.pageQueryByObject(pageHelper.getMap());
+		PageObject<WeixinAuthorizationInfo> pageObject = pageHelper.getPageObject();
+		pageObject.setDataList(list);
+		return pageObject;
 	}
     
  

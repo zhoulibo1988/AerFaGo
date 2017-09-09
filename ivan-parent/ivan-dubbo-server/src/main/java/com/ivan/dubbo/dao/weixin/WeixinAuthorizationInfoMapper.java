@@ -5,12 +5,13 @@ import java.util.Map;
 
 import org.ivan.entity.WeixinAuthorizationInfo;
 
+import com.ivan.dubbo.dao.BaseMapper;
+
 /**
  * @author cyl
  * @version 
  */
-public interface WeixinAuthorizationInfoMapper{
-	public Integer getCount(Map<String,Object> map);
+public interface WeixinAuthorizationInfoMapper extends BaseMapper<WeixinAuthorizationInfo>{
 	public void insertByEntity(WeixinAuthorizationInfo WeixinAuthorizationInfo);
 	public void deleteByEntity(Map<String,Object> map);
 	public void updateByEntity(Map<String,Object> map);

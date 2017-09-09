@@ -8,11 +8,53 @@
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <!-- <LINK rel="Bookmark" href="/favicon.ico" > -->
 <!-- <LINK rel="Shortcut Icon" href="/favicon.ico" /> -->
-
+<script type="text/javascript">
+//定义函数：构建要显示的时间日期字符串
+function showTime()
+{
+ //创建Date对象
+ var today = new Date();
+ //分别取出年、月、日、时、分、秒
+ var year = today.getFullYear();
+ var month = today.getMonth()+1;
+ var day = today.getDate();
+ var hours = today.getHours();
+ var minutes = today.getMinutes();
+ var seconds = today.getSeconds();
+ //如果是单个数，则前面补0
+ month  = month<10  ? "0"+month : month;
+ day  = day <10  ? "0"+day : day;
+ hours  = hours<10  ? "0"+hours : hours;
+ minutes = minutes<10 ? "0"+minutes : minutes;
+ seconds = seconds<10 ? "0"+seconds : seconds;
+ 
+ //构建要输出的字符串
+ var str = year+"年"+month+"月"+day+"日 "+hours+":"+minutes+":"+seconds;
+ 
+ //获取id=result的对象
+ var obj = document.getElementById("result");
+ //将str的内容写入到id=result的<div>中去
+ obj.innerHTML = str;
+ //延时器
+ window.setTimeout("showTime()",1000);
+}
+</script>
+<style type="text/css">
+#result{
+ /* width:500px; */
+ border:0px solid #CCCCCC;
+ /* background:#FFFFCC; */
+ /* margin:50px auto; */
+ font-size:24px;
+ color:#f8f8f8;
+ /* padding:20px; */
+ left:-50px;
+}
+</style>
 <#include "../lib/lib.html" />
 <title>企业后台管理系统</title>
 </head>
-<body>
+<body onload="showTime()">
 
 <#include "top.html" />
 <aside class="Hui-aside">

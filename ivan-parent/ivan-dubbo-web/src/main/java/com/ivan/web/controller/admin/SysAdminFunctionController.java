@@ -52,7 +52,7 @@ public class SysAdminFunctionController extends BaseManagerController<SysUcenter
         List<SysUcenterApps> apps = sysUcenterAppsService.findAppsAll();
         view.addObject("funList", list);
         view.addObject("apps", apps);
-        view.addObject("appId",0);
+        view.addObject("appIds",0);
         view.addAllObjects(map);
         return view;
     }

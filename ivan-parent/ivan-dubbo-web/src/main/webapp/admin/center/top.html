@@ -1,9 +1,9 @@
 <header class="Hui-header cl">
-  
 	<a class="Hui-logo l" title="阿尔法科技有限公司管理系统" >阿尔法科技有限公司管理系统</a> <a class="Hui-logo-m l" href="${basePath}" title="H-ui.admin">H-ui</a> <span
 		class="Hui-subtitle l"></span>
 	<ul class="Hui-userbar">
-		<li>${admin.admDisplayName!}</li>
+		<li id="result"></li>
+		<li>管理员:${admin.admDisplayName!}</li>
 		<li class="dropDown dropDown_hover"><a href="#" class="dropDown_A">${admin.admName!} <i class="Hui-iconfont">&#xe6d5;</i></a>
 			<ul class="dropDown-menu radius box-shadow">
 				<li><a href="#" onclick="window.location.href='${basePath}/sysAdmin/logout.do'">切换账户</a></li>

@@ -492,7 +492,7 @@ public class WXComponentController {
      * @param map(authorizer_appid:授权方APPID;option_name 选项名称<br>
 	 * 	 					location_report (地理位置上报选项) 	0	无上报  			1	进入会话时上报  2	每5s上报<br>
 	 *  					voice_recognize（语音识别开关选项）	0	关闭语音识别		1	开启语音识别<br>
-	 *  					customer_service（多客服开关选项）	0	关闭多客服		1	开启多客服<br>
+	 *  					customer_service（多客服开关选项）	0	关闭多客服			1	开启多客服<br>
 	 * ;option_value 设置的选项值
      * @return
      */
@@ -567,11 +567,84 @@ public class WXComponentController {
      */
     @RequestMapping(value="/getLicensorInfo",method={RequestMethod.GET,RequestMethod.POST})
     public ModelAndView getLicensorInfo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
-    	ModelAndView mv=new ModelAndView("weixin/licensor-list");
-    	
-    	weixinAuthorizationInfoService.selectSingle(map);
-    	
-		return mv;
+    	ModelAndView mv=new ModelAndView("weixin/licensor-info");
+    	WeixinAuthorizationInfo weixinAuthorizationInfo=weixinAuthorizationInfoService.selectSingle(map);
+    	if(weixinAuthorizationInfo!=null){
+    		//获取授权方开通功能情况
+    		WeixinBusinessInfo WeixinBusinessInfo=new WeixinBusinessInfo();
+    		WeixinBusinessInfo.setAuthorizerAppid(weixinAuthorizationInfo.getAuthorizerAppid());
+    		WeixinBusinessInfo=weixinBusinessInfoService.selectSingle(WeixinBusinessInfo);
+    		//获取：公众号授权给开发者的权限集列表
+    		String info=weixinAuthorizationInfo.getFuncInfo();
+    		Map<String,Object> qMap=new HashMap<String, Object>();
+			if (info != null) {
+				String getinfo[] = info.split("-");
+				for (int i = 0; i < getinfo.length; i++) {
+					int qID = Integer.valueOf(getinfo[i]);
+					if (qID == 1) {
+						qMap.put("id1", "消息管理权限");
+					}
+					if (qID == 2) {
+						qMap.put("id2", "用户管理权限");
+					}
+					if (qID == 3) {
+						qMap.put("id3", "帐号服务权限");
+					}
+					if (qID == 4) {
+						qMap.put("id4", "网页服务权限");
+					}
+					if (qID == 5) {
+						qMap.put("id5", "微信小店权限");
+					}
+					if (qID == 6) {
+						qMap.put("id6", "微信小店权限");
+					}
+					if (qID == 7) {
+						qMap.put("id7", "微信多客服权限");
+					}
+					if (qID == 8) {
+						qMap.put("id8", "群发与通知权限");
+					}
+					if (qID == 9) {
+						qMap.put("id9", "微信卡券权限");
+					}
+					if (qID == 10) {
+						qMap.put("id10", "微信扫一扫权限");
+					}
+					if (qID == 11) {
+						qMap.put("id11", "微信连WIFI权限");
+					}
+					if (qID == 12) {
+						qMap.put("id12", "素材管理权限");
+					}
+					if (qID == 13) {
+						qMap.put("id13", "微信摇周边权限");
+					}
+					if (qID == 14) {
+						qMap.put("id14", "微信门店权限");
+					}
+					if (qID == 15) {
+						qMap.put("id15", "微信支付权限");
+					}
+					if (qID == 16) {
+						qMap.put("id16", "自定义菜单权限");
+					}
+					if (qID == 22) {
+						qMap.put("id22", "城市服务接口权限");
+					}
+					if (qID == 23) {
+						qMap.put("id23", "广告管理权限");
+					}
+					if (qID == 26) {
+						qMap.put("id26", "微信电子发票权限");
+					}
+				}
+			}
+    		mv.addObject("weixinBusinessInfo", WeixinBusinessInfo);
+    		mv.addObject("weixinAuthorizationInfo", weixinAuthorizationInfo);
+    		mv.addObject("qMap", qMap);
+    	}
+    	return mv;
     	
     }
 }

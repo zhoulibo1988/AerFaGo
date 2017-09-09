@@ -24,7 +24,7 @@
 			<select class="select" name="appId" id="appId" >
 				<#if apps?? && apps?size gt 0 >
 					<#list apps as al >
-						<#if appId==al.id>
+						<#if appIds==al.id>
 							<option value="${al.id!}"selected="selected">${al.appName!}</option>
 						<#else>
 							<option value="${al.id!}">${al.appName!}</option>
