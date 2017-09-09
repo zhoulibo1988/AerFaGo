@@ -162,6 +162,7 @@ public class WXCustomerServiceController {
 		weixinAuthorizationToken = weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
 		KFOnline kFOnline = CustomserviceAPI.getOnlinekflist(weixinAuthorizationToken.getAuthorizerAccessToken());
 		mv.addObject("kFOnline", kFOnline);
+		mv.addObject("map", map);
 		return mv;
 	}
 

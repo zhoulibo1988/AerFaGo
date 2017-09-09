@@ -15,26 +15,11 @@
 <body>
 	<nav class="breadcrumb">
 		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
-		微信客服管理 <span class="c-gray en">&gt;</span> 微信客服列表详情
+		微信客服管理 <span class="c-gray en">&gt;</span> 微信客服在线列表详情
 		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
 		<i class="Hui-iconfont">&#xe68f;</i></a>
 	</nav>
 	<div class="pd-20 text-c">
-		<!-- <div class="text-c">
-			<form action="${basePath}/admin/goapplist.do">
-				<input type="text" name="appName" id="appName" placeholder="应用名称、id" style="width: 250px" class="input-text">
-				<button name="" id="" class="btn btn-success" type="submit">
-					<i class="Hui-iconfont">&#xe665;</i> 搜索
-				</button>
-			</form>
-		</div> -->
-		<!-- <div class="cl pd-5 bg-1 bk-gray mt-20">
-			<span class="l">
-				
-				<a class="btn btn-primary radius" onclick="app_add('添加应用','${basePath}/admin/goaddapp.do')" href="javascript:;"><i class="Hui-iconfont">&#xe600;</i> 添加应用</a></span> <span class="r">
-				
-			</span>
-		</div> -->
 		<div class="mt-20">
 			<table class="table table-border table-bordered table-hover table-bg table-sort">
 				<thead>
@@ -45,7 +30,6 @@
 						<th width="10%">客服工号</th>
 						<th width="10%">最大自动接入数</th>
 						<th width="10%">正在接待的会话数</th>
-						<th width="10%">操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -55,24 +39,19 @@
 							<td>${dl_index+1}</td>
 							<td>${dl.kf_account!}</td>
 							<td>
-								<#if dl.status==1>
+								<#if dl.status=='1'>
 									PC在线
 								</#if>
-								<#if dl.status==2>
+								<#if dl.status=='2'>
 									手机在线
 								</#if>
-								<#if dl.status==3>
+								<#if dl.status=='3'>
 									手机PC同时在线
 								</#if>
 							</td>
 							<td>${dl.kf_id!}</td>
 							<td>${dl.auto_accept!}</td>
 							<td>${dl.accepted_case!}</td>
-							<td class="td-manage">
-								<a title="获取客服列表" href="javascript:;" onclick="app_getList('获取客服列表','${basePath}/CustomerService/getkflistByAll.do?authorizer_appid=${dl.authorizerAppid!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe667;</i></a>
-								<a title="刷新授权方信息" href="javascript:;" onclick="app_info(this,'${dl.authorizerAppid!}')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe60d;</i></a>
-								<a title="授权方信息" href="javascript:;" onclick="app_getInfo('授权方信息','${basePath}/WeixinComponent/getLicensorInfo.do?authorizerAppid=${dl.authorizerAppid!}','1','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe695;</i></a>
-							</td>
 						</tr>
 					</#list>
 					</#if>
@@ -81,65 +60,5 @@
 			</br>
 		</div>
 	</div>
-	<script type="text/javascript">
-		/*系统-应用-添加*/
-		function app_add(title, url, w, h) {
-			layer_show(title, url, w, h);
-		}
-		/*系统-应用-编辑*/
-		function app_getList(title, url, id, w, h) {
-			layer_show(title, url, w, h);
-		}
-		
-		/*添加菜单*/
-		function to_grant_authorization(title, url, id, w, h) {
-			layer_show(title, url, w, h);
-		}
-		
-		/*刷新授权令牌*/
-		function app_del(obj, authorizerAppid) {
-			layer.confirm('确认要刷新授权令牌吗？', function(index) {
-				var data = {};
-				data.authorizer_appid = authorizerAppid;
-				//后台请求保存数据
-				$.axse("${basePath}/WeixinComponent/getApiAuthorizerToken.do",  data, function(d){
-					if(d.resultCode == 200){
-						layer.msg('已刷新!', {
-							icon : 1,
-							time : 1000
-						});
-						
-					}else{
-						Huimodal_alert("刷新授权失败,请重试!",1500);
-					}
-				},
-				function(d){
-					Huimodal_alert("刷新授权失败,请重试!",1500);
-				});
-			});
-		}
-		/*刷新授权方信息*/
-		function app_info(obj, authorizerAppid) {
-			layer.confirm('确认要刷新吗？', function(index) {
-				var data = {};
-				data.authorizer_appid = authorizerAppid;
-				//后台请求保存数据
-				$.axse("${basePath}/WeixinComponent/getAuthorizerInfo.do",  data, function(d){
-					if(d.resultCode == 200){
-						layer.msg('已刷新!', {
-							icon : 1,
-							time : 1000
-						});
-						
-					}else{
-						Huimodal_alert("刷新授权失败,请重试!",1500);
-					}
-				},
-				function(d){
-					Huimodal_alert("刷新授权失败,请重试!",1500);
-				});
-			});
-		}
-	</script>
 </body>
 </html>
