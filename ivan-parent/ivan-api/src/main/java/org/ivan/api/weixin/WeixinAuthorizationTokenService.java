@@ -11,7 +11,11 @@ import org.ivan.entity.utils.PageObject;
  * @version 
  */
 public interface WeixinAuthorizationTokenService{
-public void insert(WeixinAuthorizationToken weixinAuthorizationToken);
+	/**
+	 * 添加
+	 * @param weixinAuthorizationToken
+	 */
+	public void insert(WeixinAuthorizationToken weixinAuthorizationToken);
 	/**
 	 * 根据map获取对象
 	 * @param map
