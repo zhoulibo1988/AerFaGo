@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.weixin.WeixinOneMenuMapper">
+
+	<resultMap id="weixinonemenu_result_map" type="org.ivan.entity.WeixinOneMenu" >
+		<id column="id" property="id" />
+		<result column="fid" property="fid"/>
+		<result column="authorizer_appid" property="authorizerAppid"/>
+		<result column="type" property="type"/>
+		<result column="name" property="name"/>
+		<result column="tykey" property="tykey"/>
+		<result column="url" property="url"/>
+		<result column="media_id" property="mediaId"/>
+		<result column="appid" property="appid"/>
+		<result column="pagepath" property="pagepath"/>
+		<result column="menu_type" property="menuType"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from weixin_one_menu  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="fid!=null and fid!=''">
+				and fid = #{fid}
+			</if>
+			<if test="authorizerAppid!=null and authorizerAppid!=''">
+				and authorizer_appid like CONCAT('%',#{authorizerAppid},'%')
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="name!=null and name!=''">
+				and name like CONCAT('%',#{name},'%')
+			</if>
+			<if test="tykey!=null and tykey!=''">
+				and tykey like CONCAT('%',#{tykey},'%')
+			</if>
+			<if test="url!=null and url!=''">
+				and url like CONCAT('%',#{url},'%')
+			</if>
+			<if test="mediaId!=null and mediaId!=''">
+				and media_id like CONCAT('%',#{mediaId},'%')
+			</if>
+			<if test="appid!=null and appid!=''">
+				and appid like CONCAT('%',#{appid},'%')
+			</if>
+			<if test="pagepath!=null and pagepath!=''">
+				and pagepath like CONCAT('%',#{pagepath},'%')
+			</if>
+			<if test="menuType!=null and menuType!=''">
+				and menu_type = #{menuType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinOneMenu" useGeneratedKeys="true" keyProperty="id">
+		insert into weixin_one_menu
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="fid!=null ">
+				fid,
+			</if>
+      		<if test="authorizerAppid!=null ">
+				authorizer_appid,
+			</if>
+      		<if test="type!=null ">
+				type,
+			</if>
+      		<if test="name!=null ">
+				name,
+			</if>
+      		<if test="tykey!=null ">
+				tykey,
+			</if>
+      		<if test="url!=null ">
+				url,
+			</if>
+      		<if test="mediaId!=null ">
+				media_id,
+			</if>
+      		<if test="appid!=null ">
+				appid,
+			</if>
+      		<if test="pagepath!=null ">
+				pagepath,
+			</if>
+      		<if test="menuType!=null ">
+				menu_type,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="fid!=null ">
+      			#{fid},
+			</if>
+      		<if test="authorizerAppid!=null ">
+      			#{authorizerAppid},
+			</if>
+      		<if test="type!=null ">
+      			#{type},
+			</if>
+      		<if test="name!=null ">
+      			#{name},
+			</if>
+      		<if test="tykey!=null ">
+      			#{tykey},
+			</if>
+      		<if test="url!=null ">
+      			#{url},
+			</if>
+      		<if test="mediaId!=null ">
+      			#{mediaId},
+			</if>
+      		<if test="appid!=null ">
+      			#{appid},
+			</if>
+      		<if test="pagepath!=null ">
+      			#{pagepath},
+			</if>
+      		<if test="menuType!=null ">
+      			#{menuType},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinOneMenu">
+		delete from weixin_one_menu
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+      		<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+      		<if test="type!=null ">
+				and type=#{type}
+			</if>
+      		<if test="name!=null ">
+				and name=#{name}
+			</if>
+      		<if test="tykey!=null ">
+				and tykey=#{tykey}
+			</if>
+      		<if test="url!=null ">
+				and url=#{url}
+			</if>
+      		<if test="mediaId!=null ">
+				and media_id=#{mediaId}
+			</if>
+      		<if test="appid!=null ">
+				and appid=#{appid}
+			</if>
+      		<if test="pagepath!=null ">
+				and pagepath=#{pagepath}
+			</if>
+      		<if test="menuType!=null ">
+				and menu_type=#{menuType}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinOneMenu">
+		update weixin_one_menu
+		<set>
+			<if test="fid!=null ">
+				fid=#{fid},
+			</if>
+			<if test="authorizerAppid!=null ">
+				authorizer_appid=#{authorizerAppid},
+			</if>
+			<if test="type!=null ">
+				type=#{type},
+			</if>
+			<if test="name!=null ">
+				name=#{name},
+			</if>
+			<if test="tykey!=null ">
+				tykey=#{tykey},
+			</if>
+			<if test="url!=null ">
+				url=#{url},
+			</if>
+			<if test="mediaId!=null ">
+				media_id=#{mediaId},
+			</if>
+			<if test="appid!=null ">
+				appid=#{appid},
+			</if>
+			<if test="pagepath!=null ">
+				pagepath=#{pagepath},
+			</if>
+			<if test="menuType!=null ">
+				menu_type=#{menuType},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.WeixinOneMenu" resultMap="weixinonemenu_result_map">
+		select id,fid,authorizer_appid,type,name,tykey,url,media_id,appid,pagepath,menu_type from weixin_one_menu
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+			<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="name!=null ">
+				and name=#{name}
+			</if>
+			<if test="tykey!=null ">
+				and tykey=#{tykey}
+			</if>
+			<if test="url!=null ">
+				and url=#{url}
+			</if>
+			<if test="mediaId!=null ">
+				and media_id=#{mediaId}
+			</if>
+			<if test="appid!=null ">
+				and appid=#{appid}
+			</if>
+			<if test="pagepath!=null ">
+				and pagepath=#{pagepath}
+			</if>
+			<if test="menuType!=null ">
+				and menu_type=#{menuType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="weixinonemenu_result_map" >
+		select id,fid,authorizer_appid,type,name,tykey,url,media_id,appid,pagepath,menu_type from weixin_one_menu
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="fid!=null ">
+				and fid=#{fid}
+			</if>
+			<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="name!=null ">
+				and name=#{name}
+			</if>
+			<if test="tykey!=null ">
+				and tykey=#{tykey}
+			</if>
+			<if test="url!=null ">
+				and url=#{url}
+			</if>
+			<if test="mediaId!=null ">
+				and media_id=#{mediaId}
+			</if>
+			<if test="appid!=null ">
+				and appid=#{appid}
+			</if>
+			<if test="pagepath!=null ">
+				and pagepath=#{pagepath}
+			</if>
+			<if test="menuType!=null ">
+				and menu_type=#{menuType}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="weixinonemenu_result_map" >
+		
+		SELECT id,fid,authorizer_appid,type,name,tykey,url,media_id,appid,pagepath,menu_type FROM weixin_one_menu 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="fid!=null and fid!=''">
+				and fid = #{fid}
+			</if>
+			<if test="authorizerAppid!=null and authorizerAppid!=''">
+				and authorizer_appid like  CONCAT('%',#{authorizerAppid},'%')
+			</if>
+			<if test="type!=null and type!=''">
+				and type = #{type}
+			</if>
+			<if test="name!=null and name!=''">
+				and name like  CONCAT('%',#{name},'%')
+			</if>
+			<if test="tykey!=null and tykey!=''">
+				and tykey like  CONCAT('%',#{tykey},'%')
+			</if>
+			<if test="url!=null and url!=''">
+				and url like  CONCAT('%',#{url},'%')
+			</if>
+			<if test="mediaId!=null and mediaId!=''">
+				and media_id like  CONCAT('%',#{mediaId},'%')
+			</if>
+			<if test="appid!=null and appid!=''">
+				and appid like  CONCAT('%',#{appid},'%')
+			</if>
+			<if test="pagepath!=null and pagepath!=''">
+				and pagepath like  CONCAT('%',#{pagepath},'%')
+			</if>
+			<if test="menuType!=null and menuType!=''">
+				and menu_type = #{menuType}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject2" resultMap="weixinonemenu_result_map" >
+		select id,fid,authorizer_appid,type,name,tykey,url,media_id,appid,pagepath,menu_type from weixin_one_menu
+		<where>
+			1=1
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+				and fid !=-1
+			<if test="authorizerAppid!=null ">
+				and authorizer_appid=#{authorizerAppid}
+			</if>
+			<if test="type!=null ">
+				and type=#{type}
+			</if>
+			<if test="name!=null ">
+				and name=#{name}
+			</if>
+			<if test="tykey!=null ">
+				and tykey=#{tykey}
+			</if>
+			<if test="url!=null ">
+				and url=#{url}
+			</if>
+			<if test="mediaId!=null ">
+				and media_id=#{mediaId}
+			</if>
+			<if test="appid!=null ">
+				and appid=#{appid}
+			</if>
+			<if test="pagepath!=null ">
+				and pagepath=#{pagepath}
+			</if>
+			<if test="menuType!=null ">
+				and menu_type=#{menuType}
+			</if>
+		</where>
+	</select>
+</mapper>
