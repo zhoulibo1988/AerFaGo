@@ -60,6 +60,26 @@ public class WeixinAuthorizationInfoServiceImpl implements WeixinAuthorizationIn
 		pageObject.setDataList(list);
 		return pageObject;
 	}
+
+	public void updateByEntity(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<WeixinAuthorizationInfo> getList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void del(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void del(WeixinAuthorizationInfo t) {
+		// TODO Auto-generated method stub
+		
+	}
     
  
 }

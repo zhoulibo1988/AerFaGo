@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.ivan.api.weixin.WeixinAuthCodeService;
 import org.ivan.entity.WeixinAuthCode;
-import org.ivan.entity.admin.SysUcenterApps;
 import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +54,25 @@ public class WeixinAuthCodeServiceImpl implements WeixinAuthCodeService {
 		PageObject<WeixinAuthCode> pageObject = pageHelper.getPageObject();
 		pageObject.setDataList(list);
 		return pageObject;
+	}
+
+	public void updateByEntity(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public List<WeixinAuthCode> getList(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void del(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void del(WeixinAuthCode t) {
+		// TODO Auto-generated method stub
+		
 	}
 }

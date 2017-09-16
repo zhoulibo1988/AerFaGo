@@ -59,6 +59,9 @@ public class WXCustomerServiceController {
     @RequestMapping(value="/getInfoList",method={RequestMethod.GET,RequestMethod.POST})
     public ModelAndView getLicensorList(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
     	ModelAndView mv=new ModelAndView("weixin/service-list");
+    	if(map.containsKey("type")){
+    		mv=new ModelAndView("weixin/customMenu-service-list");
+    	}
     	PageObject<WeixinAuthorizationInfo>  pageObject=weixinAuthorizationInfoService.Pagequery(map);
     	mv.addObject("list", pageObject);
 		return mv;

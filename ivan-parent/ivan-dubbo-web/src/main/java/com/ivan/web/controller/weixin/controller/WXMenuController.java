@@ -8,8 +8,14 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
+import org.ivan.api.weixin.WeixinOneMenuService;
 import org.ivan.entity.WeixinAuthorizationToken;
+import org.ivan.entity.WeixinOneMenu;
+import org.ivan.entity.utils.ParameterEunm;
+import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,16 +24,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.alibaba.dubbo.config.annotation.Reference;
+import org.springframework.web.servlet.ModelAndView;
 
 import weixin.popular.api.MenuAPI;
 import weixin.popular.bean.BaseResult;
 import weixin.popular.bean.menu.Button;
 import weixin.popular.bean.menu.Matchrule;
+import weixin.popular.bean.menu.Menu;
 import weixin.popular.bean.menu.MenuButtons;
 import weixin.popular.bean.menu.selfmenu.CurrentSelfmenuInfo;
 import weixin.popular.util.JsonUtil;
+
+import com.alibaba.dubbo.config.annotation.Reference;
 /**
  * 微信第三方平台:菜单管理
  * @author 周立波
@@ -39,6 +47,8 @@ public class WXMenuController {
 	private static final Logger logger = LoggerFactory.getLogger(WXMenuController.class);
 	@Reference
 	private WeixinAuthorizationTokenService weixinAuthorizationTokenService;
+	@Reference
+	private WeixinOneMenuService weixinOneMenuService;
 	 /////////////////////////////////////////////////以下为自定义菜单操作/////////////////////////////////////////////////////////////
     /**
      * 添加菜单
@@ -57,37 +67,81 @@ public class WXMenuController {
     	weixinAuthorizationToken.setAppId(WeChatContants.appId);
     	weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
     	weixinAuthorizationToken=weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
-    	 //2级菜单：1-2
-		Button button_2_2 = new Button();
-		button_2_2.setName("全民金服");
-		button_2_2.setType("view");
-		button_2_2.setUrl("https://www.aijinfu.cn/");
-		Button button_2_3 = new Button();
-		button_2_3.setName("爱加密");
-		button_2_3.setType("view");
-		button_2_3.setUrl("http://www.ijiami.cn/");
-		Button button_2_4 = new Button();
-		button_2_4.setName("百度一下");
-		button_2_4.setType("view");
-		button_2_4.setUrl("http://www.baidu.com/");
-		
-		// 组装2级菜单
-		List<Button> sub_button1 = new ArrayList<Button>();
-		sub_button1.add(button_2_2);
-		sub_button1.add(button_2_3);
-		sub_button1.add(button_2_4);
-		Button button1 = new Button();
-		button1.setName("智游网安");
-		button1.setSub_button(sub_button1); 
-        
-        MenuButtons menuButtons=new MenuButtons();
-        menuButtons.setButton(new Button[]{button1});
+
+    	Map<String,Object> wMap=new HashMap<String, Object>();
+    	wMap.put("authorizerAppid", authorizer_appid);
+    	List<WeixinOneMenu> appidList=weixinOneMenuService.getList(wMap);
+    	int sum=0;
+    	for (WeixinOneMenu weixinOneMenu : appidList) {
+    		sum=sum+weixinOneMenu.getMenuType();
+		}
+    	if(sum==0){
+    		returnMap = ReMessage.resultBack(ParameterEunm.ERROR_403_CODE, null);
+    		logger.error("无菜单可以发布");
+    		return returnMap;
+    	}
+    	wMap.put("fid", -1);
+    	List<WeixinOneMenu> mList=weixinOneMenuService.getList(wMap);
+    	Map<String,Object> buttonMap=new HashMap<String, Object>();
+    	for (WeixinOneMenu weixinOneMenu : mList) {
+    		//1级
+    		Button button = new Button();
+    		button.setName(weixinOneMenu.getName());
+    		if(weixinOneMenu.getTykey()!=null&&!weixinOneMenu.getTykey().equals("")){
+    			button.setKey(weixinOneMenu.getTykey());
+    		}
+    		if(weixinOneMenu.getType()!=null&&!weixinOneMenu.getType().equals("")){
+    			button.setType(weixinOneMenu.getType());
+    		}
+    		if(weixinOneMenu.getUrl()!=null&&!weixinOneMenu.getUrl().equals("")){
+    			button.setUrl(weixinOneMenu.getUrl());
+    		}
+    		//获取2级
+    		Map<String,Object> wMap2=new HashMap<String, Object>();
+    		wMap2.put("fid", weixinOneMenu.getId());
+    		List<WeixinOneMenu> mList2=weixinOneMenuService.getList(wMap2);
+    		// 组装2级菜单
+    		List<Button> sub_button = new ArrayList<Button>();
+    		for (WeixinOneMenu weixinOneMenu2 : mList2) {
+    			Button button2 = new Button();
+    			button2.setName(weixinOneMenu2.getName());
+        		if(weixinOneMenu2.getTykey()!=null&&!weixinOneMenu2.getTykey().equals("")){
+        			button2.setKey(weixinOneMenu2.getTykey());
+        		}
+        		if(weixinOneMenu2.getType()!=null&&!weixinOneMenu2.getType().equals("")){
+        			button2.setType(weixinOneMenu2.getType());
+        		}
+        		if(weixinOneMenu2.getUrl()!=null&&!weixinOneMenu2.getUrl().equals("")){
+        			button2.setUrl(weixinOneMenu2.getUrl());
+        		}
+        		sub_button.add(button2);
+			}
+    		button.setSub_button(sub_button);
+    		buttonMap.put(String.valueOf(weixinOneMenu.getId().toString()), button);
+		}
+    	MenuButtons menuButtons=new MenuButtons();
+    	Button[] a=new Button[mList.size()];
+    	for (int i = 0; i < mList.size(); i++) {
+			a[i]=(Button) buttonMap.get(String.valueOf(mList.get(i).getId()));
+		}
+    	menuButtons.setButton(a);
     	//转换JSON
         String jsonMenu = JsonUtil.toJSONString(menuButtons);
         System.out.println(jsonMenu);
     	//请求创建自定义菜单接口
     	BaseResult BaseResult=MenuAPI.menuCreate(weixinAuthorizationToken.getAuthorizerAccessToken(), menuButtons);
-    	returnMap.put("baseResult", BaseResult);
+    	if(BaseResult.getErrcode().equals("0")){
+    		//发布成功后 改变数据菜单状态
+    		for (WeixinOneMenu weixinOneMenu : appidList) {
+    			//改为发布状态
+    			weixinOneMenu.setMenuType(0);
+    			weixinOneMenuService.updateByEntity(weixinOneMenu);
+			}
+    		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
+    	}else{
+    		returnMap = ReMessage.resultBack(ParameterEunm.FAILED_CODE, null);
+    		logger.error("失败原因:"+BaseResult.getErrcode()+"---"+BaseResult.getErrmsg());
+    	}
 		return returnMap;
     }
     /**
@@ -107,7 +161,9 @@ public class WXMenuController {
     	weixinAuthorizationToken.setAppId(WeChatContants.appId);
     	weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
     	weixinAuthorizationToken=weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
-    	weixin.popular.bean.menu.Menu menu=MenuAPI.menuGet(weixinAuthorizationToken.getAuthorizerAccessToken());
+    	Menu menu=MenuAPI.menuGet(weixinAuthorizationToken.getAuthorizerAccessToken());
+    	JSONObject json = JSONObject.fromObject(menu);//将java对象转换为json对象  
+        String str = json.toString();//将json对象转换为字符串  
     	returnMap.put("menu", menu);
 		return returnMap;
     }
@@ -129,7 +185,12 @@ public class WXMenuController {
     	weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
     	weixinAuthorizationToken=weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
     	BaseResult baseResult=MenuAPI.menuDelete(weixinAuthorizationToken.getAuthorizerAccessToken());
-    	returnMap.put("baseResult", baseResult);
+    	if(baseResult.getErrcode().equals("0")){//微信公众号成功删除；再删除本地菜单
+    		Map<String, Object> delMap=new HashMap<String, Object>();
+    		delMap.put("authorizerAppid", authorizer_appid);
+    		weixinOneMenuService.del(returnMap);
+    	}
+    	returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		return returnMap;
     }
     /**
@@ -154,6 +215,8 @@ public class WXMenuController {
     	weixinAuthorizationToken.setAuthorizerAppid(authorizer_appid);
     	weixinAuthorizationToken=weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
     	CurrentSelfmenuInfo currentSelfmenuInfo=MenuAPI.get_current_selfmenu_info(weixinAuthorizationToken.getAuthorizerAccessToken());
+    	JSONObject json = JSONObject.fromObject(currentSelfmenuInfo);//将java对象转换为json对象  
+        String str = json.toString();//将json对象转换为字符串  
     	returnMap.put("currentSelfmenuInfo",currentSelfmenuInfo);
     	return returnMap;
     }
@@ -250,6 +313,108 @@ public class WXMenuController {
     	weixinAuthorizationToken=weixinAuthorizationTokenService.selectSingle(weixinAuthorizationToken);
     	BaseResult baseResult =	MenuAPI.menuDelconditional(weixinAuthorizationToken.getAuthorizerAccessToken(), menuid);
     	 returnMap.put("baseResult", baseResult);
+		return returnMap;
+    }
+    /**
+     * 跳转添加自定义菜单页面
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("/addmenuTo")
+    public ModelAndView addmenuTo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/weixin-menu-add");
+    	String authorizer_appid=String.valueOf(map.get("authorizer_appid"));
+    	map=new HashMap<String, Object>();
+    	map.put("authorizerAppid", authorizer_appid);
+    	map.put("fid", -1);
+    	List<WeixinOneMenu> funList=weixinOneMenuService.getList(map);
+    	mv.addObject("funList", funList);
+    	map.remove("fid");
+    	mv.addObject("map", map);
+		return mv;
+    }
+    
+    /**
+     * 添加菜单
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/addMenu")
+    public Map<String,Object> addMenu(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	Map<String, Object> returnMap = new HashMap<String, Object>();
+    	WeixinOneMenu weixinOneMenu=new WeixinOneMenu();
+    	weixinOneMenu.setFid(Integer.valueOf(map.get("fid").toString()));
+    	weixinOneMenu.setAuthorizerAppid(map.get("authorizer_appid").toString());
+    	weixinOneMenu.setName(map.get("name").toString());
+    	if(map.containsKey("tykey")){
+    		weixinOneMenu.setTykey(map.get("tykey").toString());
+    	}
+    	if(map.containsKey("type")){
+    		weixinOneMenu.setType(map.get("type").toString());
+    	}
+    	if(map.containsKey("url")){
+    		weixinOneMenu.setUrl(map.get("url").toString());
+    	}
+    	weixinOneMenuService.insert(weixinOneMenu);
+    	returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
+		return returnMap;
+    }
+    /**
+     * 跳转菜单列表页面
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("/getMenuToList")
+    public ModelAndView getMenuToList(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/weixin-menu-list");
+    	String authorizer_appid=String.valueOf(map.get("authorizer_appid"));
+    	map=new HashMap<String, Object>();
+    	map.put("authorizerAppid", authorizer_appid);
+    	map.put("fid", -1);
+    	List<WeixinOneMenu> funList=weixinOneMenuService.getList(map);
+    	List<WeixinOneMenu> fun2List=weixinOneMenuService.getListBy2Menu(map);
+    	mv.addObject("funList", funList);
+    	mv.addObject("fun2List", fun2List);
+    	map.remove("fid");
+    	mv.addObject("map", map);
+		return mv;
+    }
+    /**
+     * 跳转修改页面
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @RequestMapping("/updateMenuTo")
+    public ModelAndView updateMenuTo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	ModelAndView mv=new ModelAndView("weixin/weixin-menu-update");
+    	WeixinOneMenu  weixinOneMenu =	weixinOneMenuService.selectSingle(map);
+    	mv.addObject("weixinOneMenu", weixinOneMenu);
+    	mv.addObject("map", map);
+		return mv;
+    }
+    /**
+     * 修改菜单
+     * @param response
+     * @param request
+     * @param map
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/updateMenuInfo")
+    public Map<String,Object> updateMenuInfo(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
+    	Map<String, Object> returnMap = new HashMap<String, Object>();
+    	map.put("menuType", 1);
+    	weixinOneMenuService.updateByEntity(map);
+    	returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
 		return returnMap;
     }
 }

@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
@@ -62,6 +61,21 @@ public class WeixinAuthorizationTokenServiceImpl implements WeixinAuthorizationT
 	 */
 	public List<WeixinAuthorizationToken> getList(Map<String, Object> map) {
 		return weixinAuthorizationTokenMapper.selectByObject(map);
+	}
+
+	public void updateByEntity(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void del(Map<String, Object> map) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void del(WeixinAuthorizationToken t) {
+		// TODO Auto-generated method stub
+		
 	}
  
 }
