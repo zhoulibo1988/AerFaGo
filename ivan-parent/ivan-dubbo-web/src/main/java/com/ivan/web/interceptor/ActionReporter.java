@@ -64,7 +64,6 @@ public class ActionReporter implements HandlerInterceptor{
 		System.out.print(sb.toString());
 	}
 
-	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 //		if(request.getServletPath().contains("/GsGame/getClassifyGamePage")){
 //			try {
@@ -77,7 +76,6 @@ public class ActionReporter implements HandlerInterceptor{
 		return true;
 	}
 
-	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 //		if(request.getServletPath().contains("/GsGame/getClassifyGamePage")){
 //			try {
@@ -123,7 +121,6 @@ public class ActionReporter implements HandlerInterceptor{
 		}
 	}
 
-	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 		if (bool) {
 			boolean isMultipartRequest = ActionReporter.reportCommonRequest(request);
