@@ -105,7 +105,7 @@ public class ObjectUtil {
 	 * @return
 	 */
 	public static Map<String, Object> getObjectByFileNames(String[] files,Object o) {
-	    Map<String, Object> map=new HashMap<>();
+	    Map<String, Object> map=new HashMap<String, Object>();
 	    List<Map<String, Object>> list=getFiledsInfo(o);
 	    for (Map<String, Object> filemap : list) {
 	      String fileName=filemap.get("name").toString();
