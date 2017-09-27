@@ -12,7 +12,8 @@
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
-	<!-- <import resource="classpath:spring.xml"/> -->
+	<!-- 定时任务 -->
+	<import resource="spring-timed-task.xml"/>
 	<!-- 自动扫描controller包下的所有类，如果@Controller注入为bean 并将bean依赖注入，即dubbo服务端暴露的Service注入到Controller中 -->
 	<dubbo:annotation package="com" />
 
