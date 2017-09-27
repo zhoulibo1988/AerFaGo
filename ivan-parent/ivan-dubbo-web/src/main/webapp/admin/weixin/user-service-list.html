@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "../lib/lib.html" />
+
+<title>公众号用户管理</title>
+</head>
+<body>
+	<nav class="breadcrumb">
+		<i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span>
+		公众号用户管理 <span class="c-gray en">&gt;</span> 公众号授权方列表
+		<a class="btn btn-success radius r mr-20" id="refresh" style="line-height: 1.6em; margin-top: 3px" href="javascript:location.replace(location.href);" title="刷新">
+		<i class="Hui-iconfont">&#xe68f;</i></a>
+	</nav>
+	<div class="pd-20 text-c">
+		<div class="mt-20">
+			<table class="table table-border table-bordered table-hover table-bg table-sort">
+				<thead>
+					<tr class="text-c">
+						<th width="10%"><!-- <input type="checkbox" name="" value=""> --></th>
+						<th width="10%">授权方昵称</th>
+						<th width="10%">授权方APPID</th>
+						<th width="10%">公众号的主体名称</th>
+						<th width="10%">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					<#if list.dataList?? && list.dataList?size gt 0>
+					<#list list.dataList as dl >
+						<tr class="text-c">
+							<td>${dl_index+1}</td>
+							<td>${dl.nickName!}</td>
+							<td>${dl.authorizerAppid!}</td>
+							<td>${dl.principalName!}</td>
+							<td class="td-manage">
+								<a title="获取用户列表" href="javascript:;" onclick="app_getList('获取用户列表','${basePath}/wxUser/getUserInfoList.do?authorizer_appid=${dl.authorizerAppid!}','1','1300','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe626;</i></a>
+								<!-- <a title="获取在线客服" href="javascript:;" onclick="app_getList('获取在线客服','${basePath}/CustomerService/getOnlinekflist.do?authorizer_appid=${dl.authorizerAppid!}','1','1000','800')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe696;</i></a>
+								<a title="添加客服" href="javascript:;" onclick="add_service_info('添加客服','${basePath}/CustomerService/addServiceTo.do?authorizer_appid=${dl.authorizerAppid!}','1','600','400')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe607;</i></a>
+								<a title="查看客服服务记录" href="javascript:;" onclick="get_service_record('查看客服服务记录','${basePath}/CustomerService/addServiceTo.do?authorizer_appid=${dl.authorizerAppid!}','1','600','400')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6d0;</i></a> -->
+							</td>
+						</tr>
+					</#list>
+					</#if>
+				</tbody>
+			</table>
+			</br>
+			<#if list.dataList?? && list.dataList?size gt 0>
+				<div class="page_list"></div>
+			</#if>
+		</div>
+	</div>
+	<script type="text/javascript">
+	
+		$(function(){
+		 	laypage({
+		 	    cont: $('.page_list'), //容器。值支持id名、原生dom对象，jquery对象,
+			    pages: ${list.endPage! }, //总页数
+		 	    //skip: true, //是否开启跳页
+	// 	    	skin: 'molv',
+		 	    groups: 10, //连续显示分页数
+		 	    first: '首页', //若不显示，设置false即可
+		 	    last: '尾页', //若不显示，设置false即可
+		 	    curr:${list.curPage!},
+		 	   	hash: true, //开启hash
+		 	    skin: '#00AA91',
+		 	    jump: function(obj,first){ //触发分页后的回调
+	// 	 	       $('.view').html('目前正在第'+ obj.curr +'页，一共有：'+ obj.pages +'页');
+		 	    	if(!first){
+		 	         	 window.location.href="${basePath}/CustomerService/getInfoList.do?curPage="+obj.curr +"&pageData="+10;
+		 	    	}
+		 	    }
+		 	});
+		 			
+		});
+		/*系统-应用-编辑*/
+		function add_service_info(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		/*系统-应用-编辑*/
+		function app_getList(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*添加菜单*/
+		function to_grant_authorization(title, url, id, w, h) {
+			layer_show(title, url, w, h);
+		}
+		
+		/*刷新授权令牌*/
+		function app_del(obj, authorizerAppid) {
+			layer.confirm('确认要刷新授权令牌吗？', function(index) {
+				var data = {};
+				data.authorizer_appid = authorizerAppid;
+				//后台请求保存数据
+				$.axse("${basePath}/WeixinComponent/getApiAuthorizerToken.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已刷新!', {
+							icon : 1,
+							time : 1000
+						});
+						
+					}else{
+						Huimodal_alert("刷新授权失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("刷新授权失败,请重试!",1500);
+				});
+			});
+		}
+		/*刷新授权方信息*/
+		function app_info(obj, authorizerAppid) {
+			layer.confirm('确认要刷新吗？', function(index) {
+				var data = {};
+				data.authorizer_appid = authorizerAppid;
+				//后台请求保存数据
+				$.axse("${basePath}/WeixinComponent/getAuthorizerInfo.do",  data, function(d){
+					if(d.resultCode == 200){
+						layer.msg('已刷新!', {
+							icon : 1,
+							time : 1000
+						});
+						
+					}else{
+						Huimodal_alert("刷新授权失败,请重试!",1500);
+					}
+				},
+				function(d){
+					Huimodal_alert("刷新授权失败,请重试!",1500);
+				});
+			});
+		}
+	</script>
+</body>
+</html>
