@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthorizationInfo;
-import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.utils.PageObject;
 import org.ivan.entity.utils.ParameterEunm;
 import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthorizationInfo;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

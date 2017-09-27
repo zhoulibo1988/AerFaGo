@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.ivan.api.weixin.WeixinBusinessInfoService;
-import org.ivan.entity.WeixinBusinessInfo;
 import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.wx.WeixinBusinessInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;

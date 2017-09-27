@@ -10,10 +10,10 @@ import java.util.Random;
 import org.ivan.api.weixin.WeixinAuthCodeService;
 import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthCode;
-import org.ivan.entity.WeixinAuthorizationInfo;
-import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthCode;
+import org.ivan.entity.wx.WeixinAuthorizationInfo;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 
 import weixin.popular.api.ComponentAPI;
 import weixin.popular.bean.component.AuthorizerAccessToken;

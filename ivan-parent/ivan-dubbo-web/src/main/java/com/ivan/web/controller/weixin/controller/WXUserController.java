@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

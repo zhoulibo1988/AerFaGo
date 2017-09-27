@@ -1,6 +1,6 @@
 package org.ivan.api.weixin;
 
-import org.ivan.entity.WeixinAuthorizationToken;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 
 /**
  * @author cyl

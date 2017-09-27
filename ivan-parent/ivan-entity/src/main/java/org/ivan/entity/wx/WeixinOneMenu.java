@@ -1,4 +1,4 @@
-package org.ivan.entity;
+package org.ivan.entity.wx;
 
 import java.io.Serializable;
 

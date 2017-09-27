@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ivan.api.weixin.WeChatThridService;
-import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.weixin.dto.WeChatContants;
 import org.ivan.entity.weixin.utils.XMLUtil;
+import org.ivan.entity.wx.WeixinAuthCode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
