@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.pet</groupId>
+    <artifactId>pet_project</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>pet_show_entity</artifactId>
+  <groupId>com.pey.pet_show_entity</groupId>
+  <version>0.0.1</version>
+  <dependencies>
+  		<!-- 框架包 -->
+  		<dependency>
+			<groupId>com.core</groupId>
+			<artifactId>core_freemwork</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.iwuduan</groupId>
+		  <artifactId>alipay-sdk-java</artifactId>
+		  <version>1.0</version>
+		</dependency>
+  </dependencies>
+</project>
