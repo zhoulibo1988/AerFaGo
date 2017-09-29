@@ -1,18 +1,27 @@
-package weixin.popular.bean;
+package weixin.popular.bean.shop.postage;
 
 /**
  * 微信请求状态数据
  *
  * @author LiYi
  */
-public class BaseResult {
+public class BaseResultPostage {
 
   private static final String SUCCESS_CODE = "0";
 
   private String errcode;
   private String errmsg;
+  private String template_id;
+  
+  public String getTemplate_id() {
+	return template_id;
+}
 
-  public String getErrcode() {
+public void setTemplate_id(String template_id) {
+	this.template_id = template_id;
+}
+
+public String getErrcode() {
     return errcode;
   }
 

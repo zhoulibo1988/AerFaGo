@@ -4,7 +4,7 @@
     
 <mapper namespace="com.ivan.dubbo.dao.weixin.WeixinAuthorizationInfoMapper">
 
-	<resultMap id="weixinauthorizationinfo_result_map" type="org.ivan.entity.WeixinAuthorizationInfo" >
+	<resultMap id="weixinauthorizationinfo_result_map" type="org.ivan.entity.wx.WeixinAuthorizationInfo" >
 		<id column="id" property="id" />
 		<result column="nick_name" property="nickName"/>
 		<result column="head_img" property="headImg"/>
@@ -77,7 +77,7 @@
 	</select>
 	
 	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
-	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertByEntity" parameterType="org.ivan.entity.wx.WeixinAuthorizationInfo" useGeneratedKeys="true" keyProperty="id">
 		insert into weixin_authorization_info
 		<trim prefix="(" suffix=")" suffixOverrides="," >
       		<if test="id!=null ">
@@ -164,7 +164,7 @@
 	</insert>
 	
 	<!-- 根据删除 -->
-	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo">
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.wx.WeixinAuthorizationInfo">
 		delete from weixin_authorization_info
 		<where>
       		<if test="id!=null ">
@@ -210,7 +210,7 @@
 	</delete>
 
 	<!-- 根据对象修改 -->
-	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinAuthorizationInfo">
+	<update id="updateByEntity" parameterType="org.ivan.entity.wx.WeixinAuthorizationInfo">
 		update weixin_authorization_info
 		<set>
 			<if test="nickName!=null ">
@@ -258,7 +258,7 @@
 	</update>
 
 	<!-- 根据对象查询单个 -->
-	<select id="selectSingle" resultType="org.ivan.entity.WeixinAuthorizationInfo" resultMap="weixinauthorizationinfo_result_map">
+	<select id="selectSingle" resultType="org.ivan.entity.wx.WeixinAuthorizationInfo" resultMap="weixinauthorizationinfo_result_map">
 		select id,nick_name,head_img,service_type_info,verify_type_info,user_name,principal_name,alias,business_info,qrcode_url,authorizer_appid,func_info,time from weixin_authorization_info
 		<where>
 			<if test="id!=null ">
