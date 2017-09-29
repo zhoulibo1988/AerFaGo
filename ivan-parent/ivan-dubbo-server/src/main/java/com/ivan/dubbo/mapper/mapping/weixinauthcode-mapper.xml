@@ -4,7 +4,7 @@
     
 <mapper namespace="com.ivan.dubbo.dao.weixin.WeixinAuthCodeMapper">
 
-	<resultMap id="weixinauthcode_result_map" type="org.ivan.entity.WeixinAuthCode" >
+	<resultMap id="weixinauthcode_result_map" type="org.ivan.entity.wx.WeixinAuthCode" >
 		<id column="id" property="id" />
 		<result column="auth_code" property="authCode"/>
 		<result column="app_id" property="appId"/>
@@ -45,7 +45,7 @@
 	</select>
 	
 	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
-	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinAuthCode" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertByEntity" parameterType="org.ivan.entity.wx.WeixinAuthCode" useGeneratedKeys="true" keyProperty="id">
 		insert into weixin_auth_code
 		<trim prefix="(" suffix=")" suffixOverrides="," >
       		<if test="id!=null ">
@@ -84,7 +84,7 @@
 	</insert>
 	
 	<!-- 根据删除 -->
-	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinAuthCode">
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.wx.WeixinAuthCode">
 		delete from weixin_auth_code
 		<where>
       		<if test="id!=null ">
@@ -106,7 +106,7 @@
 	</delete>
 
 	<!-- 根据对象修改 -->
-	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinAuthCode">
+	<update id="updateByEntity" parameterType="org.ivan.entity.wx.WeixinAuthCode">
 		update weixin_auth_code
 		<set>
 			<if test="authCode!=null ">
@@ -130,7 +130,7 @@
 	</update>
 
 	<!-- 根据对象查询单个 -->
-	<select id="selectSingle" resultType="org.ivan.entity.WeixinAuthCode" resultMap="weixinauthcode_result_map">
+	<select id="selectSingle" resultType="org.ivan.entity.wx.WeixinAuthCode" resultMap="weixinauthcode_result_map">
 		select id,auth_code,app_id,time,component_access_token from weixin_auth_code
 		<where>
 			<if test="id!=null ">

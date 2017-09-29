@@ -4,7 +4,7 @@
     
 <mapper namespace="com.ivan.dubbo.dao.weixin.WeixinOneMenuMapper">
 
-	<resultMap id="weixinonemenu_result_map" type="org.ivan.entity.WeixinOneMenu" >
+	<resultMap id="weixinonemenu_result_map" type="org.ivan.entity.wx.WeixinOneMenu" >
 		<id column="id" property="id" />
 		<result column="fid" property="fid"/>
 		<result column="authorizer_appid" property="authorizerAppid"/>
@@ -66,7 +66,7 @@
 	</select>
 	
 	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
-	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinOneMenu" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertByEntity" parameterType="org.ivan.entity.wx.WeixinOneMenu" useGeneratedKeys="true" keyProperty="id">
 		insert into weixin_one_menu
 		<trim prefix="(" suffix=")" suffixOverrides="," >
       		<if test="id!=null ">
@@ -141,7 +141,7 @@
 	</insert>
 	
 	<!-- 根据删除 -->
-	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinOneMenu">
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.wx.WeixinOneMenu">
 		delete from weixin_one_menu
 		<where>
       		<if test="id!=null ">
@@ -181,7 +181,7 @@
 	</delete>
 
 	<!-- 根据对象修改 -->
-	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinOneMenu">
+	<update id="updateByEntity" parameterType="org.ivan.entity.wx.WeixinOneMenu">
 		update weixin_one_menu
 		<set>
 			<if test="fid!=null ">
@@ -223,7 +223,7 @@
 	</update>
 
 	<!-- 根据对象查询单个 -->
-	<select id="selectSingle" resultType="org.ivan.entity.WeixinOneMenu" resultMap="weixinonemenu_result_map">
+	<select id="selectSingle" resultType="org.ivan.entity.wx.WeixinOneMenu" resultMap="weixinonemenu_result_map">
 		select id,fid,authorizer_appid,type,name,tykey,url,media_id,appid,pagepath,menu_type from weixin_one_menu
 		<where>
 			<if test="id!=null ">
