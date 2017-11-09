@@ -148,7 +148,17 @@
 			<mvc:exclude-mapping path="/WeixinComponent/*" />
 			<mvc:exclude-mapping path="/SourceMaterial/*" />
 			<mvc:exclude-mapping path="/merchant/*" />
+			<!-- swagger -->
+			<mvc:exclude-mapping path="/swagger*/**"/>
+			<mvc:exclude-mapping path="/v2/**"/>
+			<mvc:exclude-mapping path="/webjars/**"/>
+			<mvc:exclude-mapping path="/swagger-ui.html"/>
+			
 			<bean class="com.ivan.web.interceptor.SecurityInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	<!-- swagger -->
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+    <bean class="com.ivan.web.interceptor.SwaggerConfig"/>  
 </beans>  
