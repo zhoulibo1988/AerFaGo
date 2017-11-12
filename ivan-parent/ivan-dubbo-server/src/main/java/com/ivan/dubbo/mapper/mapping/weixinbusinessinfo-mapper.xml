@@ -4,7 +4,7 @@
     
 <mapper namespace="com.ivan.dubbo.dao.weixin.WeixinBusinessInfoMapper">
 
-	<resultMap id="weixinbusinessinfo_result_map" type="org.ivan.entity.WeixinBusinessInfo" >
+	<resultMap id="weixinbusinessinfo_result_map" type="org.ivan.entity.wx.WeixinBusinessInfo" >
 		<id column="id" property="id" />
 		<result column="authorizer_appid" property="authorizerAppid"/>
 		<result column="open_store" property="openStore"/>
@@ -57,7 +57,7 @@
 	</select>
 	
 	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
-	<insert id="insertByEntity" parameterType="org.ivan.entity.WeixinBusinessInfo" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertByEntity" parameterType="org.ivan.entity.wx.WeixinBusinessInfo" useGeneratedKeys="true" keyProperty="id">
 		insert into weixin_business_info
 		<trim prefix="(" suffix=")" suffixOverrides="," >
       		<if test="id!=null ">
@@ -114,7 +114,7 @@
 	</insert>
 	
 	<!-- 根据删除 -->
-	<delete id="deleteByEntity" parameterType="org.ivan.entity.WeixinBusinessInfo">
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.wx.WeixinBusinessInfo">
 		delete from weixin_business_info
 		<where>
       		<if test="id!=null ">
@@ -145,7 +145,7 @@
 	</delete>
 
 	<!-- 根据对象修改 -->
-	<update id="updateByEntity" parameterType="org.ivan.entity.WeixinBusinessInfo">
+	<update id="updateByEntity" parameterType="org.ivan.entity.wx.WeixinBusinessInfo">
 		update weixin_business_info
 		<set>
 			<if test="authorizerAppid!=null ">
@@ -178,7 +178,7 @@
 	</update>
 
 	<!-- 根据对象查询单个 -->
-	<select id="selectSingle" resultType="org.ivan.entity.WeixinBusinessInfo" resultMap="weixinbusinessinfo_result_map">
+	<select id="selectSingle" resultType="org.ivan.entity.wx.WeixinBusinessInfo" resultMap="weixinbusinessinfo_result_map">
 		select id,authorizer_appid,open_store,open_scan,open_pay,open_card,open_shake,time from weixin_business_info
 		<where>
 			<if test="id!=null ">

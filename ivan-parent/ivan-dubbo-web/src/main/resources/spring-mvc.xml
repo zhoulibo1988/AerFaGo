@@ -12,7 +12,8 @@
     http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
-	<!-- <import resource="classpath:spring.xml"/> -->
+	<!-- 定时任务 -->
+	<import resource="spring-timed-task.xml"/>
 	<!-- 自动扫描controller包下的所有类，如果@Controller注入为bean 并将bean依赖注入，即dubbo服务端暴露的Service注入到Controller中 -->
 	<dubbo:annotation package="com" />
 
@@ -146,7 +147,18 @@
 			<mvc:exclude-mapping path="/admin/*" />
 			<mvc:exclude-mapping path="/WeixinComponent/*" />
 			<mvc:exclude-mapping path="/SourceMaterial/*" />
+			<mvc:exclude-mapping path="/merchant/*" />
+			<!-- swagger -->
+			<mvc:exclude-mapping path="/swagger*/**"/>
+			<mvc:exclude-mapping path="/v2/**"/>
+			<mvc:exclude-mapping path="/webjars/**"/>
+			<mvc:exclude-mapping path="/swagger-ui.html"/>
+			
 			<bean class="com.ivan.web.interceptor.SecurityInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
+	<!-- swagger -->
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+    <bean class="com.ivan.web.interceptor.SwaggerConfig"/>  
 </beans>  

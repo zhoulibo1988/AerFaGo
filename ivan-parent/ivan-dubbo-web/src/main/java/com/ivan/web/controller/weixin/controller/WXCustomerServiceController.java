@@ -9,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.ivan.api.weixin.WeixinAuthorizationInfoService;
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthorizationInfo;
-import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.utils.PageObject;
 import org.ivan.entity.utils.ParameterEunm;
 import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthorizationInfo;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -59,8 +59,11 @@ public class WXCustomerServiceController {
     @RequestMapping(value="/getInfoList",method={RequestMethod.GET,RequestMethod.POST})
     public ModelAndView getLicensorList(HttpServletResponse response,HttpServletRequest request,@RequestParam Map<String,Object> map){
     	ModelAndView mv=new ModelAndView("weixin/service-list");
-    	if(map.containsKey("type")){
+    	if(map.containsKey("type")&&Integer.valueOf(map.get("type").toString())==1){//菜单管理
     		mv=new ModelAndView("weixin/customMenu-service-list");
+    	}
+    	if(map.containsKey("type")&&Integer.valueOf(map.get("type").toString())==2){//用户管理
+    		mv=new ModelAndView("weixin/user-service-list");
     	}
     	PageObject<WeixinAuthorizationInfo>  pageObject=weixinAuthorizationInfoService.Pagequery(map);
     	mv.addObject("list", pageObject);

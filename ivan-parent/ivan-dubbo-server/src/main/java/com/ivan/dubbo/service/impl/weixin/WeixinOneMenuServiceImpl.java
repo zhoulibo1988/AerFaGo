@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.ivan.api.weixin.WeixinOneMenuService;
-import org.ivan.entity.WeixinOneMenu;
 import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.wx.WeixinOneMenu;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;

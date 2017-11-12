@@ -3,7 +3,7 @@ package com.ivan.dubbo.dao.weixin;
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.entity.WeixinAuthorizationInfo;
+import org.ivan.entity.wx.WeixinAuthorizationInfo;
 
 import com.ivan.dubbo.dao.BaseMapper;
 

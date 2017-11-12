@@ -12,11 +12,11 @@ import net.sf.json.JSONObject;
 
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
 import org.ivan.api.weixin.WeixinOneMenuService;
-import org.ivan.entity.WeixinAuthorizationToken;
-import org.ivan.entity.WeixinOneMenu;
 import org.ivan.entity.utils.ParameterEunm;
 import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
+import org.ivan.entity.wx.WeixinOneMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;

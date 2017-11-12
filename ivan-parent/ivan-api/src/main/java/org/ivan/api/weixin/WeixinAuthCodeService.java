@@ -1,6 +1,6 @@
 package org.ivan.api.weixin;
 
-import org.ivan.entity.WeixinAuthCode;
+import org.ivan.entity.wx.WeixinAuthCode;
 
 
 /**

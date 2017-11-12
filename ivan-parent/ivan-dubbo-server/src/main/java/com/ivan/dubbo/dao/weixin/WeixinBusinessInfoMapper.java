@@ -3,7 +3,7 @@ package com.ivan.dubbo.dao.weixin;
 import java.util.List;
 import java.util.Map;
 
-import org.ivan.entity.WeixinBusinessInfo;
+import org.ivan.entity.wx.WeixinBusinessInfo;
 
 
 /**

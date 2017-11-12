@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.ivan.api.weixin.WeixinAuthCodeService;
-import org.ivan.entity.WeixinAuthCode;
 import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
+import org.ivan.entity.wx.WeixinAuthCode;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;

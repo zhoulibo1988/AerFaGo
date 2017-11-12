@@ -2,6 +2,7 @@ package com.ivan.web.controller.weixin.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.ivan.api.weixin.WeixinAuthorizationTokenService;
-import org.ivan.entity.WeixinAuthorizationToken;
 import org.ivan.entity.utils.ImageUtil;
 import org.ivan.entity.utils.ParameterEunm;
 import org.ivan.entity.utils.ReMessage;
 import org.ivan.entity.weixin.dto.WeChatContants;
+import org.ivan.entity.wx.WeixinAuthorizationToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -114,5 +115,32 @@ public class SourceMaterialController{
 		returnMap.put("mediaGetResult", mediaGetResult);
 		returnMap = ReMessage.resultBack(ParameterEunm.FAILED_CODE, returnMap);
 		return returnMap;
+	}
+	public static void main(String[] args) {
+		// 投入总资金
+		double money = 1000.00;
+		System.out.println("里面的原始总金额:"+money);
+		
+		// 投入总天数
+		int day = 365; 
+		
+		for(int i = 1 ; i< day ; i++){
+			
+			double profit = money*0.018;
+			BigDecimal  a   =   new   BigDecimal(profit);  
+			double   mtzsje2   =   a.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); 
+						
+			double futou = mtzsje2*1.8;
+			BigDecimal  c   =   new   BigDecimal(futou);  
+			double   mtzsje   =   c.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); 
+			
+			double shengyu = money-mtzsje2;
+			money = futou+shengyu;			
+			BigDecimal  m   =   new   BigDecimal(money);  
+			double zje   =   m.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue(); 
+			
+			System.out.println("第 " + i +" 天，分红-可提现的金额为 :"+ mtzsje2 +"   当天复投得到的金额为:"+ mtzsje +",   总金额:"+zje);
+		}
+
 	}
 }
