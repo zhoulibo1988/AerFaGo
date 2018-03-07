@@ -12,7 +12,7 @@ public class SysController {
     
     @RequestMapping(value = "/login",method = { RequestMethod.GET,RequestMethod.POST })
     public ModelAndView gotoLogin() {
-        ModelAndView v = new ModelAndView("/login");
+        ModelAndView v = new ModelAndView("/login/index");
         return v;
     }
     

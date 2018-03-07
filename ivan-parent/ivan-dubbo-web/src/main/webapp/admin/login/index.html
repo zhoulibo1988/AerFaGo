@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+<meta name="viewport" content="width=device-width, initial-scale=1"> 
+<title>login</title>
+<!-- HUI -->
+<script type="text/javascript" src="${basePath}/admin/public/lib/html5.js"></script>
+<script type="text/javascript" src="${basePath}/admin/public/lib/respond.min.js"></script>
+<script type="text/javascript" src="${basePath}/admin/public/lib/jquery/1.9.1/jquery.min.js"></script>
+
+<script type="text/javascript" src="${basePath}/admin/public/js/H-ui.js"></script>
+<script type="text/javascript" src="${basePath}/admin/public/js/utils/util.js"></script>
+<script type="text/javascript" src="${basePath}/admin/public/js/md5/md5.js"></script>
+<link href="${basePath}/admin/public/css/H-ui.min.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/admin/public/css/H-ui.login.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/admin/public/css/style.css" rel="stylesheet" type="text/css" />
+<link href="${basePath}/admin/public/lib/Hui-iconfont/1.0.1/iconfont.css" rel="stylesheet" type="text/css" />
+<!-- DED -->
+<link rel="stylesheet" type="text/css" href="${basePath}/admin/login/css/normalize.css" />
+<link rel="stylesheet" type="text/css" href="${basePath}/admin/login/css/demo.css" />
+<!--必要样式-->
+<link rel="stylesheet" type="text/css" href="${basePath}/admin/login/css/component.css" />
+<!--[if IE]>
+<script src="js/html5.js"></script>
+<![endif]-->
+<style>
+	.logo_box .code{
+		position:absolute !important;
+		right:30px !important;
+		top:246px !important;
+	}
+</style>
+</head>
+<body>
+		<div class="container demo-1">
+			<div class="content">
+				<div id="large-header" class="large-header">
+					<canvas id="demo-canvas"></canvas>
+					<div class="logo_box">
+						<h3>欢迎你</h3>
+						<form action="#" name="f" method="post" style="position:relativa;">
+							<div class="input_outer">
+								<span class="u_user"></span>
+								<input id="logname" name="logname" class="text" style="color: #FFFFFF !important" type="text" placeholder="请输入账户">
+							</div>
+							<div class="input_outer">
+								<span class="us_uer"></span>
+								<input id="logpass" name="logpass" class="text" style="color: #FFFFFF !important; position:absolute; z-index:100;"value="" type="password" placeholder="请输入密码">
+							</div>
+							<div class="input_outer" style="width:150px;">
+								<span class="us_uer"></span>
+								<input id="codes" name="logname" value="" class="text" style="color: #FFFFFF !important" type="text" placeholder="验证码"/>		
+							</div>
+							<div class="code" style="with:180px;positon:absolute;right:0;">
+								<img src="${basePath}/static/PictureCheckCode.jpeg" /> 
+								<a id="kanbuq" href="javascript:;" style="color:#fff;">看不清，换一张</a>
+							</div>
+							<div class="mb2"><a class="act-but submit" href="javascript:;" style="color: #FFFFFF" id="subLogin">登录</a></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div><!-- /container -->
+		<script src="${basePath}/admin/login/js/TweenLite.min.js"></script>
+		<script src="${basePath}/admin/login/js/EasePack.min.js"></script>
+		<script src="${basePath}/admin/login/js/rAF.js"></script>
+		<script src="${basePath}/admin/login/js/demo-1.js"></script>
+		<div style="text-align:center;"></div>
+	</body>
+</html>
+<script type="text/javascript">
+    /* alert('${basePath}'); */
+	$(function(){
+		//图片验证码刷新
+		$("#kanbuq").click(function (){
+			$(this).parent().find("img").attr("src","${basePath}/static/PictureCheckCode.jpeg?d="+new Date());
+		});
+		//回车登录
+		document.onkeydown = function(evt){
+			var evt = window.event?window.event:evt;
+			if (evt.keyCode==13) {
+			  $("#subLogin").click();
+		    }
+		}
+		$("#subLogin").click(function(){
+			var data = {};   //登录入参
+			data.userName=$("#logname").val();
+			var tmp = hex_md5($("#logpass").val());  
+            $("#logpass").val(tmp);
+            data.password=tmp;
+            data.code=$("#codes").val();
+			//var t = $(".form").serializeArray();
+			//$.each(t, function() {
+				//data[this.name] = this.value;
+			//});
+			/*调用登录接口*/
+			ajaxFunction("${basePath}/sysAdmin/login.do",data,"JSON",false,function(result){
+				if(result.resultCode == 200){
+					window.location.href='${basePath}' + "/" + result.Data;
+				}else{
+					Huimodal_alert(result.Data,1500);
+				}
+			},function(){
+				Huimodal_alert("登录失败,请重新登录!",1500);
+				window.location.reload();
+			});
+		});
+	});
+</script>

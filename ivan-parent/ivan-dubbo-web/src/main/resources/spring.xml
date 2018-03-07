@@ -16,6 +16,6 @@
     <dubbo:application name="ivan-dubbo-web" />  
   
     <!-- 使用zookeeper广播注册中心暴露服务地址192.168.128.128  120.24.163.62-->  
-    <dubbo:registry protocol="zookeeper" address="120.24.163.62:2181" />  
+    <dubbo:registry protocol="zookeeper" address="localhost:2181" />  
       
 </beans>  

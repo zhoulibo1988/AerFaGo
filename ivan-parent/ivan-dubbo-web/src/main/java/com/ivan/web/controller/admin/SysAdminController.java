@@ -93,7 +93,7 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 	 */
 	@RequestMapping(value = "/logout")
 	public ModelAndView logout() {
-		ModelAndView andView = new ModelAndView("login");
+		ModelAndView andView = new ModelAndView("login/index");
 		getSession().invalidate();
 		return andView;
 	}
