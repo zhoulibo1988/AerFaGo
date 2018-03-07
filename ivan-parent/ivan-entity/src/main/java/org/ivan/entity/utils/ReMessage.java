@@ -11,7 +11,7 @@ public class ReMessage {
      * @return 封装好的返回对象
      */
     public static Map<String, Object> resultBack(ParameterEunm paraEunm, Object paraData) {
-        Map<String, Object> re = new HashMap<>();
+        Map<String, Object> re = new HashMap<String, Object>();
         re.put(ParameterEunm.RESULT_DATA_STATUS_KEY.getBackParameter().toString(), paraEunm.getBackParameter());
         if (null != paraData) {
             re.put(ParameterEunm.RESULT_DATA_CONTENT_KEY.getBackParameter().toString(), paraData);
