@@ -9,6 +9,9 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -23,13 +26,11 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-import com.jfinal.log.Log;
-
 /**
  * google 开源图形码工具Zxing使用
  */
 public class ZxingKit {
-	private static Log log = Log.getLog(ZxingKit.class.getSimpleName());
+	private static final Logger logger = LoggerFactory.getLogger(ZxingKit.class);
 
 	/**
 	 * Zxing图形码生成工具
@@ -91,7 +92,7 @@ public class ZxingKit {
 				hints.put(DecodeHintType.CHARACTER_SET, "UTF-8");
 				result = new MultiFormatReader().decode(bitmap, hints);
 			} else {
-				log.debug("Could not decode image.");
+				logger.debug("Could not decode image.");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
