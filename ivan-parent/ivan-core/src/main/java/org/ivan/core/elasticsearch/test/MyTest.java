@@ -41,7 +41,7 @@ public class MyTest {
 	// 并发测试
 //	@Test
 	public void testget() throws Exception {
-		HashSet<String> set = Sets.newHashSet();
+		final HashSet<String> set = Sets.newHashSet();
 		set.add("name");
 
 		ExecutorService pool = Executors.newFixedThreadPool(10);
