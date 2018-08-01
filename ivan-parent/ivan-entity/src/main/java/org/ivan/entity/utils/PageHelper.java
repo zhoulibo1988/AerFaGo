@@ -3,10 +3,11 @@ package org.ivan.entity.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PageHelper {
-	Logger logger = Logger.getLogger(PageHelper.class);
+	private static final Logger logger = LoggerFactory.getLogger(PageHelper.class);
 	
 	private Map<String, Object> map;
 	private int totalData = 0;
@@ -26,7 +27,6 @@ public class PageHelper {
             map.put("curPage", (curPage + 1) < 0 ? (0 * pageData) : ((curPage-1) * pageData));
             // 让pageData变成INT
             map.put("pageData", (curPage + 1) < 0 ? (0 * pageData) : ((curPage) * pageData));
-            logger.debug(map);
         } else {
             map.put("curPage", curPage);
             map.put("pageData", pageData);

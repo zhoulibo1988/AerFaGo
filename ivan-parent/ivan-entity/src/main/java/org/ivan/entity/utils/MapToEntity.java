@@ -5,7 +5,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * Map 转换 成对象
@@ -15,7 +17,7 @@ import org.apache.log4j.Logger;
  */
 public class MapToEntity<T> {
 
-	Logger logger = Logger.getLogger(MapToEntity.class);
+	private static final Logger logger = LoggerFactory.getLogger(MapToEntity.class);
 
 	private T t;
 	
@@ -102,7 +104,6 @@ public class MapToEntity<T> {
 				}
 			}
 		}
-		logger.debug(temp);
 		return temp ? t : null;
 	}
 
