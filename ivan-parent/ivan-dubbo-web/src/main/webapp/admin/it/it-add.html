@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<#include "../lib/lib.html" />
+<title>添加IT资料</title>
+</head>
+<body>
+<div class="pd-20">
+	<form action="" method="post" class="form form-horizontal" id="form-adm-add">
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>资料名：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="itName" name="itName" datatype="*5-60" nullmsg="资料名不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		
+		<div class="row cl">
+			<label class="form-label col-3"><span class="c-red">*</span>资料URL：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value="" placeholder="" id="itUrl" name="itUrl" datatype="*2-60" nullmsg="资料URL不能为空">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">资料密码：</label>
+			<div class="formControls col-5">
+				<input type="text" class="input-text" value=""  id="itPassword" name="itPassword">
+			</div>
+			<div class="col-4"> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-3">类型：</label>
+			<div class="formControls col-5"> <span class="select-box" style="width:150px;">
+				<select class="select" name="itType" size="1">
+					<option value="1">文档</option>
+					<option value="2">源码</option>
+					<option value="3">视频</option>
+					<option value="4">工具</option>
+					<option value="5">其他</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<div class="col-9 col-offset-3">
+				<input class="btn btn-primary radius" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;" onclick="btnSubmit();">
+			</div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+$(function(){
+	$("#form-adm-add").Validform({
+		tiptype:2,
+		ajaxPost:true,
+		callback:function(data){
+			$.Hidemsg()
+			if(data.resultCode==200){
+				layer.msg('保存成功!', {
+					icon : 1,
+					time : 1000
+				});
+				parent.location.replace("${basePath}/ItData/getItDataByPage.do");
+				layer_close();
+			}else{
+				$("#form-adm-add").resetForm();
+				layer.msg('保存失败，请你检查数据!', {
+					icon : 1,
+					time : 1000
+				});
+			}
+		}
+	});
+	
+});
+/*提交数据*/
+function btnSubmit(){
+	$("#form-adm-add").attr( "action", "${basePath}/ItData/addItData.do").submit(); 
+}
+</script>
+</body>
+</html>
