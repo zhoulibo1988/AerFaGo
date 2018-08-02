@@ -148,6 +148,9 @@
 			<mvc:exclude-mapping path="/WeixinComponent/*" />
 			<mvc:exclude-mapping path="/SourceMaterial/*" />
 			<mvc:exclude-mapping path="/merchant/*" />
+			<mvc:exclude-mapping path="/ItData/getItDataByPageW.do" />
+			<mvc:exclude-mapping path="/itw/*" />
+			<mvc:exclude-mapping path="/ItData/*" />
 			<!-- swagger -->
 			<mvc:exclude-mapping path="/swagger*/**"/>
 			<mvc:exclude-mapping path="/v2/**"/>
