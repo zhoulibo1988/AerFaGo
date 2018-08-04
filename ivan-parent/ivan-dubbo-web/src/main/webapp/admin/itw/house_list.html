@@ -183,7 +183,7 @@
 							
 							<td>${dl_index+1}</td>
 							<td>${dl.itName!}</td>
-							<td>${dl.itUrl!}</td>
+							<td><a href="${dl.itUrl!}" style="color: black;">${dl.itUrl!}</a></td>
 							<td>${dl.itPassword!}</td>
 							<td>
 								<#if dl.itType==1>
@@ -205,12 +205,12 @@
 							</td>
 							<td>
 								<#if dl.itState==1>
-									<span class="label label-success radius">上架</span>
+									<span>上架</span>
 								<#else>
-									<span class="label radius">下架</span>
+									<span>下架</span>
 								</#if>
 							</td>
-							<td>${dl.createTime?string('yyyy-MM-dd HH:mm:ss')}</td>
+							<td>${dl.createTime?string('yyyy-MM-dd')}</td>
 							</tr>
 						</#list>
 						</#if>
@@ -233,7 +233,7 @@
 						
 							<input type="button" value="首页" class="ui_input_btn01" onclick="jumpNormalPage(1);"/>
 							<input type="button" value="上一页" class="ui_input_btn01" onclick="jumpNormalPage(${list.curPage!}-1);"/>
-							<#if list.endPage!=1>
+							<#if list.endPage!=1 || list.curPage!=list.endPage>
 							<input type="button" value="下一页" class="ui_input_btn01" onclick="jumpNormalPage(${list.curPage!}+1);" />
 							</#if>
 							<input type="button" value="尾页" class="ui_input_btn01" onclick="jumpNormalPage(${list.endPage!});" />
@@ -242,6 +242,5 @@
 			</div>
 		</div>
 	</form>
-<div style="display:none"><script src='http://v7.cnzz.com/stat.php?id=155540&web_id=155540' language='JavaScript' charset='gb2312'></script></div>
 </body>
 </html>
