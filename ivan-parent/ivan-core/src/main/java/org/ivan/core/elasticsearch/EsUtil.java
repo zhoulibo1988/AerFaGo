@@ -25,7 +25,7 @@ public class EsUtil {
 		config.setMinEvictableIdleTimeMillis(10 * 60000L); // 可发呆的时间,10mins
 		config.setTestWhileIdle(true); // 发呆过长移除的时候是否test一下先
 
-		pool = new GenericObjectPool<>(new EsFactory(), config);
+		pool = new GenericObjectPool<Es>(new EsFactory(), config);
 	}
 	/**
 	 * 查看是否链接正常
