@@ -2,14 +2,14 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="${basePath}/admin/itw/scripts/jquery/jquery-1.7.1.js"></script>
-<link href="${basePath}/admin/itw/style/authority/basic_layout.css" rel="stylesheet" type="text/css">
-<link href="${basePath}/admin/itw/style/authority/common_style.css" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="${basePath}/admin/itw/scripts/authority/commonAll.js"></script>
-<script type="text/javascript" src="${basePath}/admin/itw/scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
-<script type="text/javascript" src="${basePath}/admin/itw/scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
-<link rel="stylesheet" type="text/css" href="${basePath}/admin/itw/style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
-<script type="text/javascript" src="${basePath}/admin/itw/scripts/artDialog/artDialog.js?skin=default"></script>
+<script type="text/javascript" src="http://193.112.104.52:8080/admin/itw/scripts/jquery/jquery-1.7.1.js"></script>
+<link href="http://193.112.104.52:8080/admin/itw/style/authority/basic_layout.css" rel="stylesheet" type="text/css">
+<link href="http://193.112.104.52:8080/admin/itw/style/authority/common_style.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="http://193.112.104.52:8080/admin/itw/scripts/authority/commonAll.js"></script>
+<script type="text/javascript" src="http://193.112.104.52:8080/admin/itw/scripts/fancybox/jquery.fancybox-1.3.4.js"></script>
+<script type="text/javascript" src="http://193.112.104.52:8080/admin/itw/scripts/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+<link rel="stylesheet" type="text/css" href="http://193.112.104.52:8080/admin/itw/style/authority/jquery.fancybox-1.3.4.css" media="screen"></link>
+<script type="text/javascript" src="http://193.112.104.52:8080/admin/itw/scripts/artDialog/artDialog.js?skin=default"></script>
 <title>IT资料列表</title>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -127,7 +127,7 @@
 		if(page==0){
 			page=1;
 		}
-		$("#submitForm").attr("action", "${basePath}/ItData/getItDataByPageW.do?pageData=10&curPage=" + page).submit();
+		$("#submitForm").attr("action", "http://it.chiguateam.com:8888/it?pageData=10&curPage=" + page).submit();
 	}
 	
 	/** 输入页跳转 **/
