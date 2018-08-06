@@ -13,6 +13,9 @@ import org.ivan.entity.utils.ReadPro;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 import redis.clients.jedis.HostAndPort;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -25,9 +28,6 @@ import redis.clients.jedis.SortingParams;
 import redis.clients.jedis.Transaction;
 import redis.clients.jedis.Tuple;
 import redis.clients.util.Pool;
-
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 
 public class RedisDBUtil {
 	private static final Logger logger = LoggerFactory.getLogger(RedisDBUtil.class);
