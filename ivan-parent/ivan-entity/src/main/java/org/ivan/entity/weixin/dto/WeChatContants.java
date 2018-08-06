@@ -10,6 +10,6 @@ public class WeChatContants {
 	//公众号消息校验Token
 	public static final String  token="6d9930cd735e491c23565780ba7a9d4229215ef0";
 	//回调URL:自己的域名
-	public static final String  redirect_uri="http://zlbgogo.tunnel.echomod.cn/WeixinComponent/authInfo";
+	public static final String  redirect_uri="http://system.chiguateam.com/WeixinComponent/authInfo";
 	
 }
