@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.vide.TbMediaMapper">
+
+	<resultMap id="tbmedia_result_map" type="org.ivan.entity.vide.TbMedia" >
+		<id column="id" property="id" />
+		<result column="title" property="title"/>
+		<result column="src" property="src"/>
+		<result column="picture" property="picture"/>
+		<result column="descript" property="descript"/>
+		<result column="uptime" property="uptime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from tb_media  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="title!=null and title!=''">
+				and title like CONCAT('%',#{title},'%')
+			</if>
+			<if test="src!=null and src!=''">
+				and src like CONCAT('%',#{src},'%')
+			</if>
+			<if test="picture!=null and picture!=''">
+				and picture like CONCAT('%',#{picture},'%')
+			</if>
+			<if test="descript!=null and descript!=''">
+				and descript like CONCAT('%',#{descript},'%')
+			</if>
+			<if test="uptimeBegin!=null and uptimeBegin!=''">
+				and uptime <![CDATA[ >= ]]> str_to_date(#{uptimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="uptimeEnd!=null and uptimeEnd!=''">
+				and uptime <![CDATA[ <= ]]> str_to_date(#{uptimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.vide.TbMedia" useGeneratedKeys="true" keyProperty="id">
+		insert into tb_media
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="title!=null ">
+				title,
+			</if>
+      		<if test="src!=null ">
+				src,
+			</if>
+      		<if test="picture!=null ">
+				picture,
+			</if>
+      		<if test="descript!=null ">
+				descript,
+			</if>
+      		<if test="uptime!=null ">
+				uptime,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="title!=null ">
+      			#{title},
+			</if>
+      		<if test="src!=null ">
+      			#{src},
+			</if>
+      		<if test="picture!=null ">
+      			#{picture},
+			</if>
+      		<if test="descript!=null ">
+      			#{descript},
+			</if>
+      		<if test="uptime!=null ">
+      			#{uptime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.vide.TbMedia">
+		delete from tb_media
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="title!=null ">
+				and title=#{title}
+			</if>
+      		<if test="src!=null ">
+				and src=#{src}
+			</if>
+      		<if test="picture!=null ">
+				and picture=#{picture}
+			</if>
+      		<if test="descript!=null ">
+				and descript=#{descript}
+			</if>
+      		<if test="uptime!=null ">
+				and uptime=#{uptime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.vide.TbMedia">
+		update tb_media
+		<set>
+			<if test="title!=null ">
+				title=#{title},
+			</if>
+			<if test="src!=null ">
+				src=#{src},
+			</if>
+			<if test="picture!=null ">
+				picture=#{picture},
+			</if>
+			<if test="descript!=null ">
+				descript=#{descript},
+			</if>
+			<if test="uptime!=null ">
+				uptime=#{uptime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.vide.TbMedia" resultMap="tbmedia_result_map">
+		select id,title,src,picture,descript,uptime from tb_media
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="title!=null ">
+				and title=#{title}
+			</if>
+			<if test="src!=null ">
+				and src=#{src}
+			</if>
+			<if test="picture!=null ">
+				and picture=#{picture}
+			</if>
+			<if test="descript!=null ">
+				and descript=#{descript}
+			</if>
+			<if test="uptime!=null ">
+				and uptime=#{uptime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="tbmedia_result_map" >
+		select id,title,src,picture,descript,uptime from tb_media
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="title!=null ">
+				and title=#{title}
+			</if>
+			<if test="src!=null ">
+				and src=#{src}
+			</if>
+			<if test="picture!=null ">
+				and picture=#{picture}
+			</if>
+			<if test="descript!=null ">
+				and descript=#{descript}
+			</if>
+			<if test="uptime!=null ">
+				and uptime=#{uptime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="tbmedia_result_map" >
+		
+		SELECT id,title,src,picture,descript,uptime FROM tb_media 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="title!=null and title!=''">
+				and title like  CONCAT('%',#{title},'%')
+			</if>
+			<if test="src!=null and src!=''">
+				and src like  CONCAT('%',#{src},'%')
+			</if>
+			<if test="picture!=null and picture!=''">
+				and picture like  CONCAT('%',#{picture},'%')
+			</if>
+			<if test="descript!=null and descript!=''">
+				and descript like  CONCAT('%',#{descript},'%')
+			</if>
+			<if test="uptimeBegin!=null and uptimeBegin!=''">
+				and uptime <![CDATA[ >= ]]> str_to_date(#{uptimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="uptimeEnd!=null and uptimeEnd!=''">
+				and uptime <![CDATA[ <= ]]> str_to_date(#{uptimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>
