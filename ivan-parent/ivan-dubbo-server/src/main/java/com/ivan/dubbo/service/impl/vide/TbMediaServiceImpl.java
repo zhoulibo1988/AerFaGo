@@ -72,8 +72,7 @@ public class TbMediaServiceImpl implements TbMediaService {
 	}
 
 	public void del(TbMedia t) {
-		// TODO Auto-generated method stub
-		
+		tbMediaMapper.deleteByEntity(t);
 	}
 
  
