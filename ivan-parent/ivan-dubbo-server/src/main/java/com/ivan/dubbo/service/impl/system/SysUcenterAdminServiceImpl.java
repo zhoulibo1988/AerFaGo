@@ -88,7 +88,7 @@ public class SysUcenterAdminServiceImpl implements SysUcenterAdminService{
 		admin.setAdmDisplayName(String.valueOf(map.get("admDisplayName")));
 		admin.setAdmName( String.valueOf(map.get("admName")));
 		admin.setAdmTel(String.valueOf(map.get("admTel")));
-        String pass = admin.getAdmPassword();
+        String pass =map.get("admPassword").toString();
         pass = PasswordEncoder.getPassword(pass);
         admin.setAdmPassword(pass);
         admin.setAdmType("NORMAL");

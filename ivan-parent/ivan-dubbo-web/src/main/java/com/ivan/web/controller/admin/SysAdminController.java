@@ -352,6 +352,9 @@ public class SysAdminController extends BaseManagerController<SysUcenterAdmin>{
 			// 如果前端传的加密值与预设的加密值一样；证明用户没有修改密码；故设为null;
 			if (passWrod.equals("4c6e33e575da86adc6df9d85790c75ce")) {
 				map.put("admPassword", null);
+			}else{
+				passWrod = PasswordEncoder.getPassword(passWrod);
+				 map.put("admPassword", passWrod);
 			}
 			sysUcenterAdminService.update(map);
 			resultMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE, null);
