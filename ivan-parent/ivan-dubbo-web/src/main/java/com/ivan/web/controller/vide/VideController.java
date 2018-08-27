@@ -82,4 +82,16 @@ public class VideController {
 		me.addObject("list", pageList);
 		return me;
 	}
+	@ApiOperation("删除")
+	@RequestMapping("/delVide")
+	@ResponseBody
+	public Map<String,Object> delVide(@RequestParam Map<String,Object> map){
+		Map<String,Object> returnMap=new HashMap<String, Object>();
+		TbMedia tbMedia=new TbMedia();
+		tbMedia.setId(Integer.valueOf(map.get("id").toString()));
+		tbMediaService.del(tbMedia);
+		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE,null);
+		return returnMap;
+		
+	}
 }
