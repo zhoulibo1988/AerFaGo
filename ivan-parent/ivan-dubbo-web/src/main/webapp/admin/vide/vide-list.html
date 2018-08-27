@@ -35,6 +35,7 @@
 						<th>视频截图</th>
 						<th>视频描述</th>
 						<th>创建时间</th>
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -47,6 +48,9 @@
 							<td>${dl.picture!}</td>
 							<td>${dl.descript!}</td>
 							<td>${dl.uptime?string('yyyy-MM-dd HH:mm:ss')}</td>
+							<td>
+								<a title="删除" href="javascript:;" onclick="adm_del(this,${dl.id!})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont delete-btn">&#xe6e2;</i></a></td>
+							</td>
 						</tr>
 					</#list>
 					</#if>
@@ -89,7 +93,7 @@
 				var data = {};
 				data.id = id;
 				//后台请求保存数据
- 				$.axse("${basePath}/ItData/delItData.do",  data, function(d){
+ 				$.axse("${basePath}/vide/delVide.do",  data, function(d){
 					if(d.resultCode == 200){
 						$(obj).parents("tr").remove();
 						layer.msg('已删除!', {
@@ -111,68 +115,6 @@
 				}); 
 			});
 		}
-		
-		/*下架*/
-		function adm_stop(obj, id) {
-			layer.confirm('确认要下架吗？', function(index) {
-				var data = {};
-				data.id = id;
-				data.itState = 2;
-				//后台请求保存数据
-				$.axse("${basePath}/ItData/updateItData.do",  data, function(d){
-					if(d.resultCode == 200){
-						layer.msg('已下架!', {
-							icon : 1,
-							time : 1000
-						});
-						location.replace(location.href);
-					}else{
-						layer.msg('下架失败,请重试!', {
-							icon : 1,
-							time : 1000
-						});
-					}
-				},
-				function(d){
-					layer.msg('下架失败,请重试!', {
-						icon : 1,
-						time : 1000
-					});
-				});
-			});
-		}
-		
-		/*系统-管理员-启用*/
-		function adm_start(obj, id) {
-			layer.confirm('确认要上架吗？', function(index) {
-				var data = {};
-				data.id = id;
-				data.itState = 1;
-				//后台请求保存数据
-				$.axse("${basePath}/ItData/updateItData.do",  data, function(d){
-					if(d.resultCode == 200){
-						layer.msg('已上架!', {
-							icon : 1,
-							time : 1000
-						});
-						location.replace(location.href);
-					}else{
-						layer.msg('上架失败,请重试!', {
-							icon : 1,
-							time : 1000
-						});
-					}
-				},
-				function(d){
-					layer.msg('上架失败,请重试!', {
-						icon : 1,
-						time : 1000
-					});
-				});
-			});
-		}
-		
-	
 	</script>
 </body>
 </html>
