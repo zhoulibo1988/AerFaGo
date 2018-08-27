@@ -23,6 +23,15 @@ public class TbMedia implements Serializable{
 	private	String picture;
 	private	String descript;
 	private	Date uptime;
+	private Integer vip;
+	
+	public Integer getVip() {
+		return vip;
+	}
+
+	public void setVip(Integer vip) {
+		this.vip = vip;
+	}
 
 	/**
 	* id  Integer(10)  NOTNULL  //    
