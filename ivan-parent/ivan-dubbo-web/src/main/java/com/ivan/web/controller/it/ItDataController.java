@@ -122,8 +122,25 @@ public class ItDataController {
 		ModelAndView view = new ModelAndView("itw/house_list");
 		map.put("itDel", 2);
 		map.put("itState", 1);
+		map.put("type", 2);
 		PageObject<ItData> pageList = itDataService.Pagequery(map);
 		view.addObject("list", pageList);
+		view.addObject("type",2);
+		return view;
+	}
+	
+	@ApiOperation("php")
+	@RequestMapping("/php")
+	public ModelAndView php(@RequestParam Map<String, Object> map) {
+		logger.info("php");
+		ModelAndView view = new ModelAndView("itw/house_list");
+		map.put("itDel", 2);
+		map.put("itState", 1);
+		map.put("itType", 5);
+		map.put("type", 1);
+		PageObject<ItData> pageList = itDataService.Pagequery(map);
+		view.addObject("list", pageList);
+		view.addObject("type",1);
 		return view;
 	}
 }
