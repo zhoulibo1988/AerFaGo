@@ -154,11 +154,20 @@
 </head>
 <body>
 	<div id="container">
-		<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center"  border="0">
+		<#if type ==2>
+			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center"  border="0">
 		    <tr>
 		      <th colspan="2">IT资料库是本人多年收集而来，现在共享，如果您有好的资料，加技术服务群：389863968，Thanks</th>
 		    </tr>
 		</table>
+		</#if>
+		<#if type ==1>
+			<table class="table" cellspacing="0" cellpadding="0" width="100%" align="center"  border="0">
+		    <tr>
+		      <th colspan="2">种子库是本人多年收集而来，获取更多精彩视频请加群：44122440，Thanks</th>
+		    </tr>
+		</table>
+		</#if>
 	</div>
 	<form id="submitForm" name="submitForm" action="" method="post">
 		<input type="hidden" name="allIDCheck" value="" id="allIDCheck"/>
