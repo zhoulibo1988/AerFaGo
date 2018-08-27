@@ -11,6 +11,7 @@
 		<result column="picture" property="picture"/>
 		<result column="descript" property="descript"/>
 		<result column="uptime" property="uptime"/>
+		<result column="vip" property="vip"/>
 	</resultMap>
 	
 	<!-- 分页limit -->
@@ -45,6 +46,9 @@
 			<if test="uptimeEnd!=null and uptimeEnd!=''">
 				and uptime <![CDATA[ <= ]]> str_to_date(#{uptimeEnd},  '%Y-%m-%d') 
 			</if>
+			<if test="vip!=null and vip!=''">
+				and vip = #{vip}
+			</if>
 		</where>
 	</select>
 	
@@ -70,6 +74,9 @@
       		<if test="uptime!=null ">
 				uptime,
 			</if>
+			<if test="vip!=null ">
+				vip,
+			</if>
     	</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides="," >
       		<if test="id!=null ">
@@ -89,6 +96,9 @@
 			</if>
       		<if test="uptime!=null ">
       			#{uptime},
+			</if>
+			<if test="vip!=null ">
+				#{vip},
 			</if>
     	</trim>
 	</insert>
@@ -115,6 +125,9 @@
       		<if test="uptime!=null ">
 				and uptime=#{uptime}
 			</if>
+			<if test="vip!=null ">
+				and vip=#{vip}
+			</if>
 		</where>
 	</delete>
 
@@ -136,6 +149,9 @@
 			</if>
 			<if test="uptime!=null ">
 				uptime=#{uptime},
+			</if>
+			<if test="vip!=null ">
+				and vip=#{vip},
 			</if>
 		</set>
 		<where>
@@ -167,12 +183,15 @@
 			<if test="uptime!=null ">
 				and uptime=#{uptime}
 			</if>
+			<if test="vip!=null ">
+				and vip=#{vip}
+			</if>
 		</where>
 	</select>
 	
 	<!-- 根据对象查询列表-->
 	<select id="selectByObject" resultMap="tbmedia_result_map" >
-		select id,title,src,picture,descript,uptime from tb_media
+		select id,title,src,picture,descript,uptime,vip from tb_media
 		<where>
 			<if test="id!=null ">
 				and id=#{id}
@@ -192,13 +211,16 @@
 			<if test="uptime!=null ">
 				and uptime=#{uptime}
 			</if>
+			<if test="vip!=null ">
+				and vip=#{vip}
+			</if>
 		</where>
 	</select>
 	
 	<!-- 分页 -->
 	<select id="pageQueryByObject" resultMap="tbmedia_result_map" >
 		
-		SELECT id,title,src,picture,descript,uptime FROM tb_media 
+		SELECT id,title,src,picture,descript,uptime,vip FROM tb_media 
 		<where>
 			<if test="id!=null and id!=''">
 				and id = #{id}
@@ -220,6 +242,9 @@
 			</if>
 			<if test="uptimeEnd!=null and uptimeEnd!=''">
 				and uptime <![CDATA[ <= ]]> str_to_date(#{uptimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="vip!=null and vip!=''">
+				and vip = #{vip}
 			</if>
 		</where>
 			<if test="sortName!=null and sortName!=''">

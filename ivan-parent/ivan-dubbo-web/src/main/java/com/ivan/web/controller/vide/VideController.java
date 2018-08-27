@@ -59,6 +59,7 @@ public class VideController {
 			t.setUptime(new Date());
 			t.setSrc(map.get("src").toString());
 			t.setTitle(map.get("title").toString());
+			t.setVip(Integer.valueOf(map.get("vip").toString()));
 			tbMediaService.insert(t);
 			returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE,null);
 		}
@@ -73,10 +74,11 @@ public class VideController {
 		return me;
 	}
 	
-	@ApiOperation("用户观看首页视频列表")
+	@ApiOperation("体验用户观看首页视频列表")
 	@RequestMapping("/getVideIndex")
 	public ModelAndView getVideIndex(@RequestParam Map<String,Object> map) {
 		logger.info("用户观看首页视频列表");
+		map.put("vip",2);
 		ModelAndView me=new ModelAndView("vide/vide-index");
 		PageObject<TbMedia> pageList=tbMediaService.Pagequery(map);
 		me.addObject("list", pageList);
@@ -92,6 +94,16 @@ public class VideController {
 		tbMediaService.del(tbMedia);
 		returnMap = ReMessage.resultBack(ParameterEunm.SUCCESSFUL_CODE,null);
 		return returnMap;
-		
+	}
+	
+	@ApiOperation("VIP用户观看首页视频列表")
+	@RequestMapping("/getVipVideIndex")
+	public ModelAndView getVipVideIndex(@RequestParam Map<String,Object> map) {
+		logger.info("用户观看首页视频列表");
+		map.put("vip",1);
+		ModelAndView me=new ModelAndView("vide/vide-vip-index");
+		PageObject<TbMedia> pageList=tbMediaService.Pagequery(map);
+		me.addObject("list", pageList);
+		return me;
 	}
 }
