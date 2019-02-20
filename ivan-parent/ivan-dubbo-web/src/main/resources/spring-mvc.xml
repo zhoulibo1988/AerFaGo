@@ -151,7 +151,11 @@
 			<mvc:exclude-mapping path="/ItData/getItDataByPageW.do" />
 			<mvc:exclude-mapping path="/itw/*" />
 			<mvc:exclude-mapping path="/ItData/*" />
-			
+			<mvc:exclude-mapping path="/film/*" />
+			<mvc:exclude-mapping path="/1-index-animation/*" />
+			<mvc:exclude-mapping path="/img/*" />
+			<mvc:exclude-mapping path="/js/*" />
+			<mvc:exclude-mapping path="/static/*" />
 			<!-- swagger -->
 			<mvc:exclude-mapping path="/swagger*/**"/>
 			<mvc:exclude-mapping path="/v2/**"/>
