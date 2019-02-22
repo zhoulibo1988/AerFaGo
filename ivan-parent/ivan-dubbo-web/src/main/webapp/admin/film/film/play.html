@@ -7,15 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1 , user-scalable=no">
     <title>微电影</title>
-    <link rel="shortcut icon" href="../static/base/images/logo.png">
-    <link rel="stylesheet" href="../static/base/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../static/base/css/bootstrap-movie.css">
-    <link rel="stylesheet" href="../static/base/css/animate.css">
+    <link rel="shortcut icon" href="/admin/film/static/base/images/logo.png">
+    <link rel="stylesheet" href="/admin/film/static/base/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/admin/film/static/base/css/bootstrap-movie.css">
+    <link rel="stylesheet" href="/admin/film/static/base/css/animate.css">
     <!--播放页面-->
-    <link rel="stylesheet" type="text/css" href="../static/jwplayer/skins/stormtrooper.css">
-    <script type="text/javascript" src="../static/ueditor/ueditor.config.js"></script>
-    <script type="text/javascript" src="../static/ueditor/ueditor.all.js"></script>
-    <script type="text/javascript" src="../static/ueditor/lang/zh-cn/zh-cn.js"></script>
+    <link rel="stylesheet" type="text/css" href="/admin/film/static/jwplayer/skins/stormtrooper.css">
+    <script type="text/javascript" src="/admin/film/static/ueditor/ueditor.config.js"></script>
+    <script type="text/javascript" src="/admin/film/static/ueditor/ueditor.all.js"></script>
+    <script type="text/javascript" src="/admin/film/static/ueditor/lang/zh-cn/zh-cn.js"></script>
     <script>
         SyntaxHighlighter.all();
     </script>
@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
             </button>
             <a href="index.html" class="navbar-brand" style="width:250px;">
-                <img src="../static/base/images/logo.png" style="height:30px;">&nbsp;微电影
+                <img src="/admin/film/static/base/images/logo.png" style="height:30px;">&nbsp;微电影
             </a>
         </div>
         <!--小屏幕导航按钮和logo-->
@@ -338,14 +338,14 @@
     </div>
 </footer>
 <!--底部-->
-<script src="../static/base/js/jquery.min.js"></script>
-<script src="../static/base/js/bootstrap.min.js"></script>
-<script src="../static/base/js/jquery.singlePageNav.min.js"></script>
-<script src="../static/base/js/wow.min.js"></script>
-<script src="../static/lazyload/jquery.lazyload.min.js"></script>
-<script src="//cdn.bootcss.com/holder/2.9.4/holder.min.js"></script>
+<script src="/admin/film/static/base/js/jquery.min.js"></script>
+<script src="/admin/film/static/base/js/bootstrap.min.js"></script>
+<script src="/admin/film/static/base/js/jquery.singlePageNav.min.js"></script>
+<script src="/admin/film/static/base/js/wow.min.js"></script>
+<script src="/admin/film/static/lazyload/jquery.lazyload.min.js"></script>
+<script src="/admin/film/static/base/js/holder.min.js"></script>
 <!--播放页面-->
-<script src="../static/jwplayer/jwplayer.js"></script>
+<script src="/admin/film/static/jwplayer/jwplayer.js"></script>
 <script>
 var ue = UE.getEditor('input_content',{
     toolbars: [
@@ -360,16 +360,17 @@ var ue = UE.getEditor('input_content',{
 </script>
 <script type="text/javascript">
 	jwplayer("moviecontainer").setup({
-		flashplayer: "../static/jwplayer/jwplayer.flash.swf",
+		flashplayer: "/admin/film/static/jwplayer/jwplayer.flash.swf",
 		playlist: [{
-			file: "../static/video/htpy.mp4",
-			title: "环太平洋"
+			//file: "../static/video/htpy.mp4",
+			file:"${filmInfo.playUrl!}",
+			title: "${filmInfo.filmName!}"
 		}],
 		modes: [{
 			type: "html5"
 		}, {
 			type: "flash",
-			src: "../static/jwplayer/jwplayer.flash.swf"
+			src: "/admin/film/static/jwplayer/jwplayer.flash.swf"
 		}, {
 			type: "download"
 		}],

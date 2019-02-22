@@ -21,7 +21,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ivan.web.controller.swagger")) // 注意修改此处的包名
+                .apis(RequestHandlerSelectors.basePackage("com.ivan.web.controller")) // 注意修改此处的包名
                 .paths(PathSelectors.any())
                 .build();
     }

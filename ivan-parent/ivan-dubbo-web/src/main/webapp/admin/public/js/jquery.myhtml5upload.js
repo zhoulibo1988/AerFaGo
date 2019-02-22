@@ -139,7 +139,8 @@
 						// 开始上传
 						option.onUploadStart(file);
 						xhr.open("POST",option.url,true);
-//						xhr.setRequestHeader('content-type', 'multipart/form-data; boundary=' + boundary);
+						alert("AA");
+						xhr.setRequestHeader('content-type', 'multipart/form-data; boundary=' + boundary);
 	  				    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 	  				    var form = new FormData();
 	  				    $.each(option.formData,function(k,v){

@@ -153,13 +153,15 @@
                     </tr>
                 </table>
             </div>
+            <#if list.dataList?? && list.dataList?size gt 0>
+            <#list list.dataList as dl >
             <div class="col-md-3">
                 <div class="movielist text-center">
                     <!--<img data-original="holder.js/262x166"
                              class="img-responsive lazy center-block" alt="">-->
                     <img src="/admin/film/img/fengmian.gif" class="img-responsive center-block" alt="">
                     <div class="text-left" style="margin-left:auto;margin-right:auto;width:210px;">
-                        <span style="color:#999;font-style: italic;">环太平洋</span><br>
+                        <span style="color:#999;font-style: italic;">${dl.filmName!}</span><br>
                         <div>
                             <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
                             <span class="glyphicon glyphicon-star" style="color:#FFD119"></span>
@@ -168,9 +170,11 @@
                             <span class="glyphicon glyphicon-star-empty" style="color:#FFD119"></span>
                         </div>
                     </div>
-                    <a href="play.html" class="btn btn-primary" target="_blank" role="button"><span class="glyphicon glyphicon-play"></span>&nbsp;播放</a>
+                    <button href="play.html" class="btn btn-primary" target="_blank" role="button" onclick="pay(this,'${dl.id!}')"><span class="glyphicon glyphicon-play"></span>&nbsp;播放</button>
                 </div>
             </div>
+            </#list>
+            </#if>
             <div class="col-md-3">
                 <div class="movielist text-center">
                     <!--<img data-original="holder.js/262x166"
@@ -432,6 +436,12 @@
         });
     });
 
+</script>
+<script>
+	function pay(obj,id) {
+		alert("打开详情页面");
+		window.open("${basePath}/film/getFilmInfo.do?id="+id);
+	}
 </script>
 </body>
 </html>

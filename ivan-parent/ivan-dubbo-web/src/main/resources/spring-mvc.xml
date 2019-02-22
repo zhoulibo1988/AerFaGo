@@ -104,7 +104,7 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<property name="defaultEncoding" value="UTF-8" />
 		<!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
-		<property name="maxUploadSize" value="200000" />
+		<property name="maxUploadSize" value="20000000" />
 	</bean>
 
 	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
@@ -156,6 +156,9 @@
 			<mvc:exclude-mapping path="/img/*" />
 			<mvc:exclude-mapping path="/js/*" />
 			<mvc:exclude-mapping path="/static/*" />
+			<mvc:exclude-mapping path="/api/*" />
+			<mvc:exclude-mapping path="/api/upload2/*" />
+			
 			<!-- swagger -->
 			<mvc:exclude-mapping path="/swagger*/**"/>
 			<mvc:exclude-mapping path="/v2/**"/>
