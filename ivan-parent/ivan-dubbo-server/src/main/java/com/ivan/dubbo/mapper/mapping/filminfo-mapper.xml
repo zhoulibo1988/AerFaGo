@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmInfoMapper">
+
+	<resultMap id="filminfo_result_map" type="org.ivan.entity.file.FilmInfo" >
+		<id column="id" property="id" />
+		<result column="film_name" property="filmName"/>
+		<result column="label_id" property="labelId"/>
+		<result column="film_time" property="filmTime"/>
+		<result column="country_id" property="countryId"/>
+		<result column="star_id" property="starId"/>
+		<result column="release_time" property="releaseTime"/>
+		<result column="play_number" property="playNumber"/>
+		<result column="comment_number" property="commentNumber"/>
+		<result column="film_introduce" property="filmIntroduce"/>
+		<result column="film_state" property="filmState"/>
+		<result column="play_url" property="playUrl"/>
+		<result column="film_vip" property="filmVip"/>
+		<result column="creation_time" property="creationTime"/>
+		<result column="update_time" property="updateTime"/>
+		<result column="creation_userid" property="creationUserid"/>
+		<result column="update_userid" property="updateUserid"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_info  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="filmName!=null and filmName!=''">
+				and film_name like CONCAT('%',#{filmName},'%')
+			</if>
+			<if test="labelId!=null and labelId!=''">
+				and label_id = #{labelId}
+			</if>
+			<if test="filmTime!=null and filmTime!=''">
+				and film_time like CONCAT('%',#{filmTime},'%')
+			</if>
+			<if test="countryId!=null and countryId!=''">
+				and country_id = #{countryId}
+			</if>
+			<if test="starId!=null and starId!=''">
+				and star_id = #{starId}
+			</if>
+			<if test="releaseTime!=null and releaseTime!=''">
+				and release_time like CONCAT('%',#{releaseTime},'%')
+			</if>
+			<if test="playNumber!=null and playNumber!=''">
+				and play_number = #{playNumber}
+			</if>
+			<if test="commentNumber!=null and commentNumber!=''">
+				and comment_number = #{commentNumber}
+			</if>
+			<if test="filmIntroduce!=null and filmIntroduce!=''">
+				and film_introduce like CONCAT('%',#{filmIntroduce},'%')
+			</if>
+			<if test="filmState!=null and filmState!=''">
+				and film_state = #{filmState}
+			</if>
+			<if test="playUrl!=null and playUrl!=''">
+				and play_url like CONCAT('%',#{playUrl},'%')
+			</if>
+			<if test="filmVip!=null and filmVip!=''">
+				and film_vip = #{filmVip}
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="creationUserid!=null and creationUserid!=''">
+				and creation_userid = #{creationUserid}
+			</if>
+			<if test="updateUserid!=null and updateUserid!=''">
+				and update_userid = #{updateUserid}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into film_info
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="filmName!=null ">
+				film_name,
+			</if>
+      		<if test="labelId!=null ">
+				label_id,
+			</if>
+      		<if test="filmTime!=null ">
+				film_time,
+			</if>
+      		<if test="countryId!=null ">
+				country_id,
+			</if>
+      		<if test="starId!=null ">
+				star_id,
+			</if>
+      		<if test="releaseTime!=null ">
+				release_time,
+			</if>
+      		<if test="playNumber!=null ">
+				play_number,
+			</if>
+      		<if test="commentNumber!=null ">
+				comment_number,
+			</if>
+      		<if test="filmIntroduce!=null ">
+				film_introduce,
+			</if>
+      		<if test="filmState!=null ">
+				film_state,
+			</if>
+      		<if test="playUrl!=null ">
+				play_url,
+			</if>
+      		<if test="filmVip!=null ">
+				film_vip,
+			</if>
+      		<if test="creationTime!=null ">
+				creation_time,
+			</if>
+      		<if test="updateTime!=null ">
+				update_time,
+			</if>
+      		<if test="creationUserid!=null ">
+				creation_userid,
+			</if>
+      		<if test="updateUserid!=null ">
+				update_userid,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="filmName!=null ">
+      			#{filmName},
+			</if>
+      		<if test="labelId!=null ">
+      			#{labelId},
+			</if>
+      		<if test="filmTime!=null ">
+      			#{filmTime},
+			</if>
+      		<if test="countryId!=null ">
+      			#{countryId},
+			</if>
+      		<if test="starId!=null ">
+      			#{starId},
+			</if>
+      		<if test="releaseTime!=null ">
+      			#{releaseTime},
+			</if>
+      		<if test="playNumber!=null ">
+      			#{playNumber},
+			</if>
+      		<if test="commentNumber!=null ">
+      			#{commentNumber},
+			</if>
+      		<if test="filmIntroduce!=null ">
+      			#{filmIntroduce},
+			</if>
+      		<if test="filmState!=null ">
+      			#{filmState},
+			</if>
+      		<if test="playUrl!=null ">
+      			#{playUrl},
+			</if>
+      		<if test="filmVip!=null ">
+      			#{filmVip},
+			</if>
+      		<if test="creationTime!=null ">
+      			#{creationTime},
+			</if>
+      		<if test="updateTime!=null ">
+      			#{updateTime},
+			</if>
+      		<if test="creationUserid!=null ">
+      			#{creationUserid},
+			</if>
+      		<if test="updateUserid!=null ">
+      			#{updateUserid},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmInfo">
+		delete from film_info
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="filmName!=null ">
+				and film_name=#{filmName}
+			</if>
+      		<if test="labelId!=null ">
+				and label_id=#{labelId}
+			</if>
+      		<if test="filmTime!=null ">
+				and film_time=#{filmTime}
+			</if>
+      		<if test="countryId!=null ">
+				and country_id=#{countryId}
+			</if>
+      		<if test="starId!=null ">
+				and star_id=#{starId}
+			</if>
+      		<if test="releaseTime!=null ">
+				and release_time=#{releaseTime}
+			</if>
+      		<if test="playNumber!=null ">
+				and play_number=#{playNumber}
+			</if>
+      		<if test="commentNumber!=null ">
+				and comment_number=#{commentNumber}
+			</if>
+      		<if test="filmIntroduce!=null ">
+				and film_introduce=#{filmIntroduce}
+			</if>
+      		<if test="filmState!=null ">
+				and film_state=#{filmState}
+			</if>
+      		<if test="playUrl!=null ">
+				and play_url=#{playUrl}
+			</if>
+      		<if test="filmVip!=null ">
+				and film_vip=#{filmVip}
+			</if>
+      		<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+      		<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+      		<if test="creationUserid!=null ">
+				and creation_userid=#{creationUserid}
+			</if>
+      		<if test="updateUserid!=null ">
+				and update_userid=#{updateUserid}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmInfo">
+		update film_info
+		<set>
+			<if test="filmName!=null ">
+				film_name=#{filmName},
+			</if>
+			<if test="labelId!=null ">
+				label_id=#{labelId},
+			</if>
+			<if test="filmTime!=null ">
+				film_time=#{filmTime},
+			</if>
+			<if test="countryId!=null ">
+				country_id=#{countryId},
+			</if>
+			<if test="starId!=null ">
+				star_id=#{starId},
+			</if>
+			<if test="releaseTime!=null ">
+				release_time=#{releaseTime},
+			</if>
+			<if test="playNumber!=null ">
+				play_number=#{playNumber},
+			</if>
+			<if test="commentNumber!=null ">
+				comment_number=#{commentNumber},
+			</if>
+			<if test="filmIntroduce!=null ">
+				film_introduce=#{filmIntroduce},
+			</if>
+			<if test="filmState!=null ">
+				film_state=#{filmState},
+			</if>
+			<if test="playUrl!=null ">
+				play_url=#{playUrl},
+			</if>
+			<if test="filmVip!=null ">
+				film_vip=#{filmVip},
+			</if>
+			<if test="creationTime!=null ">
+				creation_time=#{creationTime},
+			</if>
+			<if test="updateTime!=null ">
+				update_time=#{updateTime},
+			</if>
+			<if test="creationUserid!=null ">
+				creation_userid=#{creationUserid},
+			</if>
+			<if test="updateUserid!=null ">
+				update_userid=#{updateUserid},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmInfo" resultMap="filminfo_result_map">
+		select id,film_name,label_id,film_time,country_id,star_id,release_time,play_number,comment_number,film_introduce,film_state,play_url,film_vip,creation_time,update_time,creation_userid,update_userid from film_info
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="filmName!=null ">
+				and film_name=#{filmName}
+			</if>
+			<if test="labelId!=null ">
+				and label_id=#{labelId}
+			</if>
+			<if test="filmTime!=null ">
+				and film_time=#{filmTime}
+			</if>
+			<if test="countryId!=null ">
+				and country_id=#{countryId}
+			</if>
+			<if test="starId!=null ">
+				and star_id=#{starId}
+			</if>
+			<if test="releaseTime!=null ">
+				and release_time=#{releaseTime}
+			</if>
+			<if test="playNumber!=null ">
+				and play_number=#{playNumber}
+			</if>
+			<if test="commentNumber!=null ">
+				and comment_number=#{commentNumber}
+			</if>
+			<if test="filmIntroduce!=null ">
+				and film_introduce=#{filmIntroduce}
+			</if>
+			<if test="filmState!=null ">
+				and film_state=#{filmState}
+			</if>
+			<if test="playUrl!=null ">
+				and play_url=#{playUrl}
+			</if>
+			<if test="filmVip!=null ">
+				and film_vip=#{filmVip}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="creationUserid!=null ">
+				and creation_userid=#{creationUserid}
+			</if>
+			<if test="updateUserid!=null ">
+				and update_userid=#{updateUserid}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filminfo_result_map" >
+		select id,film_name,label_id,film_time,country_id,star_id,release_time,play_number,comment_number,film_introduce,film_state,play_url,film_vip,creation_time,update_time,creation_userid,update_userid from film_info
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="filmName!=null ">
+				and film_name=#{filmName}
+			</if>
+			<if test="labelId!=null ">
+				and label_id=#{labelId}
+			</if>
+			<if test="filmTime!=null ">
+				and film_time=#{filmTime}
+			</if>
+			<if test="countryId!=null ">
+				and country_id=#{countryId}
+			</if>
+			<if test="starId!=null ">
+				and star_id=#{starId}
+			</if>
+			<if test="releaseTime!=null ">
+				and release_time=#{releaseTime}
+			</if>
+			<if test="playNumber!=null ">
+				and play_number=#{playNumber}
+			</if>
+			<if test="commentNumber!=null ">
+				and comment_number=#{commentNumber}
+			</if>
+			<if test="filmIntroduce!=null ">
+				and film_introduce=#{filmIntroduce}
+			</if>
+			<if test="filmState!=null ">
+				and film_state=#{filmState}
+			</if>
+			<if test="playUrl!=null ">
+				and play_url=#{playUrl}
+			</if>
+			<if test="filmVip!=null ">
+				and film_vip=#{filmVip}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+			<if test="updateTime!=null ">
+				and update_time=#{updateTime}
+			</if>
+			<if test="creationUserid!=null ">
+				and creation_userid=#{creationUserid}
+			</if>
+			<if test="updateUserid!=null ">
+				and update_userid=#{updateUserid}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filminfo_result_map" >
+		
+		SELECT id,film_name,label_id,film_time,country_id,star_id,release_time,play_number,comment_number,film_introduce,film_state,play_url,film_vip,creation_time,update_time,creation_userid,update_userid FROM film_info 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="filmName!=null and filmName!=''">
+				and film_name like  CONCAT('%',#{filmName},'%')
+			</if>
+			<if test="labelId!=null and labelId!=''">
+				and label_id = #{labelId}
+			</if>
+			<if test="filmTime!=null and filmTime!=''">
+				and film_time like  CONCAT('%',#{filmTime},'%')
+			</if>
+			<if test="countryId!=null and countryId!=''">
+				and country_id = #{countryId}
+			</if>
+			<if test="starId!=null and starId!=''">
+				and star_id = #{starId}
+			</if>
+			<if test="releaseTime!=null and releaseTime!=''">
+				and release_time like  CONCAT('%',#{releaseTime},'%')
+			</if>
+			<if test="playNumber!=null and playNumber!=''">
+				and play_number = #{playNumber}
+			</if>
+			<if test="commentNumber!=null and commentNumber!=''">
+				and comment_number = #{commentNumber}
+			</if>
+			<if test="filmIntroduce!=null and filmIntroduce!=''">
+				and film_introduce like  CONCAT('%',#{filmIntroduce},'%')
+			</if>
+			<if test="filmState!=null and filmState!=''">
+				and film_state = #{filmState}
+			</if>
+			<if test="playUrl!=null and playUrl!=''">
+				and play_url like  CONCAT('%',#{playUrl},'%')
+			</if>
+			<if test="filmVip!=null and filmVip!=''">
+				and film_vip = #{filmVip}
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeBegin!=null and updateTimeBegin!=''">
+				and update_time <![CDATA[ >= ]]> str_to_date(#{updateTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="updateTimeEnd!=null and updateTimeEnd!=''">
+				and update_time <![CDATA[ <= ]]> str_to_date(#{updateTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="creationUserid!=null and creationUserid!=''">
+				and creation_userid = #{creationUserid}
+			</if>
+			<if test="updateUserid!=null and updateUserid!=''">
+				and update_userid = #{updateUserid}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

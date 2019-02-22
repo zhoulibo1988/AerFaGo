@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmLabelMapper">
+
+	<resultMap id="filmlabel_result_map" type="org.ivan.entity.file.FilmLabel" >
+		<id column="id" property="id" />
+		<result column="label_name" property="labelName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_label  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="labelName!=null and labelName!=''">
+				and label_name like CONCAT('%',#{labelName},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmLabel" useGeneratedKeys="true" keyProperty="id">
+		insert into film_label
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="labelName!=null ">
+				label_name,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="labelName!=null ">
+      			#{labelName},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmLabel">
+		delete from film_label
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="labelName!=null ">
+				and label_name=#{labelName}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmLabel">
+		update film_label
+		<set>
+			<if test="labelName!=null ">
+				label_name=#{labelName},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmLabel" resultMap="filmlabel_result_map">
+		select id,label_name from film_label
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="labelName!=null ">
+				and label_name=#{labelName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filmlabel_result_map" >
+		select id,label_name from film_label
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="labelName!=null ">
+				and label_name=#{labelName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filmlabel_result_map" >
+		
+		SELECT id,label_name FROM film_label 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="labelName!=null and labelName!=''">
+				and label_name like  CONCAT('%',#{labelName},'%')
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

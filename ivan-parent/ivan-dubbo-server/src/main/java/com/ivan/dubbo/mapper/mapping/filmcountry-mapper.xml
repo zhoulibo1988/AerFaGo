@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmCountryMapper">
+
+	<resultMap id="filmcountry_result_map" type="org.ivan.entity.file.FilmCountry" >
+		<id column="id" property="id" />
+		<result column="country_name" property="countryName"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_country  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="countryName!=null and countryName!=''">
+				and country_name like CONCAT('%',#{countryName},'%')
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmCountry" useGeneratedKeys="true" keyProperty="id">
+		insert into film_country
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="countryName!=null ">
+				country_name,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="countryName!=null ">
+      			#{countryName},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmCountry">
+		delete from film_country
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="countryName!=null ">
+				and country_name=#{countryName}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmCountry">
+		update film_country
+		<set>
+			<if test="countryName!=null ">
+				country_name=#{countryName},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmCountry" resultMap="filmcountry_result_map">
+		select id,country_name from film_country
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="countryName!=null ">
+				and country_name=#{countryName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filmcountry_result_map" >
+		select id,country_name from film_country
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="countryName!=null ">
+				and country_name=#{countryName}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filmcountry_result_map" >
+		
+		SELECT id,country_name FROM film_country 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="countryName!=null and countryName!=''">
+				and country_name like  CONCAT('%',#{countryName},'%')
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

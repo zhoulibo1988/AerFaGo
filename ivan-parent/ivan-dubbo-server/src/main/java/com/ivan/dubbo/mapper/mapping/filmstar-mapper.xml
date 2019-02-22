@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmStarMapper">
+
+	<resultMap id="filmstar_result_map" type="org.ivan.entity.file.FilmStar" >
+		<id column="id" property="id" />
+		<result column="star_number" property="starNumber"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_star  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="starNumber!=null and starNumber!=''">
+				and star_number = #{starNumber}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmStar" useGeneratedKeys="true" keyProperty="id">
+		insert into film_star
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="starNumber!=null ">
+				star_number,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="starNumber!=null ">
+      			#{starNumber},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmStar">
+		delete from film_star
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="starNumber!=null ">
+				and star_number=#{starNumber}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmStar">
+		update film_star
+		<set>
+			<if test="starNumber!=null ">
+				star_number=#{starNumber},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmStar" resultMap="filmstar_result_map">
+		select id,star_number from film_star
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="starNumber!=null ">
+				and star_number=#{starNumber}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filmstar_result_map" >
+		select id,star_number from film_star
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="starNumber!=null ">
+				and star_number=#{starNumber}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filmstar_result_map" >
+		
+		SELECT id,star_number FROM film_star 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="starNumber!=null and starNumber!=''">
+				and star_number = #{starNumber}
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>
