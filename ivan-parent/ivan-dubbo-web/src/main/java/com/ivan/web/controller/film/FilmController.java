@@ -57,8 +57,15 @@ public class FilmController {
 			infoList=new PageObject<FilmInfo>();
 			
 		}
+		//获取标签
+		List<FilmLabel> lablelist=filmLabelService.getList(null);
+		//xing ji
+		List<FilmStar> starList=filmStarService.getList(null);
+		//
 		ModelAndView view = new ModelAndView("film/film/index");
 		view.addObject("list", infoList);
+		view.addObject("lablelist", lablelist);
+		view.addObject("starList", starList);
 		return view;
 	}
 	@ApiOperation("获取电影详情页面")
@@ -69,6 +76,29 @@ public class FilmController {
 		filmInfo.setId(Integer.valueOf(map.get("id").toString()));
 		filmInfo.setFilmState(1);
 		filmInfo=filmInfoService.selectSingle(filmInfo);
+		if(filmInfo!=null) {
+			//获取标签
+			int labelid=filmInfo.getLabelId();
+			FilmLabel filmLabel=new FilmLabel();
+			filmLabel.setId(labelid);
+			filmLabel=filmLabelService.selectSingle(filmLabel);
+			view.addObject("filmLabel", filmLabel);
+			
+			// guo jia id
+			int countryid=filmInfo.getCountryId();
+			FilmCountry filmCountry=new FilmCountry();
+			filmCountry.setId(countryid);
+			filmCountry=filmCountryService.selectSingle(filmCountry);
+			view.addObject("filmCountry", filmCountry);
+			
+			//xing ji
+			int starid=filmInfo.getStarId();
+			FilmStar statr=new FilmStar();
+			statr.setId(starid);
+			statr=filmStarService.selectSingle(statr);
+			view.addObject("filmstatr", statr);
+			
+		}
 		view.addObject("filmInfo", filmInfo);
 		return view;
 	}

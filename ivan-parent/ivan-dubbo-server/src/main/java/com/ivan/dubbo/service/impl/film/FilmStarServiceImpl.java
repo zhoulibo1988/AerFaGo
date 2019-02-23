@@ -36,7 +36,7 @@ public class FilmStarServiceImpl  implements FilmStarService {
 	@Override
 	public FilmStar selectSingle(FilmStar t) {
 		// TODO Auto-generated method stub
-		return null;
+		return filmStarMapper.selectSingle(t);
 	}
 
 	@Override

@@ -36,7 +36,7 @@ public class FilmCountryServiceImpl implements FilmCountryService {
 	@Override
 	public FilmCountry selectSingle(FilmCountry t) {
 		// TODO Auto-generated method stub
-		return null;
+		return filmCountryMapper.selectSingle(t);
 	}
 
 	@Override

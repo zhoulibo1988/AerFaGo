@@ -9,6 +9,7 @@ import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.alibaba.dubbo.config.annotation.Service;
+import com.ivan.dubbo.dao.film.FilmCountryMapper;
 import com.ivan.dubbo.dao.film.FilmLabelMapper;
 
 /**
@@ -36,7 +37,7 @@ public class FilmLabelServiceImpl  implements FilmLabelService {
 	@Override
 	public FilmLabel selectSingle(FilmLabel t) {
 		// TODO Auto-generated method stub
-		return null;
+		return filmLabelMapper.selectSingle(t);
 	}
 
 	@Override
