@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmUserMapper">
+
+	<resultMap id="filmuser_result_map" type="org.ivan.entity.file.FilmUser" >
+		<id column="id" property="id" />
+		<result column="user_name" property="userName"/>
+		<result column="user_emil" property="userEmil"/>
+		<result column="user_image" property="userImage"/>
+		<result column="user_phone" property="userPhone"/>
+		<result column="user_password" property="userPassword"/>
+		<result column="login_time" property="loginTime"/>
+		<result column="login_number" property="loginNumber"/>
+		<result column="is_vip" property="isVip"/>
+		<result column="vip_time" property="vipTime"/>
+		<result column="user_synopsis" property="userSynopsis"/>
+		<result column="is_delete" property="isDelete"/>
+		<result column="creation_time" property="creationTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_user  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like CONCAT('%',#{userName},'%')
+			</if>
+			<if test="userEmil!=null and userEmil!=''">
+				and user_emil like CONCAT('%',#{userEmil},'%')
+			</if>
+			<if test="userImage!=null and userImage!=''">
+				and user_image like CONCAT('%',#{userImage},'%')
+			</if>
+			<if test="userPhone!=null and userPhone!=''">
+				and user_phone like CONCAT('%',#{userPhone},'%')
+			</if>
+			<if test="userPassword!=null and userPassword!=''">
+				and user_password like CONCAT('%',#{userPassword},'%')
+			</if>
+			<if test="loginTimeBegin!=null and loginTimeBegin!=''">
+				and login_time <![CDATA[ >= ]]> str_to_date(#{loginTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="loginTimeEnd!=null and loginTimeEnd!=''">
+				and login_time <![CDATA[ <= ]]> str_to_date(#{loginTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="loginNumber!=null and loginNumber!=''">
+				and login_number = #{loginNumber}
+			</if>
+			<if test="isVip!=null and isVip!=''">
+				and is_vip = #{isVip}
+			</if>
+			<if test="vipTimeBegin!=null and vipTimeBegin!=''">
+				and vip_time <![CDATA[ >= ]]> str_to_date(#{vipTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="vipTimeEnd!=null and vipTimeEnd!=''">
+				and vip_time <![CDATA[ <= ]]> str_to_date(#{vipTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="userSynopsis!=null and userSynopsis!=''">
+				and user_synopsis like CONCAT('%',#{userSynopsis},'%')
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmUser" useGeneratedKeys="true" keyProperty="id">
+		insert into film_user
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="userName!=null ">
+				user_name,
+			</if>
+      		<if test="userEmil!=null ">
+				user_emil,
+			</if>
+      		<if test="userImage!=null ">
+				user_image,
+			</if>
+      		<if test="userPhone!=null ">
+				user_phone,
+			</if>
+      		<if test="userPassword!=null ">
+				user_password,
+			</if>
+      		<if test="loginTime!=null ">
+				login_time,
+			</if>
+      		<if test="loginNumber!=null ">
+				login_number,
+			</if>
+      		<if test="isVip!=null ">
+				is_vip,
+			</if>
+      		<if test="vipTime!=null ">
+				vip_time,
+			</if>
+      		<if test="userSynopsis!=null ">
+				user_synopsis,
+			</if>
+      		<if test="isDelete!=null ">
+				is_delete,
+			</if>
+      		<if test="creationTime!=null ">
+				creation_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="userName!=null ">
+      			#{userName},
+			</if>
+      		<if test="userEmil!=null ">
+      			#{userEmil},
+			</if>
+      		<if test="userImage!=null ">
+      			#{userImage},
+			</if>
+      		<if test="userPhone!=null ">
+      			#{userPhone},
+			</if>
+      		<if test="userPassword!=null ">
+      			#{userPassword},
+			</if>
+      		<if test="loginTime!=null ">
+      			#{loginTime},
+			</if>
+      		<if test="loginNumber!=null ">
+      			#{loginNumber},
+			</if>
+      		<if test="isVip!=null ">
+      			#{isVip},
+			</if>
+      		<if test="vipTime!=null ">
+      			#{vipTime},
+			</if>
+      		<if test="userSynopsis!=null ">
+      			#{userSynopsis},
+			</if>
+      		<if test="isDelete!=null ">
+      			#{isDelete},
+			</if>
+      		<if test="creationTime!=null ">
+      			#{creationTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmUser">
+		delete from film_user
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+      		<if test="userEmil!=null ">
+				and user_emil=#{userEmil}
+			</if>
+      		<if test="userImage!=null ">
+				and user_image=#{userImage}
+			</if>
+      		<if test="userPhone!=null ">
+				and user_phone=#{userPhone}
+			</if>
+      		<if test="userPassword!=null ">
+				and user_password=#{userPassword}
+			</if>
+      		<if test="loginTime!=null ">
+				and login_time=#{loginTime}
+			</if>
+      		<if test="loginNumber!=null ">
+				and login_number=#{loginNumber}
+			</if>
+      		<if test="isVip!=null ">
+				and is_vip=#{isVip}
+			</if>
+      		<if test="vipTime!=null ">
+				and vip_time=#{vipTime}
+			</if>
+      		<if test="userSynopsis!=null ">
+				and user_synopsis=#{userSynopsis}
+			</if>
+      		<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+      		<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmUser">
+		update film_user
+		<set>
+			<if test="userName!=null ">
+				user_name=#{userName},
+			</if>
+			<if test="userEmil!=null ">
+				user_emil=#{userEmil},
+			</if>
+			<if test="userImage!=null ">
+				user_image=#{userImage},
+			</if>
+			<if test="userPhone!=null ">
+				user_phone=#{userPhone},
+			</if>
+			<if test="userPassword!=null ">
+				user_password=#{userPassword},
+			</if>
+			<if test="loginTime!=null ">
+				login_time=#{loginTime},
+			</if>
+			<if test="loginNumber!=null ">
+				login_number=#{loginNumber},
+			</if>
+			<if test="isVip!=null ">
+				is_vip=#{isVip},
+			</if>
+			<if test="vipTime!=null ">
+				vip_time=#{vipTime},
+			</if>
+			<if test="userSynopsis!=null ">
+				user_synopsis=#{userSynopsis},
+			</if>
+			<if test="isDelete!=null ">
+				is_delete=#{isDelete},
+			</if>
+			<if test="creationTime!=null ">
+				creation_time=#{creationTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmUser" resultMap="filmuser_result_map">
+		select id,user_name,user_emil,user_image,user_phone,user_password,login_time,login_number,is_vip,vip_time,user_synopsis,is_delete,creation_time from film_user
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="userEmil!=null ">
+				and user_emil=#{userEmil}
+			</if>
+			<if test="userImage!=null ">
+				and user_image=#{userImage}
+			</if>
+			<if test="userPhone!=null ">
+				and user_phone=#{userPhone}
+			</if>
+			<if test="userPassword!=null ">
+				and user_password=#{userPassword}
+			</if>
+			<if test="loginTime!=null ">
+				and login_time=#{loginTime}
+			</if>
+			<if test="loginNumber!=null ">
+				and login_number=#{loginNumber}
+			</if>
+			<if test="isVip!=null ">
+				and is_vip=#{isVip}
+			</if>
+			<if test="vipTime!=null ">
+				and vip_time=#{vipTime}
+			</if>
+			<if test="userSynopsis!=null ">
+				and user_synopsis=#{userSynopsis}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filmuser_result_map" >
+		select id,user_name,user_emil,user_image,user_phone,user_password,login_time,login_number,is_vip,vip_time,user_synopsis,is_delete,creation_time from film_user
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userName!=null ">
+				and user_name=#{userName}
+			</if>
+			<if test="userEmil!=null ">
+				and user_emil=#{userEmil}
+			</if>
+			<if test="userImage!=null ">
+				and user_image=#{userImage}
+			</if>
+			<if test="userPhone!=null ">
+				and user_phone=#{userPhone}
+			</if>
+			<if test="userPassword!=null ">
+				and user_password=#{userPassword}
+			</if>
+			<if test="loginTime!=null ">
+				and login_time=#{loginTime}
+			</if>
+			<if test="loginNumber!=null ">
+				and login_number=#{loginNumber}
+			</if>
+			<if test="isVip!=null ">
+				and is_vip=#{isVip}
+			</if>
+			<if test="vipTime!=null ">
+				and vip_time=#{vipTime}
+			</if>
+			<if test="userSynopsis!=null ">
+				and user_synopsis=#{userSynopsis}
+			</if>
+			<if test="isDelete!=null ">
+				and is_delete=#{isDelete}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filmuser_result_map" >
+		
+		SELECT id,user_name,user_emil,user_image,user_phone,user_password,login_time,login_number,is_vip,vip_time,user_synopsis,is_delete,creation_time FROM film_user 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userName!=null and userName!=''">
+				and user_name like  CONCAT('%',#{userName},'%')
+			</if>
+			<if test="userEmil!=null and userEmil!=''">
+				and user_emil like  CONCAT('%',#{userEmil},'%')
+			</if>
+			<if test="userImage!=null and userImage!=''">
+				and user_image like  CONCAT('%',#{userImage},'%')
+			</if>
+			<if test="userPhone!=null and userPhone!=''">
+				and user_phone like  CONCAT('%',#{userPhone},'%')
+			</if>
+			<if test="userPassword!=null and userPassword!=''">
+				and user_password like  CONCAT('%',#{userPassword},'%')
+			</if>
+			<if test="loginTimeBegin!=null and loginTimeBegin!=''">
+				and login_time <![CDATA[ >= ]]> str_to_date(#{loginTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="loginTimeEnd!=null and loginTimeEnd!=''">
+				and login_time <![CDATA[ <= ]]> str_to_date(#{loginTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="loginNumber!=null and loginNumber!=''">
+				and login_number = #{loginNumber}
+			</if>
+			<if test="isVip!=null and isVip!=''">
+				and is_vip = #{isVip}
+			</if>
+			<if test="vipTimeBegin!=null and vipTimeBegin!=''">
+				and vip_time <![CDATA[ >= ]]> str_to_date(#{vipTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="vipTimeEnd!=null and vipTimeEnd!=''">
+				and vip_time <![CDATA[ <= ]]> str_to_date(#{vipTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="userSynopsis!=null and userSynopsis!=''">
+				and user_synopsis like  CONCAT('%',#{userSynopsis},'%')
+			</if>
+			<if test="isDelete!=null and isDelete!=''">
+				and is_delete = #{isDelete}
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ivan.dubbo.dao.film.FilmCommentMapper">
+
+	<resultMap id="filmcomment_result_map" type="org.ivan.entity.file.FilmComment" >
+		<id column="id" property="id" />
+		<result column="user_id" property="userId"/>
+		<result column="film_id" property="filmId"/>
+		<result column="comment_txt" property="commentTxt"/>
+		<result column="comment_time" property="commentTime"/>
+		<result column="creation_time" property="creationTime"/>
+	</resultMap>
+	
+	<!-- 分页limit -->
+	<sql id="base_page_query_end">
+		<![CDATA[
+			LIMIT #{curPage},#{pageData}
+		]]>
+	</sql>
+	
+	<!-- 获取总数 -->
+	<select id="getCount" resultType="java.lang.Integer">
+		select count(*) from film_comment  
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userId!=null and userId!=''">
+				and user_id = #{userId}
+			</if>
+			<if test="filmId!=null and filmId!=''">
+				and film_id = #{filmId}
+			</if>
+			<if test="commentTxt!=null and commentTxt!=''">
+				and comment_txt like CONCAT('%',#{commentTxt},'%')
+			</if>
+			<if test="commentTimeBegin!=null and commentTimeBegin!=''">
+				and comment_time <![CDATA[ >= ]]> str_to_date(#{commentTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="commentTimeEnd!=null and commentTimeEnd!=''">
+				and comment_time <![CDATA[ <= ]]> str_to_date(#{commentTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+	</select>
+	
+	<!-- 新增对象 如果需要在新增的时候返回id 就加入这个: useGeneratedKeys="true" keyProperty="id"   -->
+	<insert id="insertByEntity" parameterType="org.ivan.entity.file.FilmComment" useGeneratedKeys="true" keyProperty="id">
+		insert into film_comment
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+				id,
+			</if>
+      		<if test="userId!=null ">
+				user_id,
+			</if>
+      		<if test="filmId!=null ">
+				film_id,
+			</if>
+      		<if test="commentTxt!=null ">
+				comment_txt,
+			</if>
+      		<if test="commentTime!=null ">
+				comment_time,
+			</if>
+      		<if test="creationTime!=null ">
+				creation_time,
+			</if>
+    	</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides="," >
+      		<if test="id!=null ">
+      			#{id},
+			</if>
+      		<if test="userId!=null ">
+      			#{userId},
+			</if>
+      		<if test="filmId!=null ">
+      			#{filmId},
+			</if>
+      		<if test="commentTxt!=null ">
+      			#{commentTxt},
+			</if>
+      		<if test="commentTime!=null ">
+      			#{commentTime},
+			</if>
+      		<if test="creationTime!=null ">
+      			#{creationTime},
+			</if>
+    	</trim>
+	</insert>
+	
+	<!-- 根据删除 -->
+	<delete id="deleteByEntity" parameterType="org.ivan.entity.file.FilmComment">
+		delete from film_comment
+		<where>
+      		<if test="id!=null ">
+				and id=#{id}
+			</if>
+      		<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+      		<if test="filmId!=null ">
+				and film_id=#{filmId}
+			</if>
+      		<if test="commentTxt!=null ">
+				and comment_txt=#{commentTxt}
+			</if>
+      		<if test="commentTime!=null ">
+				and comment_time=#{commentTime}
+			</if>
+      		<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</delete>
+
+	<!-- 根据对象修改 -->
+	<update id="updateByEntity" parameterType="org.ivan.entity.file.FilmComment">
+		update film_comment
+		<set>
+			<if test="userId!=null ">
+				user_id=#{userId},
+			</if>
+			<if test="filmId!=null ">
+				film_id=#{filmId},
+			</if>
+			<if test="commentTxt!=null ">
+				comment_txt=#{commentTxt},
+			</if>
+			<if test="commentTime!=null ">
+				comment_time=#{commentTime},
+			</if>
+			<if test="creationTime!=null ">
+				creation_time=#{creationTime},
+			</if>
+		</set>
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+		</where>
+	</update>
+
+	<!-- 根据对象查询单个 -->
+	<select id="selectSingle" resultType="org.ivan.entity.file.FilmComment" resultMap="filmcomment_result_map">
+		select id,user_id,film_id,comment_txt,comment_time,creation_time from film_comment
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+			<if test="filmId!=null ">
+				and film_id=#{filmId}
+			</if>
+			<if test="commentTxt!=null ">
+				and comment_txt=#{commentTxt}
+			</if>
+			<if test="commentTime!=null ">
+				and comment_time=#{commentTime}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据对象查询列表-->
+	<select id="selectByObject" resultMap="filmcomment_result_map" >
+		select id,user_id,film_id,comment_txt,comment_time,creation_time from film_comment
+		<where>
+			<if test="id!=null ">
+				and id=#{id}
+			</if>
+			<if test="userId!=null ">
+				and user_id=#{userId}
+			</if>
+			<if test="filmId!=null ">
+				and film_id=#{filmId}
+			</if>
+			<if test="commentTxt!=null ">
+				and comment_txt=#{commentTxt}
+			</if>
+			<if test="commentTime!=null ">
+				and comment_time=#{commentTime}
+			</if>
+			<if test="creationTime!=null ">
+				and creation_time=#{creationTime}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 分页 -->
+	<select id="pageQueryByObject" resultMap="filmcomment_result_map" >
+		
+		SELECT id,user_id,film_id,comment_txt,comment_time,creation_time FROM film_comment 
+		<where>
+			<if test="id!=null and id!=''">
+				and id = #{id}
+			</if>
+			<if test="userId!=null and userId!=''">
+				and user_id = #{userId}
+			</if>
+			<if test="filmId!=null and filmId!=''">
+				and film_id = #{filmId}
+			</if>
+			<if test="commentTxt!=null and commentTxt!=''">
+				and comment_txt like  CONCAT('%',#{commentTxt},'%')
+			</if>
+			<if test="commentTimeBegin!=null and commentTimeBegin!=''">
+				and comment_time <![CDATA[ >= ]]> str_to_date(#{commentTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="commentTimeEnd!=null and commentTimeEnd!=''">
+				and comment_time <![CDATA[ <= ]]> str_to_date(#{commentTimeEnd},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeBegin!=null and creationTimeBegin!=''">
+				and creation_time <![CDATA[ >= ]]> str_to_date(#{creationTimeBegin},  '%Y-%m-%d') 
+			</if>
+			<if test="creationTimeEnd!=null and creationTimeEnd!=''">
+				and creation_time <![CDATA[ <= ]]> str_to_date(#{creationTimeEnd},  '%Y-%m-%d') 
+			</if>
+		</where>
+			<if test="sortName!=null and sortName!=''">
+				ORDER BY ${sortName} ${sortOrder}
+			</if>
+		<include refid="base_page_query_end"/>
+	</select>
+	
+</mapper>
