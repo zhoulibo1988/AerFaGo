@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.ivan.web.controller.it.ItDataController;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -47,7 +46,7 @@ public class FilmController {
 	private FilmCountryService filmCountryService;
 	@Reference
 	private FilmStarService filmStarService;
-	private Logger logger = LoggerFactory.getLogger(ItDataController.class);
+	private Logger logger = LoggerFactory.getLogger(FilmController.class);
 	@ApiOperation("获取电影首页")
 	@RequestMapping("/getFilm")
 	public ModelAndView getFilm(@RequestParam Map<String, Object> map) {
