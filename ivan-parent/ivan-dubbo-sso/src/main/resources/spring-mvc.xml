@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans          
+    http://www.springframework.org/schema/beans/spring-beans.xsd          
+    http://code.alibabatech.com/schema/dubbo          
+    http://code.alibabatech.com/schema/dubbo/dubbo.xsd  
+    http://www.springframework.org/schema/context  
+    http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+	<!-- 定时任务 -->
+	<import resource="spring-timed-task.xml"/>
+	<!-- 自动扫描controller包下的所有类，如果@Controller注入为bean 并将bean依赖注入，即dubbo服务端暴露的Service注入到Controller中 -->
+	<dubbo:annotation package="com" />
+
+	<!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+	<bean id="mappingJacksonHttpMessageConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes">
+			<list>
+				<value>text/html;charset=UTF-8</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 启动Spring MVC的注解功能，完成请求和注解POJO的映射 -->
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<list>
+				<!-- json转换器 -->
+				<ref bean="mappingJacksonHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+    <!-- 对模型视图名称的解析，即在模型视图名称添加前后缀 -->
+	<!-- freemarker的配置 -->
+    <bean id="freemarkerConfig"
+        class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+        <property name="templateLoaderPath" value="/admin" />
+        <property name="defaultEncoding" value="utf-8" />
+        <property name="freemarkerSettings">
+            <props>
+                <prop key="template_update_delay">10</prop>
+                <prop key="locale">zh_CN</prop>
+                <prop key="datetime_format">yyyy-MM-dd</prop><!-- 时间格式化 -->
+                <prop key="date_format">yyyy-MM-dd</prop>
+                <prop key="number_format">#.##</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!-- 视图配置 在list中按照配置的先后顺序 -->
+    <bean
+        class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="ignoreAcceptHeader" value="true" />
+        <property name="defaultContentType" value="text/html" />
+        <property name="mediaTypes">
+            <map>
+                <entry key="json" value="application/json" />
+                <entry key="xls" value="application/vnd.ms-excel" />
+                <entry key="xlsx"
+                    value="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                <entry key="pdf" value="application/pdf" />
+            </map>
+        </property>
+        <property name="favorParameter" value="false" />
+        <property name="viewResolvers">
+            <list>
+                <!-- 配置freeMarker视图解析器 -->
+                <bean
+                    class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+                    <property name="cache" value="true" />
+                    <property name="prefix" value="" /><!-- 上面已经配了，这里就不用配啦 -->
+                    <property name="suffix" value=".html" />
+                    <property name="contentType" value="text/html;charset=UTF-8" />
+                    <property name="viewClass"
+                        value="org.springframework.web.servlet.view.freemarker.FreeMarkerView" />
+                    <property name="allowSessionOverride" value="true" />
+                    <property name="allowRequestOverride" value="true" />
+                    <property name="exposeSpringMacroHelpers" value="false" />
+                    <property name="exposeRequestAttributes" value="true" />
+                    <property name="exposeSessionAttributes" value="true" />
+                    <property name="requestContextAttribute" value="request" />
+                </bean>
+                <bean
+                    class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass"
+                        value="org.springframework.web.servlet.view.JstlView" />
+                    <property name="prefix" value="/admin/" />
+                    <property name="suffix" value=".jsp" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+	<!-- SpringMVC上传文件时，需要配置MultipartResolver处理器 -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="UTF-8" />
+		<!-- 指定所上传文件的总大小不能超过200KB。注意maxUploadSize属性的限制不是针对单个文件，而是所有文件的容量之和 -->
+		<property name="maxUploadSize" value="90000000000" />
+	</bean>
+
+	<!-- SpringMVC在超出上传文件限制时，会抛出org.springframework.web.multipart.MaxUploadSizeExceededException -->
+	<!-- 该异常是SpringMVC在检查上传的文件信息时抛出来的，而且此时还没有进入到Controller方法中 -->
+	<bean id="exceptionResolver"
+		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/jsp/error_fileupload.jsp页面 -->
+				<prop
+					key="org.springframework.web.multipart.MaxUploadSizeExceededException">error_fileupload</prop>
+			</props>
+		</property>
+	</bean>
+	<mvc:interceptors>
+		<bean class="com.ivan.web.interceptor.ActionReporter"/>
+		<mvc:interceptor>
+			<mvc:mapping path="/sys/*" />
+			<bean class="com.ivan.web.interceptor.BasePathIntecaptor"></bean>
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+			<!-- 需拦截的地址 -->
+			<!-- 一级目录 -->
+			<mvc:mapping path="/*.do" />
+			<mvc:mapping path="/*.ajax" />
+			<mvc:mapping path="/*.htm" />
+
+			<!-- 二级目录 -->
+			<mvc:mapping path="/*/*.do" />
+			<mvc:mapping path="/*/*.ajax" />
+			<mvc:mapping path="/*/*.htm" />
+			<!-- 以下接口不会拦截 -->
+			<mvc:exclude-mapping path="/sys/login.do" />
+			<mvc:exclude-mapping path="/sys/error.do" />
+			<mvc:exclude-mapping path="/sysAdmin/login.do" />
+			<mvc:exclude-mapping path="/static/*" />
+			<mvc:exclude-mapping path="/public/*" />
+			<mvc:exclude-mapping path="/staticPage/*" />
+			<mvc:exclude-mapping path="/admin/*" />
+			<mvc:exclude-mapping path="/WeixinComponent/*" />
+			<mvc:exclude-mapping path="/SourceMaterial/*" />
+			<mvc:exclude-mapping path="/merchant/*" />
+			<mvc:exclude-mapping path="/ItData/getItDataByPageW.do" />
+			<mvc:exclude-mapping path="/itw/*" />
+			<mvc:exclude-mapping path="/ItData/*" />
+			<mvc:exclude-mapping path="/film/*" />
+			<mvc:exclude-mapping path="/1-index-animation/*" />
+			<mvc:exclude-mapping path="/img/*" />
+			<mvc:exclude-mapping path="/js/*" />
+			<mvc:exclude-mapping path="/static/*" />
+			<mvc:exclude-mapping path="/api/*" />
+			<mvc:exclude-mapping path="/api/upload2/*" />
+			
+			<!-- swagger -->
+			<mvc:exclude-mapping path="/swagger*/**"/>
+			<mvc:exclude-mapping path="/v2/**"/>
+			<mvc:exclude-mapping path="/webjars/**"/>
+			<mvc:exclude-mapping path="/swagger-ui.html"/>
+			
+			<bean class="com.ivan.web.interceptor.SecurityInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+	<!-- swagger -->
+	<mvc:resources location="classpath:/META-INF/resources/" mapping="swagger-ui.html"/>
+    <mvc:resources location="classpath:/META-INF/resources/webjars/" mapping="/webjars/**"/>
+    <bean class="com.ivan.web.interceptor.SwaggerConfig"/>  
+</beans>  
