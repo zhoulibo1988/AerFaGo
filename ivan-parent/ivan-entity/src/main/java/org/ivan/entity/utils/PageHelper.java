@@ -26,7 +26,8 @@ public class PageHelper {
             logger.debug("curPage:" + curPage + "  pageData:" + pageData);
             map.put("curPage", (curPage + 1) < 0 ? (0 * pageData) : ((curPage-1) * pageData));
             // 让pageData变成INT
-            map.put("pageData", (curPage + 1) < 0 ? (0 * pageData) : ((curPage) * pageData));
+//            map.put("pageData", (curPage + 1) < 0 ? (0 * pageData) : ((curPage) * pageData));
+            map.put("pageData", pageData);
         } else {
             map.put("curPage", curPage);
             map.put("pageData", pageData);

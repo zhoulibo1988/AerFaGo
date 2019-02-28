@@ -40,7 +40,7 @@ public class FilmInfoServiceImpl  implements FilmInfoService {
 
 	@Override
 	public void updateByEntity(FilmInfo t) {
-		// TODO Auto-generated method stub
+		filmInfoMapper.updateByEntity(t);
 		
 	}
 
@@ -54,7 +54,7 @@ public class FilmInfoServiceImpl  implements FilmInfoService {
 	public PageObject<FilmInfo> Pagequery(Map<String, Object> map) {
 		if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
     		map.put("curPage", 1);
-    		map.put("pageData", 10);
+    		map.put("pageData", 12);
     	}
     	int totalData=	filmInfoMapper.getCount(map);
     	PageHelper pageHelper = new PageHelper(totalData, map);

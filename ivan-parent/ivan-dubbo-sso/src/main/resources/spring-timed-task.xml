@@ -13,9 +13,9 @@
     <!-- 自动扫描的包名 -->    
     <context:component-scan base-package="com.ivan.web.controller.job" />
     <!-- 定时任务 -->
-  	<bean id="tokenJop" class="com.ivan.web.controller.job.Token"></bean>
+  	<!-- <bean id="tokenJop" class="com.ivan.web.controller.job.Token"></bean>
     <task:scheduled-tasks>
-        <!-- 每1小时58分执行 -->
+        每1小时58分执行
         <task:scheduled ref="tokenJop" method="refreshKey" cron="0 58 0/1 * * ?" />
-    </task:scheduled-tasks>   
+    </task:scheduled-tasks>    -->
 </beans>

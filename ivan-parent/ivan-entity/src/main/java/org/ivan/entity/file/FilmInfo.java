@@ -45,7 +45,7 @@ public class FilmInfo implements Serializable{
 	private	Date updateTime;
 	private	Integer creationUserid;
 	private	Integer updateUserid;
-
+	
 	/**
 	* id  Integer(10)  NOTNULL  //    
 	*/

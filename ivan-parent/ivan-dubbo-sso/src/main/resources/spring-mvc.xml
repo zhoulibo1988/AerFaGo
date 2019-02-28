@@ -158,7 +158,10 @@
 			<mvc:exclude-mapping path="/static/*" />
 			<mvc:exclude-mapping path="/api/*" />
 			<mvc:exclude-mapping path="/api/upload2/*" />
-			
+			<mvc:exclude-mapping path="/filmUser/userLogin.do" />
+			<mvc:exclude-mapping path="/filmUser/loginHtml.do" />
+			<mvc:exclude-mapping path="/filmUser/register.do" />
+			<mvc:exclude-mapping path="/filmUser/addRegister.do" />
 			<!-- swagger -->
 			<mvc:exclude-mapping path="/swagger*/**"/>
 			<mvc:exclude-mapping path="/v2/**"/>

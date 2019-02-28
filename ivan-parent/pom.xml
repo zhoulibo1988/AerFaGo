@@ -14,6 +14,7 @@
 		<module>ivan-dubbo-server</module>
 		<module>ivan-dubbo-web</module>
 		<module>ivan-weixin-popular</module>
+		<module>ivan-dubbo-sso</module>
 	</modules>
 
 	<properties>
