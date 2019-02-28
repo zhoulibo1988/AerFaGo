@@ -23,6 +23,26 @@ public class FilmComment implements Serializable{
 	private	String commentTxt;
 	private	Date commentTime;
 	private	Date creationTime;
+	
+	private String userName;
+	private String userUrl;
+	
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserUrl() {
+		return userUrl;
+	}
+
+	public void setUserUrl(String userUrl) {
+		this.userUrl = userUrl;
+	}
 
 	/**
 	* id  Integer(10)  NOTNULL  //    

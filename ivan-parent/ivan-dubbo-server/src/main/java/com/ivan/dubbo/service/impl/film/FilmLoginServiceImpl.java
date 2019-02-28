@@ -23,7 +23,7 @@ public class FilmLoginServiceImpl implements FilmLoginService {
 
 	@Override
 	public void insert(FilmLogin t) {
-		// TODO Auto-generated method stub
+		filmLoginMapper.insertByEntity(t);
 		
 	}
 

@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.ivan.api.file.FilmCommentService;
 import org.ivan.entity.file.FilmComment;
+import org.ivan.entity.file.FilmInfo;
+import org.ivan.entity.utils.PageHelper;
 import org.ivan.entity.utils.PageObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -23,7 +25,7 @@ public class FilmCommentServiceImpl  implements FilmCommentService {
 
 	@Override
 	public void insert(FilmComment t) {
-		// TODO Auto-generated method stub
+		filmCommentMapper.insertByEntity(t);
 		
 	}
 
@@ -53,14 +55,23 @@ public class FilmCommentServiceImpl  implements FilmCommentService {
 
 	@Override
 	public PageObject<FilmComment> Pagequery(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		if(!map.containsKey("curPage")&&!map.containsKey("pageData")){
+    		map.put("curPage", 1);
+    		map.put("pageData",5);
+    	}
+    	int totalData=	filmCommentMapper.getCount(map);
+    	PageHelper pageHelper = new PageHelper(totalData, map);
+		List<FilmComment> list = filmCommentMapper.pageQueryByObject(pageHelper.getMap());
+		PageObject<FilmComment> pageObject = pageHelper.getPageObject();
+		pageObject.setDataList(list);
+		return pageObject;
 	}
 
 	@Override
 	public List<FilmComment> getList(Map<String, Object> map) {
-		// TODO Auto-generated method stub
-		return null;
+		FilmComment filmComment=new FilmComment();
+		filmComment.setFilmId(Integer.valueOf(map.get("filmId").toString()));
+		return filmCommentMapper.selectByObject(filmComment);
 	}
 
 	@Override
@@ -73,6 +84,11 @@ public class FilmCommentServiceImpl  implements FilmCommentService {
 	public void del(FilmComment t) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public List<FilmComment> getListMap(Map<String, Object> map) {
+		return filmCommentMapper.getListMap(map);
 	}
 
     

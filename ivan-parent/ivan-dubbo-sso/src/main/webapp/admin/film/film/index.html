@@ -28,52 +28,7 @@
 
 <body>
 <!--导航-->
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <!--小屏幕导航按钮和logo-->
-        <div class="navbar-header">
-            <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="index.html" class="navbar-brand" style="width:250px;">
-                <img src="/admin/film/static/base/images/logo.png" style="height:30px;">&nbsp;微电影
-            </a>
-        </div>
-        <!--小屏幕导航按钮和logo-->
-        <!--导航-->
-        <div class="navbar-collapse collapse">
-            <form class="navbar-form navbar-left" role="search" style="margin-top:18px;">
-                <div class="form-group input-group">
-                    <input type="text" class="form-control" placeholder="请输入电影名！">
-                    <span class="input-group-btn">
-                        <a class="btn btn-default" href="search.html"><span class="glyphicon glyphicon-search"></span>&nbsp;搜索</a>
-                    </span>
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a class="curlink" href="${basePath}/film/getFilm.do"><span class="glyphicon glyphicon-film"></span>&nbsp;电影</a>
-                </li>
-                <li>
-                    <a class="curlink" href="/admin/film/film/login.html"><span class="glyphicon glyphicon-log-in"></span>&nbsp;登录</a>
-                </li>
-                <li>
-                    <a class="curlink" href="/admin/film/film/register.html"><span class="glyphicon glyphicon-plus"></span>&nbsp;注册</a>
-                </li>
-                <li>
-                    <a class="curlink" href="/admin/film/film/logout.html"><span class="glyphicon glyphicon-log-out"></span>&nbsp;退出</a>
-                </li>
-                <li>
-                    <a class="curlink" href="/admin/film/film/user.html"><span class="glyphicon glyphicon-user"></span>&nbsp;会员</a>
-                </li>
-            </ul>
-        </div>
-        <!--导航-->
-
-    </div>
-</nav>
+<#include "top.html" />
 <!--导航-->
 <!--内容-->
 <!--内容-->
@@ -151,6 +106,7 @@
                 </table>
             </div>
             <form id="submitForm" name="submitForm" action="" method="post">
+            <#if list??>
             <#if list.dataList?? && list.dataList?size gt 0>
             <#list list.dataList as dl >
             <div class="col-md-3">
@@ -172,6 +128,7 @@
                 </div>
             </div>
             </#list>
+            </#if>
             </#if>
             </form>
             <div class="col-md-12">
@@ -208,17 +165,7 @@
 </section>
 <!--电影列表-->
 <!--底部-->
-<footer>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <p>
-                    ©&nbsp;2017&nbsp;flaskmovie.imooc.com&nbsp;京ICP备 13046642号-2
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
+<#include "bottom.html" />
 <!--底部-->
 <script src="/admin/film/static/base/js/jquery.min.js"></script>
 <script src="/admin/film/static/base/js/bootstrap.min.js"></script>
@@ -242,8 +189,7 @@
 </script>
 <script>
 	function pay(obj,id) {
-		alert("打开详情页面");
-		window.open("${basePath}/film/getFilmInfo.do?id="+id);
+		window.open("/film/getFilmInfo.do?curPage=1&id="+id);
 	}
 	
 	/** 普通跳转 **/
@@ -252,8 +198,9 @@
 		if(page==0){
 			page=1;
 		}
-		$("#submitForm").attr("action", "${basePath}/film/getFilm.do?pageData=12&curPage=" + page).submit();
+		$("#submitForm").attr("action", "/film/getFilm.do?pageData=12&curPage=" + page).submit();
 	}
+	
 </script>
 </body>
 </html>

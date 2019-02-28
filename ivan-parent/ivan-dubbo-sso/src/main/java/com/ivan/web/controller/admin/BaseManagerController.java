@@ -1,63 +1,60 @@
 package com.ivan.web.controller.admin;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
-import org.ivan.entity.admin.SysUcenterAdmin;
-import org.ivan.entity.utils.ValidatorUtil;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
+import org.ivan.core.redis.RedisDBUtil;
+import org.ivan.entity.file.FilmUser;
+import org.ivan.entity.utils.CookieUtils;
+
+import com.alibaba.fastjson.JSON;
 
 public class BaseManagerController<T> {
 	 /**
-     * 
-     * @author buyuer
-     * @Title: getAdmin
-     * @Description: 获取admin
-     */
-    public SysUcenterAdmin getAdmin() {
-        SysUcenterAdmin admin = (SysUcenterAdmin) getSessionAttr("admin");
-        if (admin != null) {
-            return admin;
-        }
-        return null;
-    }
+	 * @Title: getAdmin 
+	 * @Description: TODO(这里用一句话描述这个方法的作用) 
+	 * @param @param request
+	 * @param @param response
+	 * @param @return    设定文件 
+	 * @return FilmUser    返回类型 
+	 * @throws
+	 */
+	public FilmUser getAdmin(HttpServletRequest request, HttpServletResponse response) {
+		FilmUser filmUser = null;
+		// 1.从cookie中取token
+		String token = CookieUtils.getCookieValue(request, "userToken");
+		// 2.从redis获取用户信息
+		if (token != null) {
+			String userInfo = RedisDBUtil.redisDao.getString(token);
+			if (userInfo != null) {
+				filmUser = JSON.parseObject(userInfo, FilmUser.class);
 
-    /**
-     * 
-     * @author buyuer
-     * @Title: setAdmin
-     * @Description: 将admin存入session
-     */
-    public void setAdmin(SysUcenterAdmin admin) {
-        getSession().setAttribute("admin", admin);
-    }
-    
-    /**
-     * 获取session
-     * 
-     * @param code
-     * @return
-     */
-    protected Object getSessionAttr(String code) {
-        HttpSession session = getSession();
-        if (session != null && ValidatorUtil.isNotEmpty(code)) {
-            return getSession().getAttribute(code);
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 
-     * 
-     * @author    Buyuer
-     * @version   V0.1 2015年10月30日[版本号, YYYY-MM-DD]
-     * @see       获取session方法
-     * @parm
-     */
-    protected HttpSession getSession() {
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request.getSession();
-    }
+			}
+		}
+		if (filmUser != null) {
+			return filmUser;
+		}
+		return null;
+	}
+	/**
+	 * 
+	* @Title: loginOut 
+	* @Description: 登出
+	* @param @param request
+	* @param @param response    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	public void loginOut(HttpServletRequest request, HttpServletResponse response) {
+		// 1.从cookie中取token
+		String token = CookieUtils.getCookieValue(request, "userToken");
+		// 2.从redis获取用户信息
+		if (token != null) {
+			String userInfo = RedisDBUtil.redisDao.getString(token);
+			if (userInfo != null) {
+				RedisDBUtil.redisDao.delete(token);
+				System.out.println("退出成功");
+			}
+		}
+	}
 }

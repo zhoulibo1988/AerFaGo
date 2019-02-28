@@ -23,7 +23,7 @@ public class FilmUserServiceImpl  implements FilmUserService {
 
 	@Override
 	public void insert(FilmUser t) {
-		// TODO Auto-generated method stub
+		filmUserMapper.insertByEntity(t);
 		
 	}
 
@@ -35,13 +35,12 @@ public class FilmUserServiceImpl  implements FilmUserService {
 
 	@Override
 	public FilmUser selectSingle(FilmUser t) {
-		// TODO Auto-generated method stub
-		return null;
+		return filmUserMapper.selectSingle(t);
 	}
 
 	@Override
 	public void updateByEntity(FilmUser t) {
-		// TODO Auto-generated method stub
+		filmUserMapper.updateByEntity(t);
 		
 	}
 
